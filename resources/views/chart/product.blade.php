@@ -7,8 +7,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var ctx = document.getElementById('revenueChart').getContext('2d');
-            var productData = @json($productData); // Assuming you're passing data from Laravel to JavaScript
-            var totalOrders = @json($totalOrders);
+            var productData = 10; // Assuming you're passing data from Laravel to JavaScript
+            var totalOrders = 20;
   
             var labels = [];
             var data = [];

@@ -4,10 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
-use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,7 +14,7 @@ class ProductController extends Controller
    //=================Get all products=================//
     public function index()
     {
-        $products = Product::with(['category', 'colors', 'sizes', 'discounts'])->get();
+        $products = Product::with(['category'])->get();
         // Filter products with discounts
         $productsWithDiscounts = $products->filter(function ($product) {
             return $product->discounts->isNotEmpty();
@@ -40,21 +37,11 @@ class ProductController extends Controller
 
             $product = new Product();
             $product->name = $validatedData['name'];
-            $product->owner_id = Auth::id();
             $product->description = $validatedData['description'];
             $product->price = $validatedData['price'];
             $product->image = 'images/' . $imageName;
             $product->category_id = $validatedData['category_id'];
             $product->save();
-
-            // Sync colors and sizes if provided
-            if (isset($validatedData['color_ids'])) {
-                $product->colors()->sync($validatedData['color_ids']);
-            }
-
-            if (isset($validatedData['size_ids'])) {
-                $product->sizes()->sync($validatedData['size_ids']);
-            }
 
             return response()->json([
                 'success' => true,
@@ -105,14 +92,6 @@ class ProductController extends Controller
         $product->price = $validatedData['price'];
         $product->category_id = $validatedData['category_id'];
         $product->save();
-
-        if (isset($validatedData['color_ids'])) {
-            $product->colors()->sync($validatedData['color_ids']);
-        }
-
-        if (isset($validatedData['size_ids'])) {
-            $product->sizes()->sync($validatedData['size_ids']);
-        }
 
         return response()->json([
             'success' => true,

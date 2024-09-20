@@ -10,15 +10,13 @@
     var ctx = document.getElementById('fieldBookingChart').getContext('2d');
 
     // Log weeklyDataField to console for debugging
-    console.log(<?php echo json_encode($weeklyDataField); ?>);
-
     var fieldBookingChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
         datasets: [{
           label: 'Field Booking Frequency',
-          data: <?php echo json_encode(array_values($weeklyDataField)); ?>, // Dynamically generate data values
+          data: 20, // Dynamically generate data values
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
           tension: 0.1

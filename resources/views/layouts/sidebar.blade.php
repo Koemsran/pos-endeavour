@@ -23,15 +23,6 @@
             <i class='bx bxs-dashboard text-2xl'></i>
             <span class="mx-3">Dashboard</span>
         </a>
-
-        {{-- @canany('User access','User add','User edit','User delete') --}}
-        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('chatify') ? 'active' : '' }}"
-            href="{{ route('chatify')}}">
-            <i class='bx bxs-message-rounded-dots text-2xl'></i>
-            <span class="mx-3">Chat</span>
-        </a>
-        {{-- @endcanany --}}
-
         @canany('User access','User add','User edit','User delete')
         <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.users.index') ? 'active' : '' }}"
             href="{{ route('admin.users.index')}}">
@@ -48,19 +39,6 @@
             <span class="mx-3">Booking</span>
         </a>
         @endcanany
-        @canany(['Field access','Field add','Field edit','Field delete'])
-        <a
-            class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.fields.index') ? 'active' : '' }}"
-            href="{{ route('admin.fields.index') }}">
-            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 6H3V5a2 2 0 012-2h14a2 2 0 012 2v1h-1M4 6h16m0 0v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6m16 0H4">
-                </path>
-            </svg>
-            <span class="mx-3">Fields</span>
-        </a>
-        @endcanany
          @canany(['Category access','Category add','Category edit','Category delete'])
             <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.categories.index') ? 'active' : '' }}"
             href="{{route('admin.categories.index')}}">
@@ -73,30 +51,6 @@
          href="{{route('admin.products.index')}}">
          <i class='bx bxl-product-hunt text-2xl'></i>
          <span class="mx-3">Products</span>
-        </a>
-        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.orders.index') ? 'active' : '' }}"
-            href="{{ route('admin.orders.index') }}">
-            <i class='bx bx-cart-add text-2xl'></i>
-            <span class="mx-3">Orders</span>
-        </a>
-        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.discounts.index') ? 'active' : '' }}"
-            href="{{ route('admin.discounts.index') }}">
-            <i class='bx bxs-discount text-2xl' ></i>
-            <span class="mx-3">Discounts</span>
-        </a>
-     @endcanany
-        @canany(['Payment access','Payment add','Payment edit','Payment delete'])
-        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.payments.index') ? 'active' : '' }}"
-            href="{{route('admin.payments.index')}}">
-            <i class='bx bxl-paypal text-3xl'></i>
-            <span class="mx-3">Payment</span>
-        </a>
-        @endcanany
-        @canany(['Feedback access','Feedback add','Feedback edit','Feedback delete'])
-        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.feedbacks.index') ? 'active' : '' }}"
-            href="{{route('admin.feedbacks.index')}}">
-            <i class='bx bx-comment-detail text-2xl' ></i>
-            <span class="mx-3">Feedback</span>
         </a>
         @endcanany
         
@@ -125,18 +79,6 @@
             <span class="mx-3">Permission</span>
         </a>
         @endcanany
-        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.slideshows.index') ? 'active' : '' }}"
-            href="{{route('admin.slideshow.index')}}">
-            <i class='bx bx-slideshow text-2xl'></i>
-            <span class="mx-3">Slideshow</span>
-        </a>
-        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.settings.index') ? 'active' : '' }}"
-            href="{{route('admin.settings.index')}}">
-            <i class='bx bx-cog text-2xl'></i>
-            <span class="mx-3">Settings</span>
-        </a>
-
-
     </nav>
 </div>
 <style>

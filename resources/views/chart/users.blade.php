@@ -7,13 +7,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     // Pass PHP data to JavaScript
-    const adminCount = @json($adminCount);
-    const ownerCount = @json($ownerCount);
-    const customerCount = @json($customerCount);
+    const adminCount = 1;
+    const uerCount = 5;
 
     // Prepare data for Chart.js
     const labels = ['Admin', 'Owner', 'Customer'];
-    const data = [adminCount, ownerCount, customerCount];
+    const data = [adminCount, userCount];
     const totalCount = data.reduce((acc, count) => acc + count, 0);
 
     // Create the chart
