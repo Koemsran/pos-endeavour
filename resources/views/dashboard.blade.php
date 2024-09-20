@@ -1,15 +1,20 @@
 <x-app-layout>
-    <div>
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
-            @include('card.card-data')
-            <div class="group-chart flex gap-5 justify-center px-5 mx-2">
+    <div class="mt-5">
+        <div class="flex flex-wrap">
+            <div class="w-full xl:w-8/12 xl:mb-0 px-4">
                 @include('chart.price')
+            </div>
+            <div class="w-full xl:w-4/12 px-4">
                 @include('chart.product')
             </div>
-            <div class="group-chart flex gap-5 justify-center px-5 mx-2">
+        </div>
+        <div class="flex flex-wrap mt-4">
+            <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
                 @include('chart.booking-field')
+            </div>
+            <div class="w-full xl:w-4/12 px-4">
                 @include('chart.users')
             </div>
-        </main>
+        </div>
     </div>
 </x-app-layout>

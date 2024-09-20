@@ -1,7 +1,6 @@
 <x-guest-layout>
   <div class="font-sans min-h-screen antialiased bg-gray-900 pt-10 pb-5">
     <div class="flex flex-col justify-center sm:w-96 sm:m-auto mx-5 mb-3 space-y-3">
-      <h1 class="font-bold text-center text-4xl text-yellow-500">S<span class="text-blue-500">vahab</span></h1>
       <!-- Session Status -->
       <x-auth-session-status class="mb-4" :status="session('status')" />
       <!-- Validation Errors -->
@@ -9,6 +8,9 @@
       <form method="POST" action="{{ route('admin.login') }}">
         @csrf
         <div class="flex flex-col bg-white p-10 rounded-lg shadow space-y-6">
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <img width="150" height="150" src="/images/logo1.png" alt="Logo">
+          </div>
           <h1 class="font-bold text-xl text-center">Sign in to your account</h1>
 
           <div class="flex flex-col space-y-1">
