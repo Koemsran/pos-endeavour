@@ -27,7 +27,7 @@
         <!--  data of today -->
         <template x-if="selectedDay === 'today'">
             <div class="w-full flex flex-wrap gap-2 mt-8">
-                <div style="width: 19%;"
+                <div style="width: 24%;"
                     class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
@@ -35,15 +35,15 @@
                         <p class="mb-3 font-normal text-black-500">Total Booking</p>
                     </div>
                 </div>
-                <div style="width: 19%;"
+                <div style="width: 24%;"
                     class="flex gap-5 p-6 bg-green-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
                         <strong style="font-size: 25px">5+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total Booking</p>
+                        <p class="mb-3 font-normal text-black-500">Total Client</p>
                     </div>
                 </div>
-                <div style="width: 19%;"
+                <div style="width: 24%;"
                     class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
@@ -51,8 +51,8 @@
                         <p class="mb-3 font-normal text-black-500">Total Booking</p>
                     </div>
                 </div>
-                <div style="width: 19%;"
-                    class="flex gap-5 p-6 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
+                <div style="width: 24%;"
+                    class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
                     <i class='bx bx-user text-3xl'></i>
                     <div class="content">
                         <strong style="font-size: 25px">{{$todayUsers}}+</strong>
@@ -65,7 +65,7 @@
         <!--  data of thisWeek -->
         <template x-if="selectedDay === 'thisWeek'">
             <div class="w-full flex flex-wrap gap-2 mt-8">
-                <div style="width: 19%;"
+                <div style="width: 24%;"
                     class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
@@ -79,7 +79,7 @@
         <!--  data of thisMonth -->
         <template x-if="selectedDay === 'thisMonth'">
             <div class="w-full flex flex-wrap gap-2 mt-8">
-                <div style="width: 19%;"
+                <div style="width: 24%;"
                     class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
@@ -87,7 +87,7 @@
                         <p class="mb-3 font-normal text-black-500">Total Booking</p>
                     </div>
                 </div>
-                <div style="width: 19%;"
+                <div style="width: 24%;"
                     class="flex gap-5 p-6 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
                     <i class='bx bx-user text-3xl'></i>
                     <div class="content">
@@ -101,7 +101,7 @@
         <!--  data of Years -->
         <template x-if="selectedDay === 'thisYear'">
             <div class="w-full flex flex-wrap gap-2 mt-8">
-                <div style="width: 19%;"
+                <div style="width: 24%;"
                     class="flex gap-5 p-6 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
                     <i class='bx bx-user text-3xl'></i>
                     <div class="content">

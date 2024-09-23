@@ -26,49 +26,36 @@
                         </select>
                     </div>
                     <a href="{{ route('admin.products.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New</a>
-                </div><hr>
-                
+                </div>
+                <hr>
 
                 @if ($products->isEmpty())
                     <p class="text-center mt-3">No products found.</p>
-                   
                 @else
-                    <table class="min-w-full divide-y divide-gray-200 mt-5">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="py-4 px-6 bg-gray-100 font-bold text-sm text-gray-800 border-b border-gray-200">Image</th>
-                                <th class="py-4 px-1 bg-gray-100 font-bold text-sm text-gray-800 border-b border-gray-200">Name</th>
-                                <th class="py-4 px-1 bg-gray-100 font-bold text-sm text-gray-800 border-b border-gray-200">Category</th>
-                                <th class="py-4 px-1 bg-gray-100 font-bold text-sm text-gray-800 border-b border-gray-200">Price</th>
-                                <th class="py-4 px-1 bg-gray-100 font-bold text-sm text-gray-800 border-b border-gray-200">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200 ">
-                            
-                            @foreach ($products as $product)
-                                <tr class="hover:bg-gray-100">
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-16 w-16 object-cover rounded">
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $product->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $product->category ? $product->category->name : 'Uncategorized' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">${{ number_format($product->price, 2) }}</td>
-                                    <td class="px-4 py-2 whitespace-nowrap">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
+                        @foreach ($products as $product)
+                            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-32 w-full object-cover">
+                                <div class="p-4">
+                                    <h4 class="text-lg font-bold text-gray-800">{{ $product->name }}</h4>
+                                    <p class="text-gray-600">{{ $product->category ? $product->category->name : 'Uncategorized' }}</p>
+                                    <p class="text-gray-800 font-semibold">${{ number_format($product->price, 2) }}</p>
+                                    <div class="flex justify-end mt-2">
                                         <a href="{{ route('admin.products.edit', $product->id) }}" class="text-blue-500 hover:text-blue-700 mr-2">
-                                            <i class='bx bx-edit text-2xl'></i>
+                                            <i class='bx bx-edit text-lg'></i>
                                         </a>
                                         <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline-block">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-500 hover:text-red-700">
-                                                <i class='bx bx-trash text-2xl'></i>
+                                                <i class='bx bx-trash text-lg'></i>
                                             </button>
                                         </form>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 @endif
             </div>
         </div>

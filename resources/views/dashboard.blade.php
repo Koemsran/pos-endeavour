@@ -2,6 +2,12 @@
     <div class="mt-5">
         <div class="flex flex-wrap">
             <div class="w-full xl:w-8/12 xl:mb-0 px-4">
+                @include('card.card-data')
+            </div>
+            
+        </div>
+        <div class="flex flex-wrap">
+            <div class="w-full xl:w-8/12 xl:mb-0 px-4">
                 @include('chart.price')
             </div>
             <div class="w-full xl:w-4/12 px-4">

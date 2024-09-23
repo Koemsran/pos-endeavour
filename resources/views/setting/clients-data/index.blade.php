@@ -17,7 +17,7 @@
           <div class="flex items-center space-x-2 w-2/5">
             <div>
               <form action="{{ route('admin.categories.index') }}" method="GET" class="flex items-center" id="search-form">
-                <input type="text" name="search" placeholder="Search clients..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500" id="search-input">
+                <input type="text" name="search" placeholder="Search Client..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500" id="search-input">
               </form>
             </div>
           </div>
