@@ -53,30 +53,6 @@
                         </select>
                     </div>
 
-                    <div class="mb-4">
-                        <label for="colors" class="block text-sm font-medium text-gray-700">Colors</label>
-                        <div class="mt-1 grid grid-cols-3 gap-4">
-                            @foreach ($colors as $color)
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="colors[]" value="{{ $color->id }}" {{ in_array($color->id, $product->colors->pluck('id')->toArray()) ? 'checked' : '' }} class="rounded text-blue-500">
-                                    <span class="ml-2 text-sm text-gray-600">{{ $color->name }}</span>
-                                </label>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="sizes" class="block text-sm font-medium text-gray-700">Sizes</label>
-                        <div class="mt-1 grid grid-cols-3 gap-4">
-                            @foreach ($sizes as $size)
-                                <label class="flex items-center">
-                                    <input type="checkbox" name="sizes[]" value="{{ $size->id }}" {{ in_array($size->id, $product->sizes->pluck('id')->toArray()) ? 'checked' : '' }} class="rounded text-blue-500">
-                                    <span class="ml-2 text-sm text-gray-600">{{ $size->name }}</span>
-                                </label>
-                            @endforeach
-                        </div>
-                    </div>
-
                     <!-- Submit Button -->
                     <div class="flex items-center justify-between">
                         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">

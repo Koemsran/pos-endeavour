@@ -68,11 +68,6 @@ class ProductController extends Controller
         $product->category_id = $validatedData['category_id'];
         $product->save();
 
-        // Attach colors and sizes
-        $product->colors()->attach($validatedData['colors'] ?? []);
-        $product->sizes()->attach($validatedData['sizes'] ?? []);
-        // dd($product->colors()->attach($validatedData['colors'] ?? []));
-
         // Redirect to a success page or back to the form with a success message
         return redirect()->route('admin.products.index')->with('success', 'Product created successfully.');
     }

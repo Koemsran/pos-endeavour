@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Product') }}
+            {{ __('Create Client') }}
         </h2>
     </x-slot>
 
@@ -28,14 +28,8 @@
         @endif
         <div class="max-w-xl mx-auto">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-                <form action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data" id="create-product-form">
+                <form action="{{ route('admin.clients.store') }}" method="POST" enctype="multipart/form-data" id="create-client-form">
                     @csrf
-
-                    <!-- Image Upload -->
-                    <div class="mb-4">
-                        <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Image:</label>
-                        <input type="file" name="image" id="image" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    </div>
 
                     <!-- Product Name -->
                     <div class="mb-4">
@@ -45,25 +39,14 @@
 
                     <!-- Product Description -->
                     <div class="mb-4">
-                        <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
-                        <textarea name="description" id="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                        <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
+                        <textarea name="number" id="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                     </div>
 
                     <!-- Product Price -->
                     <div class="mb-4">
-                        <label for="price" class="block text-gray-700 text-sm font-bold mb-2">Price:</label>
-                        <input type="text" name="price" id="price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    </div>
-
-                    <!-- Category Selection -->
-                    <div class="mb-4">
-                        <label for="category_id" class="block text-gray-700 text-sm font-bold mb-2">Category:</label>
-                        <select name="category_id" id="category_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                            <option value="">Select a category</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
+                        <label for="phone_number" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+                        <input type="text" name="phone_number" id="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
 
                     <!-- Submit Button -->
