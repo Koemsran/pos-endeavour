@@ -108,7 +108,6 @@ Route::get('/admin/categories', [CategoryController::class, 'index'])->name('adm
 //Clients
 Route::get('/admin/clients', [AdminClientController::class, 'index'])->name('admin.clients.index');
 
-
 //Client's progress
 
 Route::get('/client/progress/{id}', [AdminProgressController::class, 'progress'])->name('client.progresses.index');

@@ -2,18 +2,17 @@
     <div>
         <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200 mt-5">
             <div class="container mx-auto px-6 py-2">
-                <div class="flex justify-between items-center mb-4">
-                    <div>
-                        <form action="{{ route('admin.categories.index') }}" method="GET" class="flex items-center" id="search-form">
-                            <input type="text" name="search" placeholder="Search categories..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500" id="search-input">
-                        </form>
-                    </div>
-                    <div>
-                        <a href="#" id="openAddModal" class="bg-blue-500 text-white font-bold px-5 py-1 rounded focus:outline-none shadow hover:bg-blue-700 transition-colors">New Category</a>
-                    </div>
-                </div>
-
                 <div class="bg-white shadow-md rounded my-6">
+                    <div class="flex justify-between items-center mb-4 p-5">
+                        <div>
+                            <form action="{{ route('admin.categories.index') }}" method="GET" class="flex items-center" id="search-form">
+                                <input type="text" name="search" placeholder="Search categories..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500" id="search-input">
+                            </form>
+                        </div>
+                        <div>
+                            <a href="#" id="openAddModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">New Category</a>
+                        </div>
+                    </div><hr>
                     <table class="text-left w-full border-collapse">
                         <thead>
                             <tr>
@@ -126,16 +125,16 @@
 
     <script>
         //=============create new categories ===
-        document.getElementById('openAddModal').addEventListener('click', function () {
+        document.getElementById('openAddModal').addEventListener('click', function() {
             document.getElementById('addModal').classList.remove('hidden');
         });
 
-        document.getElementById('closeAddModal').addEventListener('click', function () {
+        document.getElementById('closeAddModal').addEventListener('click', function() {
             document.getElementById('addModal').classList.add('hidden');
         });
         //============edit new category============
         document.querySelectorAll('.openEditModal').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const id = this.getAttribute('data-id');
                 const name = this.getAttribute('data-name');
                 const editForm = document.getElementById('editForm');
@@ -145,7 +144,7 @@
             });
         });
 
-        document.getElementById('closeEditModal').addEventListener('click', function () {
+        document.getElementById('closeEditModal').addEventListener('click', function() {
             document.getElementById('editModal').classList.add('hidden');
         });
         //=============== search category =================
@@ -179,7 +178,7 @@
 
                     // Reattach event listeners for the edit buttons
                     document.querySelectorAll('.openEditModal').forEach(button => {
-                        button.addEventListener('click', function () {
+                        button.addEventListener('click', function() {
                             const id = this.getAttribute('data-id');
                             const name = this.getAttribute('data-name');
                             const editForm = document.getElementById('editForm');

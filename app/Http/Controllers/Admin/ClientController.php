@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    
+
     //=====================Listing Categories =================//
     public function index(Request $request)
     {
@@ -39,14 +39,25 @@ class ClientController extends Controller
         return view('setting.clients-data.new');
     }
 
-    public function store(ClientRequest $request)
+    public function store(Request $request)
     {
-    
-        // dd($request);
-        Client::store($request);
-        return redirect()->route('admin.clients-data.index')->with('success', 'Client created successfully.');
-    }
+        // Validate incoming request
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'age' => 'required|numeric',
+            'phone_number' => 'required|string|min:0',
+        ]);
 
+        // Create new product
+        $product = new Client();
+        $product->name = $validatedData['name'];
+        $product->age = $validatedData['age'];
+        $product->phone_number = $validatedData['phone_number'];
+        $product->save();
+
+        // Redirect to a success page or back to the form with a success message
+        return redirect()->route('admin.clients.index')->with('success', 'Client created successfully.');
+    }
 
     //======================Updte categories==================//
 
@@ -55,19 +66,31 @@ class ClientController extends Controller
         return view('setting.clients.edit', compact('client'));
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, Client $client)
     {
+        // Validate incoming request
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'age' => 'required|numeric',
+            'phone_number' => 'required|string|min:0',
+        ]);
 
-        Client::store($request, $id);
-        return redirect()->route('admin.clients-data.index')->with('success', 'Client updated successfully.');
+        // Update client details
+        $client->name = $validatedData['name'];
+        $client->age = $validatedData['age'];
+        $client->phone_number = $validatedData['phone_number'];
+
+        $client->save();
+
+        // Redirect back with success message
+        return redirect()->route('admin.clients.index')->with('success', 'client updated successfully.');
     }
 
     //========================Remove category =========================//
 
-    public function destroy(Client $category)
+    public function destroy(Client $client)
     {
-        $category->delete();
-
-        return redirect()->route('admin.clients-data.index')->with('success', 'Client deleted successfully.');
+        $client->delete();
+        return redirect()->route('admin.clients.index')->with('success', 'Client deleted successfully.');
     }
 }

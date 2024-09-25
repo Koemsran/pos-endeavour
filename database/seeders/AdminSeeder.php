@@ -40,6 +40,7 @@ class AdminSeeder extends Seeder
 
         $permission = Permission::create(['name' => 'Client access']);
         $permission = Permission::create(['name' => 'Client edit']);
+        $permission = Permission::create(['name' => 'Client add']);
         $permission = Permission::create(['name' => 'Client create']);
         $permission = Permission::create(['name' => 'Client delete']);
 
@@ -58,12 +59,10 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'Permission create']);
         $permission = Permission::create(['name' => 'Permission delete']);
 
-
         $permission = Permission::create(['name' => 'Category access']);
         $permission = Permission::create(['name' => 'Category add']);
         $permission = Permission::create(['name' => 'Category edit']);
         $permission = Permission::create(['name' => 'Category delete']);
-
 
         $permission = Permission::create(['name' => 'Product access']);
         $permission = Permission::create(['name' => 'Product add']);
