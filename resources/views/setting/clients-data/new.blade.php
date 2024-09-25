@@ -40,7 +40,7 @@
                     <!-- Product Description -->
                     <div class="mb-4">
                         <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
-                        <textarea name="number" id="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                        <input type="number" name="name" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
 
                     <!-- Product Price -->

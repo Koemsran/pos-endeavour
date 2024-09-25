@@ -22,7 +22,7 @@
             This Year
         </a>
     </div>
-    <div class="group-card flex justify-center gap-2">
+    <div class="group-card flex justify-center gap-4">
 
         <!--  data of today -->
         <template x-if="selectedDay === 'today'">

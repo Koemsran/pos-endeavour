@@ -21,7 +21,7 @@
               </form>
             </div>
           </div>
-          <a href="{{ route('admin.products.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New</a>
+          <a href="{{ route('admin.clients.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New</a>
         </div>
         <hr>
 
@@ -43,21 +43,18 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200 ">
 
-            @foreach ($client as $index => $client)
+            @foreach ($clients as $index => $client)
             <tr class="hover:bg-gray-100">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-16 w-16 object-cover rounded">
-              </td>
               <td class="px-6 py-4 whitespace-nowrap">{{ $index + 1 }}</td>
               <td class="px-6 py-4 whitespace-nowrap">{{ $client->name }}</td>
               <td class="px-6 py-4 whitespace-nowrap">{{ $client->phone_number }}</td>
               <td class="px-6 py-4 whitespace-nowrap">{{ $client->age }}</td>
               <td class="px-6 py-4 whitespace-nowrap">Paid</td>
               <td class="px-4 py-2 whitespace-nowrap">
-                <a href="{{ route('admin.products.edit', $product->id) }}" class="text-blue-500 hover:text-blue-700 mr-2">
+                <a href="{{ route('admin.clients.edit', $client->id) }}" class="text-blue-500 hover:text-blue-700 mr-2">
                   <i class='bx bx-edit text-2xl'></i>
                 </a>
-                <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline-block">
+                <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST" class="inline-block">
                   @csrf
                   @method('DELETE')
                   <button type="submit" class="text-red-500 hover:text-red-700">
