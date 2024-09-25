@@ -51,6 +51,9 @@
               <td class="px-6 py-4 whitespace-nowrap">{{ $client->age }}</td>
               <td class="px-6 py-4 whitespace-nowrap">Paid</td>
               <td class="px-4 py-2 whitespace-nowrap">
+                <a href="{{ route('admin.clients.edit', $client->id) }}" class="text-green-500 hover:text-blue-700 mr-2">
+                  <i class='bx bx-line-chart text-2xl'></i>
+                </a>
                 <a href="{{ route('admin.clients.edit', $client->id) }}" class="text-blue-500 hover:text-blue-700 mr-2">
                   <i class='bx bx-edit text-2xl'></i>
                 </a>
