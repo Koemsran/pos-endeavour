@@ -44,13 +44,16 @@
               <td class="px-6 py-4 whitespace-nowrap">{{ $client->age }}</td>
               <td class="px-6 py-4 whitespace-nowrap">Paid</td>
               <td class="px-4 py-2 whitespace-nowrap">
-                <a href="#" class="text-blue-500 hover:text-blue-700 mr-2 edit-client" data-id="{{ $client->id }}" data-name="{{ $client->name }}" data-phone="{{ $client->phone_number }}" data-age="{{ $client->age }}">
+                <a href="#" class="text-green-500 hover:text-green-700 mr-2 edit-client" title="progress" data-id="{{ $client->id }}" data-name="{{ $client->name }}" data-phone="{{ $client->phone_number }}" data-age="{{ $client->age }}">
+                <i class='bx bx-line-chart text-2xl'></i>
+                </a>
+                <a href="#" class="text-blue-500 hover:text-blue-700 mr-2 edit-client" title="edit" data-id="{{ $client->id }}" data-name="{{ $client->name }}" data-phone="{{ $client->phone_number }}" data-age="{{ $client->age }}">
                   <i class='bx bx-edit text-2xl'></i>
                 </a>
                 <form action="{{ route('admin.clients.destroy', $client->id) }}" method="POST" class="inline-block">
                   @csrf
                   @method('DELETE')
-                  <button type="submit" class="text-red-500 hover:text-red-700">
+                  <button type="submit" class="text-red-500 hover:text-red-700" title="delete">
                     <i class='bx bx-trash text-2xl'></i>
                   </button>
                 </form>
@@ -94,7 +97,7 @@
   <div id="edit-client-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg w-1/3 p-6">
       <h2 class="text-lg font-bold mb-4">Edit Client</h2>
-      <form id="edit-client-form" method="POST" action="">
+      <form id="edit-client-form" method="PUT" action="">
         @csrf
         @method('PUT') <!-- Add this to indicate the request method -->
         <input type="hidden" id="edit-client-id" name="id">
