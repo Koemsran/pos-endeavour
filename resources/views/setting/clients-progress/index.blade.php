@@ -123,12 +123,8 @@
     // Handle form submission
     infoForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      
-      // Reset the form fields
-      infoForm.reset();
-
       modal.classList.add("hidden"); // Close modal after submit
-
+      infoForm.reset();
       // Show Toast notification
       Toast.fire({
         icon: 'success',
@@ -195,25 +191,42 @@
         // If the step is completed
         if (index < currentStep) {
           step.classList.add("bg-green-500");
-          step.classList.remove("bg-gray-300");
-        } else {
+          step.classList.remove("bg-gray-300", "bg-blue-500");
+          step.innerHTML = "&#10003;"; // Add check icon (HTML code for checkmark)
+        }
+        // If the current step is active
+        else if (index === currentStep) {
+          step.classList.add("bg-blue-500");
+          step.classList.remove("bg-gray-300", "bg-green-500");
+          step.innerHTML = (index + 1).toString(); // Show step number
+        }
+        // If the step is not yet reached
+        else {
           step.classList.add("bg-gray-300");
-          step.classList.remove("bg-green-500");
+          step.classList.remove("bg-blue-500", "bg-green-500");
+          step.innerHTML = (index + 1).toString(); // Show step number
         }
       });
-
-      prevButton.disabled = currentStep === 0; // Disable Previous button if at first step
-      nextButton.disabled = currentStep >= steps.length - 1; // Disable Next button if at last step
     }
 
+    // Show modal for the current step
     function showStepModal() {
-      const currentStepElement = steps[currentStep];
-      const stepData = currentStepElement.getAttribute("data-step");
-
-      // Update the modal content
-      modalContent.innerHTML = `<p>You are at the "${stepData}" step.</p>`;
-      modal.classList.remove("hidden"); // Show modal
+      modal.classList.remove("hidden");
+      const stepMessages = [
+        "You are in step: Phone Consultation",
+        "You are in step: Office Consultation",
+        "You are in step: Booking",
+        "You are in step: Contract",
+        "You are in step: Refund",
+        "You are in step: In Process",
+        "You are in step: Paid Thank you for your payment!"
+      ];
+      modalContent.innerText = stepMessages[currentStep]; // Update the modal content with the step message
       skipButton.classList.toggle("hidden", currentStep !== 1 && currentStep !== 2 && currentStep !== 4);
+
     }
+
+    // Initialize with first step inactive
+    updateProgress();
   </script>
 </x-app-layout>
