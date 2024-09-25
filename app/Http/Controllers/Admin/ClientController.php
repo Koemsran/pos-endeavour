@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    
+
     //=====================Listing Categories =================//
     public function index(Request $request)
     {
@@ -41,7 +41,7 @@ class ClientController extends Controller
 
     public function store(ClientRequest $request)
     {
-    
+
         // dd($request);
         Client::store($request);
         return redirect()->route('admin.clients-data.index')->with('success', 'Client created successfully.');
@@ -57,7 +57,6 @@ class ClientController extends Controller
 
     public function update(Request $request, string $id)
     {
-
         Client::store($request, $id);
         return redirect()->route('admin.clients-data.index')->with('success', 'Client updated successfully.');
     }
@@ -67,7 +66,6 @@ class ClientController extends Controller
     public function destroy(Client $category)
     {
         $category->delete();
-
         return redirect()->route('admin.clients-data.index')->with('success', 'Client deleted successfully.');
     }
 }
