@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ChatCotroller;
 use App\Http\Controllers\Admin\ClientController as AdminClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ProgressController as AdminProgressController;
 use App\Http\Controllers\Admin\SettingController;
 // use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SlideshowController; // Add this line
@@ -22,6 +23,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SlideshowAdminController; // Add this line
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\ProgressController;
 use Faker\Core\File;
 use GuzzleHttp\Psr7\Response;
 
@@ -83,6 +85,7 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('permissions', 'PermissionController');
         Route::resource('users', 'UserController');
         Route::resource('clients', 'ClientController');
+        Route::resource('progresses', 'ProgressController');
         Route::resource('products', 'ProductController');
         Route::resource('categories', 'CategoryController');
         Route::get('/profile', [ProfileController::class, 'list'])->name('profile');
@@ -105,4 +108,8 @@ Route::get('/admin/categories', [CategoryController::class, 'index'])->name('adm
 //Clients
 Route::get('/admin/clients', [AdminClientController::class, 'index'])->name('admin.clients.index');
 
+
+//Client's progress
+
+Route::get('/client/progress/{id}', [AdminProgressController::class, 'progress'])->name('client.progresses.index');
 

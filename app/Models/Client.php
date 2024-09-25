@@ -10,6 +10,10 @@ class Client extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'phone_number', 'age'];
+    public function progress()
+    {
+        return $this->hasMany(Progress::class);
+    }
     public static function store($request, $id = null)
     {
 
