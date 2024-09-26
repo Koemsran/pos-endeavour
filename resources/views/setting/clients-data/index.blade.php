@@ -15,14 +15,7 @@
           <div class="flex justify-between items-center mb-4 gap-10">
             <form action="{{ route('admin.clients.index') }}" method="GET" class="flex items-center" id="search-form">
               <input type="text" name="search" placeholder="Search client..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500" id="search-input">
-              <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Search</button>
             </form>
-
-            <script>
-              document.getElementById('search-input').addEventListener('input', function() {
-                document.getElementById('search-form').submit();
-              });
-            </script>
             <a href="#" id="open-modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New</a>
           </div>
         </div>
