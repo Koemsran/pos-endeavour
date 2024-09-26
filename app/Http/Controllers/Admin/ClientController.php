@@ -15,21 +15,21 @@ class ClientController extends Controller
     {
         $search = $request->input('search');
 
+        // Start a query to get all clients
         $clientQuery = Client::query();
 
+        // If a search term is provided, filter by name
         if ($search) {
-            // Search for categories by name
             $clientQuery->where('name', 'like', '%' . $search . '%');
         }
 
-        $clients = $clientQuery->latest()->get();
+        // Get the clients with latest first, you might want to paginate this too
+        $clients = $clientQuery->latest()->paginate(10); // Use paginate for better performance
 
-        if ($request->ajax()) {
-            return response()->json(['clients' => $clients]);
-        }
-
+        // Return the view with clients data
         return view('setting.clients-data.index', compact('clients'));
     }
+
 
     //=================Create categories ============================//
 
