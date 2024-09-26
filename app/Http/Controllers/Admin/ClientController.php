@@ -49,11 +49,11 @@ class ClientController extends Controller
         ]);
 
         // Create new product
-        $product = new Client();
-        $product->name = $validatedData['name'];
-        $product->age = $validatedData['age'];
-        $product->phone_number = $validatedData['phone_number'];
-        $product->save();
+        $client = new Client();
+        $client->name = $validatedData['name'];
+        $client->age = $validatedData['age'];
+        $client->phone_number = $validatedData['phone_number'];
+        $client->save();
 
         // Redirect to a success page or back to the form with a success message
         return redirect()->route('admin.clients.index')->with('success', 'Client created successfully.');
@@ -81,9 +81,8 @@ class ClientController extends Controller
         $client->phone_number = $validatedData['phone_number'];
 
         $client->save();
-
         // Redirect back with success message
-        return redirect()->route('admin.clients.index')->with('success', 'client updated successfully.');
+        return redirect()->route('admin.clients.index')->with('success', 'Client updated successfully.');
     }
 
     //========================Remove category =========================//

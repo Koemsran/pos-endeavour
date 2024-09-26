@@ -45,7 +45,7 @@
               <td class="px-6 py-4 whitespace-nowrap">Paid</td>
               <td class="px-4 py-2 whitespace-nowrap">
                 <a href="#" class="text-green-500 hover:text-green-700 mr-2 edit-client" title="progress" data-id="{{ $client->id }}" data-name="{{ $client->name }}" data-phone="{{ $client->phone_number }}" data-age="{{ $client->age }}">
-                <i class='bx bx-line-chart text-2xl'></i>
+                  <i class='bx bx-line-chart text-2xl'></i>
                 </a>
                 <a href="#" class="text-blue-500 hover:text-blue-700 mr-2 edit-client" title="edit" data-id="{{ $client->id }}" data-name="{{ $client->name }}" data-phone="{{ $client->phone_number }}" data-age="{{ $client->age }}">
                   <i class='bx bx-edit text-2xl'></i>
@@ -97,25 +97,35 @@
   <div id="edit-client-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg w-1/3 p-6">
       <h2 class="text-lg font-bold mb-4">Edit Client</h2>
-      <form id="edit-client-form" method="PUT" action="">
+
+      <!-- Form with action directly using Blade to generate the URL -->
+      <form id="edit-client-form" method="POST" action="{{ route('admin.clients.update', $client->id ?? '') }}">
         @csrf
-        @method('PUT') <!-- Add this to indicate the request method -->
-        <input type="hidden" id="edit-client-id" name="id">
+        @method('PUT') <!-- This will indicate the PUT request method for updating -->
+
+        <input type="hidden" id="edit-client-id" name="id" value="{{ $client->id ?? '' }}">
+
         <div class="mb-4">
           <label for="edit-name" class="block text-gray-700 text-sm font-bold mb-2">Client's Name:</label>
-          <input type="text" id="edit-name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter name" required>
+          <input type="text" id="edit-name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value="{{ $client->name ?? '' }}" placeholder="Enter name" required>
         </div>
+
         <div class="mb-4">
           <label for="edit-age" class="block text-gray-700 text-sm font-bold mb-2">Client's Age:</label>
-          <input type="number" id="edit-age" name="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter age" required>
+          <input type="number" id="edit-age" name="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value="{{ $client->age ?? '' }}" placeholder="Enter age" required>
         </div>
+
         <div class="mb-4">
           <label for="edit-phone" class="block text-gray-700 text-sm font-bold mb-2">Client's Phone Number:</label>
-          <input type="text" id="edit-phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter phone number" required>
+          <input type="text" id="edit-phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value="{{ $client->phone_number ?? '' }}" placeholder="Enter phone number" required>
         </div>
+
         <div class="flex justify-end gap-4">
-          <button type="button" id="close-edit-modal" class="mr-2 bg-red-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">Cancel</button>
           <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Update</button>
+          <button type="button" id="close-edit-modal" class="mr-2 bg-red-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">Cancel</button>
         </div>
       </form>
     </div>
@@ -155,19 +165,5 @@
         editClientModal.classList.add('hidden');
       });
     });
-
-    function openEditModal(client) {
-      document.getElementById('edit-client-id').value = client.id;
-      document.getElementById('edit-name').value = client.name;
-      document.getElementById('edit-age').value = client.age;
-      document.getElementById('edit-phone').value = client.phone_number;
-
-      // Set the action to the update route with the client ID
-      const form = document.getElementById('edit-client-form');
-      form.action = `{{ route('admin.clients.update', '') }}/${client.id}`;
-
-      // Show the modal
-      document.getElementById('edit-client-modal').classList.remove('hidden');
-    }
   </script>
 </x-app-layout>
