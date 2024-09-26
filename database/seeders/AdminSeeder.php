@@ -32,11 +32,8 @@ class AdminSeeder extends Seeder
             'phone_number' => '0984214123',
         ]);
 
-
-
         $admin_role = Role::create(['name' => 'admin']);
-        $writer_role = Role::create(['name' => 'owner']);
-        Role::create(['name' => 'customer']);
+        $writer_role = Role::create(['name' => 'user']);
 
         $permission = Permission::create(['name' => 'Client access']);
         $permission = Permission::create(['name' => 'Client edit']);

@@ -85,6 +85,7 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('permissions', 'PermissionController');
         Route::resource('users', 'UserController');
         Route::resource('clients', 'ClientController');
+        Route::resource('schedules', 'ScheduleController');
         Route::resource('progresses', 'ProgressController');
         Route::resource('products', 'ProductController');
         Route::resource('categories', 'CategoryController');

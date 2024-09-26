@@ -37,9 +37,6 @@
                   <th class="py-4 px-6 text-left border-b border-gray-300 font-bold text-sm text-gray-700">
                     Role
                   </th>
-                  <th class="py-4 px-6 text-left border-b border-gray-300 font-bold text-sm text-gray-700">
-                    Auth
-                  </th>
                   <th class="py-4 px-6 text-right border-b border-gray-300 font-bold text-sm text-gray-700">
                     Actions
                   </th>
@@ -63,19 +60,11 @@
                   <td class="py-4 px-6 border-b border-gray-300">
                     @foreach($user->roles as $role)
                     <span class="inline-block px-3 py-1 text-white text-xs font-semibold text-gray-700 mr-2 rounded-full
-                            {{ $role->name === 'owner' ? 'bg-yellow-300' : '' }}
-                            {{ $role->name === 'customer' ? 'bg-blue-300' : '' }}
-                            {{ $role->name === 'admin' ? 'bg-red-300' : '' }}">
+                            {{ $role->name === 'user' ? 'bg-red-300 text-white' : '' }}
+                            {{ $role->name === 'admin' ? 'bg-blue-300' : '' }}">
                       {{ $role->name }}
                     </span>
                     @endforeach
-                  </td>
-                  <td class="py-4 px-6 border-b border-gray-300">
-                    @if(auth()->check() && $user->id === auth()->user()->id)
-                    <span class="inline-block px-3 py-1 text-white text-xs font-semibold bg-green-400 rounded-full">Yes</span>
-                    @else
-                    <span class="inline-block px-3 py-1 text-white text-xs font-semibold bg-gray-400 rounded-full">No</span>
-                    @endif
                   </td>
                   <td class="py-4 px-6 border-b border-gray-300 text-right">
                     @can('User edit')

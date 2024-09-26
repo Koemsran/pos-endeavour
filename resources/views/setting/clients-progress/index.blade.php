@@ -58,19 +58,220 @@
 
           <!-- Modal (Popup) -->
           <div id="modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-            <div class="bg-white p-6 rounded shadow-lg w-96"> <!-- Increased Width -->
+            <div class="bg-white p-6 rounded shadow-lg " style="width: 60%;"> <!-- Increased Width -->
               <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-semibold">Step Information</h2>
+                <h2 class="text-xl font-semibold">Step of Client Progress</h2>
                 <button id="closeModal" class="text-gray-600 text-3xl hover:text-gray-900">&times;</button> <!-- Close Button -->
               </div>
+
               <div id="modalContent" class="mb-4"> <!-- Content for each step -->
                 <!-- Step information will be injected here -->
               </div>
-              <form id="infoForm">
-                <div class="mb-4">
-                  <label for="info" class="block text-gray-700 text-sm font-bold mb-2">Your Info:</label>
-                  <input type="text" id="info" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter some info" required>
+
+              <!-- Form of Step -->
+
+              <form id="infoForm" novalidate>
+
+                <!-- Step 1 -->
+
+                <div class="step-form" id="step1" hidden>
+                  <div class="flex gap-5">
+                    <div class="mb-4">
+                      <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name:</label>
+                      <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="phone_number" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+                      <input type="tel" id="phone_number" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                      <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                  </div>
+                  <div class="flex gap-5">
+
+                    <div class="mb-4">
+                      <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
+                      <input type="number" id="age" name="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="ielts" class="block text-gray-700 text-sm font-bold mb-2">IELTS Lavel:</label>
+                      <input type="text" id="ielts" name="ielts" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <div class="mb-4">
+                      <label for="hsk" class="block text-gray-700 text-sm font-bold mb-2">HSK Lavel:</label>
+                      <input type="text" id="hsk" name="hsk" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                  </div>
+                  <div class="flex gap-5">
+                    <div class="mb-4">
+                      <label for="current_university" class="block text-gray-700 text-sm font-bold mb-2">Current University:</label>
+                      <input type="text" id="current_university" name="current_university" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="current_skill" class="block text-gray-700 text-sm font-bold mb-2">Current Skill:</label>
+                      <input type="text" id="current_skill" name="current_skill" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="prefer_skill" class="block text-gray-700 text-sm font-bold mb-2">Preferred Skill:</label>
+                      <input type="text" id="prefer_skill" name="prefer_skill" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="current_education" class="block text-gray-700 text-sm font-bold mb-2">Current Level of Education:</label>
+                    <select name="current_education" id="current_education" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <option value="">Select current education</option>
+                      <!-- Dropped Out School -->
+                      <optgroup label="Dropped Out School">
+                        <option value="Dropped Out School">Dropped Out School</option>
+                      </optgroup>
+                      <!-- High School -->
+                      <optgroup label="High School">
+                        <option value="10th Grade">10th Grade</option>
+                        <option value="11th Grade">11th Grade</option>
+                        <option value="12th Grade">12th Grade</option>
+                      </optgroup>
+
+                      <!-- Bachelor's Degree -->
+                      <optgroup label="Bachelor's Degree">
+                        <option value="Undergraduate (Year 1)">Undergraduate (Year 1)</option>
+                        <option value="Undergraduate (Year 2)">Undergraduate (Year 2)</option>
+                        <option value="Undergraduate (Year 3)">Undergraduate (Year 3)</option>
+                        <option value="Undergraduate (Year 4)">Undergraduate (Year 4)</option>
+                      </optgroup>
+
+                      <!-- Master's Degree -->
+                      <optgroup label="Master's Degree">
+                        <option value="Master's (Year 1)">Master's (Year 1)</option>
+                        <option value="Master's (Year 2)">Master's (Year 2)</option>
+                      </optgroup>
+
+                      <!-- PhD -->
+                      <optgroup label="PhD">
+                        <option value="PhD (Year 1)">PhD (Year 1)</option>
+                        <option value="PhD (Year 2)">PhD (Year 2)</option>
+                        <option value="PhD (Year 3)">PhD (Year 3)</option>
+                        <option value="PhD (Year 4+)">PhD (Year 4+)</option>
+                      </optgroup>
+
+                    </select>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="current_education" class="block text-gray-700 text-sm font-bold mb-2">Level of Study Desired:</label>
+                    <select name="current_education" id="current_education" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <option value="">Select your level of study desired</option>
+                      <option value="Bachelor's">Bachelor's</option>
+                      <option value="Master's">Master's</option>
+                      <option value="PhD">PhD</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="study_destination" class="block text-gray-700 text-sm font-bold mb-2">Study Destination:</label>
+                    <select name="study_destination" id="study_destination" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <option value="">Select your study destination</option>
+                      <option value="USA">USA</option>
+                      <option value="China">China</option>
+                      <option value="UK">UK</option>
+                      <option value="Australia">Australia</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="study_destination" class="block text-gray-700 text-sm font-bold mb-2">Preferred Universities:</label>
+                    <select name="study_destination" id="study_destination" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <option value="">Select your preferred university</option>
+                      <!-- USA -->
+                      <optgroup label="USA">
+                        <option value="Harvard University">Harvard University</option>
+                        <option value="Stanford University">Stanford University</option>
+                        <option value="Massachusetts Institute of Technology (MIT)">Massachusetts Institute of Technology (MIT)</option>
+                        <option value="University of California, Berkeley">University of California, Berkeley</option>
+                        <option value="Columbia University">Columbia University</option>
+                      </optgroup>
+
+                      <!-- China -->
+                      <optgroup label="China">
+                        <option value="Tsinghua University">Tsinghua University</option>
+                        <option value="Peking University">Peking University</option>
+                        <option value="Fudan University">Fudan University</option>
+                        <option value="Shanghai Jiao Tong University">Shanghai Jiao Tong University</option>
+                        <option value="Zhejiang University">Zhejiang University</option>
+                      </optgroup>
+
+                      <!-- UK -->
+                      <optgroup label="UK">
+                        <option value="University of Oxford">University of Oxford</option>
+                        <option value="University of Cambridge">University of Cambridge</option>
+                        <option value="Imperial College London">Imperial College London</option>
+                        <option value="London School of Economics (LSE)">London School of Economics (LSE)</option>
+                        <option value="University College London (UCL)">University College London (UCL)</option>
+                      </optgroup>
+
+                      <!-- Australia -->
+                      <optgroup label="Australia">
+                        <option value="University of Melbourne">University of Melbourne</option>
+                        <option value="Australian National University (ANU)">Australian National University (ANU)</option>
+                        <option value="University of Sydney">University of Sydney</option>
+                        <option value="University of Queensland">University of Queensland</option>
+                        <option value="University of New South Wales (UNSW)">University of New South Wales (UNSW)</option>
+                      </optgroup>
+                    </select>
+
+                  </div>
                 </div>
+                <!-- Step 2 -->
+
+                <div class="step-form" id="step2" hidden>
+                  <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 2:</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                  </div>
+                </div>
+                <!-- Step 3 -->
+
+                <div class="step-form" id="step3" hidden>
+                  <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 3:</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                  </div>
+                </div>
+                <!-- Step 4 -->
+
+                <div class="step-form" id="step4" hidden>
+                  <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 4:</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                  </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="step-form" id="step5" hidden>
+                  <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 5:</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                  </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div class="step-form" id="step6" hidden>
+                  <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 6:</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                  </div>
+                </div>
+
+                <!-- Step 7 -->
+                <div class="step-form" id="step7" hidden>
+                  <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 7:</label>
+                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                  </div>
+                </div>
+
                 <div class="flex justify-end gap-4">
                   <button type="button" id="skip" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Skip</button> <!-- Skip Button -->
                   <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Submit</button>
@@ -112,7 +313,7 @@
     // Show modal when clicking Start button
     startButton.addEventListener("click", () => {
       modal.classList.remove("hidden");
-      showStepModal(); // Show the first step modal
+      showStepModal(currentStep); // Show the first step modal
     });
 
     // Close modal
@@ -141,7 +342,7 @@
 
         updateProgress();
         if (currentStep < steps.length) {
-          showStepModal(); // Show the next step modal
+          showStepModal(currentStep); // Show the next step modal
         } else {
           Toast.fire({
             icon: 'success',
@@ -155,7 +356,7 @@
     nextButton.addEventListener("click", () => {
       // No action taken on Next button click until the current step is submitted
       if (currentStep < steps.length - 1) {
-        showStepModal(); // Show modal for the next step
+        showStepModal(currentStep); // Show modal for the next step
       }
     });
 
@@ -169,7 +370,7 @@
       nextButton.disabled = currentStep >= steps.length - 1; // Disable Next if at last step
 
       if (currentStep < steps.length) {
-        showStepModal(); // Show modal for the next step
+        showStepModal(currentStep); // Show modal for the next step
       } else {
         Toast.fire({
           icon: 'success',
@@ -182,7 +383,7 @@
       if (currentStep > 0) {
         currentStep--;
         updateProgress();
-        showStepModal(); // Show modal for the current step
+        showStepModal(currentStep); // Show modal for the current step
       }
     });
 
@@ -210,7 +411,7 @@
     }
 
     // Show modal for the current step
-    function showStepModal() {
+    function showStepModal(stepNumber) {
       modal.classList.remove("hidden");
       const stepMessages = [
         "You are in step: Phone Consultation",
@@ -221,11 +422,15 @@
         "You are in step: In Process",
         "You are in step: Paid Thank you for your payment!"
       ];
+      const stepForms = document.querySelectorAll('.step-form');
+      stepForms.forEach(form => form.hidden = true);
+      const currentForm = document.getElementById(`step${stepNumber+1}`);
+      if (currentForm) currentForm.hidden = false;
       modalContent.innerText = stepMessages[currentStep]; // Update the modal content with the step message
       skipButton.classList.toggle("hidden", currentStep !== 1 && currentStep !== 2 && currentStep !== 4);
 
     }
-
+    $("input").prop('required',true);
     // Initialize with first step inactive
     updateProgress();
   </script>

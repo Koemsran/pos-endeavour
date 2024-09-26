@@ -20,7 +20,7 @@
         @canany('Client access','Client add','Client create', 'Client edit','Client delete')
         <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.clients.index') ? 'active' : '' }}"
             href="{{ route('admin.clients.index')}}">
-            <i class='bx bxs-user-plus text-3xl'></i>
+            <i class='bx bx-user-plus text-3xl' ></i>
             <span class="mx-3">Clients</span>
         </a>
         @endcanany
@@ -39,33 +39,29 @@
         @canany(['Product access','Product add','Product edit','Product delete'])
         <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.products.index') ? 'active' : '' }}"
             href="{{route('admin.products.index')}}">
-            <i class='bx bxl-product-hunt text-2xl'></i>
+            <i class='bx bx-store-alt text-2xl'></i>
             <span class="mx-3">Products</span>
+        </a>
+        @endcanany
+        @canany(['Product access','Product add','Product edit','Product delete'])
+        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.schedules.index') ? 'active' : '' }}"
+            href="{{route('admin.schedules.index')}}">
+            <i class='bx bx-calendar text-2xl' ></i>
+            <span class="mx-3">Schedule</span>
         </a>
         @endcanany
 
         @canany('Role access','Role add','Role edit','Role delete')
         <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.roles.index') ? 'active' : '' }}"
             href="{{ route('admin.roles.index') }}">
-            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z">
-                </path>
-            </svg>
+            <i class='bx bx-shape-circle ' style="font-size: 27px;"></i>
             <span class="mx-3">Role</span>
         </a>
         @endcanany
         @canany('Permission access','Permission add','Permission edit','Permission delete')
         <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.permissions.index') ? 'active' : '' }}"
             href="{{ route('admin.permissions.index') }}">
-            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z">
-                </path>
-            </svg>
-
+            <i class='bx bx-lock-open-alt' style="font-size: 25px;"></i>
             <span class="mx-3">Permission</span>
         </a>
         @endcanany

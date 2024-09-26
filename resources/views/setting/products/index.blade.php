@@ -37,18 +37,18 @@
                             <div class="bg-white rounded-lg shadow-md overflow-hidden">
                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-64 w-full object-cover">
                                 <div class="p-4">
-                                    <h4 class="text-lg font-bold text-gray-800">{{ $product->name }}</h4>
-                                    <p class="text-gray-600">{{ $product->category ? $product->category->name : 'Uncategorized' }}</p>
-                                    <p class="text-gray-800 font-semibold">${{ number_format($product->price, 2) }}</p>
+                                    <h4 class="text-lg font-bold text-gray-800">Name: {{ $product->name }}</h4>
+                                    <p class="text-gray-600 mt-1">It's a type of <strong>{{ $product->category ? $product->category->name : 'Uncategorized' }}</strong> </p>
+                                    <p class="text-gray-800 font-semibold text-green-700 text-2xl mt-3">Price: ${{ number_format($product->price, 2) }}</p>
                                     <div class="flex justify-end mt-2">
                                         <a href="{{ route('admin.products.edit', $product->id) }}" class="text-blue-500 hover:text-blue-700 mr-2">
-                                            <i class='bx bx-edit text-lg'></i>
+                                            <i class='bx bx-edit text-2xl'></i>
                                         </a>
                                         <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline-block">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-500 hover:text-red-700">
-                                                <i class='bx bx-trash text-lg'></i>
+                                                <i class='bx bx-trash text-2xl'></i>
                                             </button>
                                         </form>
                                     </div>

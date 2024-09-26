@@ -86,8 +86,8 @@
           <input type="text" id="phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter phone number" required>
         </div>
         <div class="flex justify-end gap-4">
-          <button type="button" id="close-modal" class="mr-2 bg-red-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">Cancel</button>
           <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Submit</button>
+          <button type="button" id="close-modal" class="mr-2 bg-red-500 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded">Cancel</button>
         </div>
       </form>
     </div>
