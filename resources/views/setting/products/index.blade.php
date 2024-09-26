@@ -35,7 +35,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
                         @foreach ($products as $product)
                             <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-32 w-full object-cover">
+                               <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-64 w-full object-cover">
                                 <div class="p-4">
                                     <h4 class="text-lg font-bold text-gray-800">{{ $product->name }}</h4>
                                     <p class="text-gray-600">{{ $product->category ? $product->category->name : 'Uncategorized' }}</p>
