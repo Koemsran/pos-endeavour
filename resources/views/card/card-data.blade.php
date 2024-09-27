@@ -24,53 +24,80 @@
     </div>
     <div class="group-card flex justify-center gap-4">
 
-        <!--  data of today -->
+        <!-- data of today -->
         <template x-if="selectedDay === 'today'">
             <div class="w-full flex flex-wrap gap-2 mt-8">
-                <div style="width: 24%;"
-                    class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
+                <div
+                    class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-money text-3xl'></i> <!-- Updated icon here -->
+                    <div class="content">
+                        <strong style="font-size: 25px">$40,000.00+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Paid</p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex gap-5 p-6 bg-green-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-group text-3xl'></i>
+                    <div class="content">
+                        <strong style="font-size: 25px">4,000.00+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Clients</p>
+                    </div>
+                </div>
+                <div
+                    class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
                         <strong style="font-size: 25px">5+</strong>
                         <p class="mb-3 font-normal text-black-500">Total Booking</p>
                     </div>
                 </div>
-                <div style="width: 24%;"
-                    class="flex gap-5 p-6 bg-green-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
-                    <i class='bx bx-calendar-check text-3xl'></i>
-                    <div class="content">
-                        <strong style="font-size: 25px">5+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total Client</p>
-                    </div>
-                </div>
-                <div style="width: 24%;"
-                    class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
-                    <i class='bx bx-calendar-check text-3xl'></i>
-                    <div class="content">
-                        <strong style="font-size: 25px">5+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total Booking</p>
-                    </div>
-                </div>
-                <div style="width: 24%;"
-                    class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
+                <div
+                    class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-user text-3xl'></i>
                     <div class="content">
                         <strong style="font-size: 25px">{{$todayUsers}}+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total User</p>
+                        <p class="mb-3 font-normal text-black-500">Total Users</p>
                     </div>
                 </div>
             </div>
         </template>
 
+
         <!--  data of thisWeek -->
         <template x-if="selectedDay === 'thisWeek'">
             <div class="w-full flex flex-wrap gap-2 mt-8">
-                <div style="width: 24%;"
-                    class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
+                <div
+                    class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-money text-3xl'></i> <!-- Updated icon here -->
+                    <div class="content">
+                        <strong style="font-size: 25px">$50,000.00+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Paid</p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex gap-5 p-6 bg-green-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-group text-3xl'></i>
+                    <div class="content">
+                        <strong style="font-size: 25px">5+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Clients</p>
+                    </div>
+                </div>
+                <div
+                    class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
-                        <strong style="font-size: 25px">10+</strong>
+                        <strong style="font-size: 25px">5+</strong>
                         <p class="mb-3 font-normal text-black-500">Total Booking</p>
+                    </div>
+                </div>
+                <div
+                    class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-user text-3xl'></i>
+                    <div class="content">
+                        <strong style="font-size: 25px">{{$todayUsers}}+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Users</p>
                     </div>
                 </div>
             </div>
@@ -79,20 +106,37 @@
         <!--  data of thisMonth -->
         <template x-if="selectedDay === 'thisMonth'">
             <div class="w-full flex flex-wrap gap-2 mt-8">
-                <div style="width: 24%;"
-                    class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
+                <div
+                    class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-money text-3xl'></i> <!-- Updated icon here -->
+                    <div class="content">
+                        <strong style="font-size: 25px">$60,000.00+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Paid</p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex gap-5 p-6 bg-green-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-group text-3xl'></i>
+                    <div class="content">
+                        <strong style="font-size: 25px">5+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Clients</p>
+                    </div>
+                </div>
+                <div
+                    class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
-                        <strong style="font-size: 25px">20+</strong>
+                        <strong style="font-size: 25px">5+</strong>
                         <p class="mb-3 font-normal text-black-500">Total Booking</p>
                     </div>
                 </div>
-                <div style="width: 24%;"
-                    class="flex gap-5 p-6 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
+                <div
+                    class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-user text-3xl'></i>
                     <div class="content">
-                        <strong style="font-size: 25px">{{ array_sum($monthlyData['users']) }}+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total User</p>
+                        <strong style="font-size: 25px">{{$todayUsers}}+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Users</p>
                     </div>
                 </div>
             </div>
@@ -101,12 +145,37 @@
         <!--  data of Years -->
         <template x-if="selectedDay === 'thisYear'">
             <div class="w-full flex flex-wrap gap-2 mt-8">
-                <div style="width: 24%;"
-                    class="flex gap-5 p-6 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white">
+                <div
+                    class="flex gap-5 p-6 bg-yellow-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-money text-3xl'></i> <!-- Updated icon here -->
+                    <div class="content">
+                        <strong style="font-size: 25px">$70,000.00+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Paid</p>
+                    </div>
+                </div>
+
+                <div
+                    class="flex gap-5 p-6 bg-green-100 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-group text-3xl'></i>
+                    <div class="content">
+                        <strong style="font-size: 25px">5+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Clients</p>
+                    </div>
+                </div>
+                <div
+                    class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
+                    <i class='bx bx-calendar-check text-3xl'></i>
+                    <div class="content">
+                        <strong style="font-size: 25px">5+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Booking</p>
+                    </div>
+                </div>
+                <div
+                    class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-user text-3xl'></i>
                     <div class="content">
-                        <strong style="font-size: 25px">{{ $yearlyData['users'] }}+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total User</p>
+                        <strong style="font-size: 25px">{{$todayUsers}}+</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Users</p>
                     </div>
                 </div>
             </div>

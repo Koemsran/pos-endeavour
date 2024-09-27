@@ -70,7 +70,7 @@
 
               <!-- Form of Step -->
 
-              <form id="infoForm" novalidate>
+              <form id="infoForm">
 
                 <!-- Step 1 -->
 

@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\ClientController as AdminClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProgressController as AdminProgressController;
+use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\SettingController;
 // use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SlideshowController; // Add this line
@@ -112,3 +113,5 @@ Route::get('/admin/clients', [AdminClientController::class, 'index'])->name('adm
 //Client's progress
 Route::get('/client/progress/{id}', [AdminProgressController::class, 'progress'])->name('client.progresses.index');
 
+//Event 
+Route::get('/envent', [ScheduleController::class, 'getEvents']);

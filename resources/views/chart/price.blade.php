@@ -8,13 +8,13 @@
           Overview
         </h6>
         <h2 class="text-blueGray-700 text-xl font-semibold">
-          Sales Value
+          Track of Client Booking
         </h2>
       </div>
     </div>
   </div>
   <div class="p-4 flex-auto">
-    <div class="relative" style="height: 400px;"> <!-- Adjusted height here -->
+    <div class="relative" style="height: 400px;">
       <canvas id="line-chart"></canvas>
     </div>
   </div>
@@ -23,23 +23,31 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Function to get month names dynamically up to the current month
+    function getMonthLabels() {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        const currentMonth = new Date().getMonth(); // Get current month (0-11)
+        return monthNames.slice(0, currentMonth + 1); // Slice months up to the current month
+    }
+
     let config = {
         type: 'line',
         data: {
-          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          labels: getMonthLabels(),  // Dynamically get month labels
           datasets: [
             {
               label: new Date().getFullYear(),
               backgroundColor: '#4c51bf',
               borderColor: '#4c51bf',
-              data: [65, 78, 66, 44, 56, 67, 75],
+              data: [65, 78, 66, 44, 56, 67, 75, 50, 70], // Example data for current year
               fill: false,
             },
             {
               label: new Date().getFullYear() - 1,
               backgroundColor: '#36a2eb',
               borderColor: '#36a2eb',
-              data: [40, 68, 86, 74, 56, 60, 87],
+              data: [40, 68, 86, 74, 56, 60, 87, 55, 43], // Example data for previous year
               fill: false,
             }
           ]
@@ -49,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
           maintainAspectRatio: false, // Ensures it respects the container's height
           title: {
             display: false,
-            text: 'Sales Chart'
+            text: 'Track of Client Booking'
           },
           legend: {
             labels: {
@@ -96,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
       };
+
       let ctx = document.getElementById('line-chart').getContext('2d');
       new Chart(ctx, config);
 });
