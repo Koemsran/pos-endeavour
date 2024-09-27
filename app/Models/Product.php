@@ -37,9 +37,6 @@ class Product extends Model
 
         $data = $request->only('name', 'description', 'price', 'category_id');
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'mimes:jpeg,png,jpg,gif,svg,mp4,avi,mov,wmv|max:20480',
-            ]);
             $image = $request->file('image')->store('images', 'public');
             $data['image'] = Storage::url($image);
         } else {

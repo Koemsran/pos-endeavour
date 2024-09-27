@@ -12,24 +12,34 @@
         <div x-data="{ dropdownOpen: false }" class="relative">
             <button @click="dropdownOpen = ! dropdownOpen"
                 class="relative block h-10 w-10 rounded-full overflow-hidden shadow focus:outline-none">
-                <img class="h-full w-full object-cover"
-                    src="{{auth()->user()->profile  ? asset('images/' .  auth()->user()->profile ) : asset('images/default-profile.jpg') }}"
+                <img class="h-full w-full object-cover rounded-full border-2 border-white"
+                    src="{{ auth()->user()->profile ? asset('images/' . auth()->user()->profile) : asset('images/default-profile.jpg') }}"
                     alt="Your avatar">
+
             </button>
 
             <div x-show="dropdownOpen" @click="dropdownOpen = false" class="fixed inset-0 h-full w-full z-10" style="display: none;"></div>
 
             <div x-show="dropdownOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10" style="display: none;">
                 @if (auth()->check())
-                <a href="{{ route('admin.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Profile</a>
+                <a href="{{ route('admin.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white flex items-center">
+                    <!-- Font Awesome user icon -->
+                    <i class='bx bx-user-circle text-xl mr-3'></i> Profile
+                </a>
 
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
-                    <a href="{{ route('admin.logout') }}" onclick="event.preventDefault();
-                                                    this.closest('form').submit();" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Logout</a>
+                    <a href="{{ route('admin.logout') }}" onclick="event.preventDefault(); this.closest('form').submit();" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white flex items-center">
+                        <!-- Font Awesome sign-out icon -->
+                        <i class='bx bx-log-out mr-3 text-xl'></i> Logout
+                    </a>
                 </form>
+
                 @else
-                <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white">Login</a>
+                <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white flex items-center">
+                    <!-- Font Awesome login icon -->
+                    <i class="fas fa-sign-in-alt mr-2"></i> Login
+                </a>
                 @endif
             </div>
         </div>

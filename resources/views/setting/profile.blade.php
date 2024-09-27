@@ -34,14 +34,14 @@
                                  </p>
                                </div>
                                <div x-show="previewUrl !== ''" class="relative w-24 h-24">
-                                 <img :src="previewUrl" alt="" class="shadow-lg rounded-full max-w-full h-auto align-middle border-none h-full w-full object-cover">
+                                 <img :src="previewUrl" alt="" class="shadow-lg rounded-full max-w-full h-auto align-middle border-2 border-white h-full w-full object-cover ">
                                  <div class="ml-5">
                                    <button type="button" class="" @click="clearPreview()">change</button>
                                  </div>
                                </div>
 
                                <div x-show="imgurl !== ''" class="relative w-24 h-24">
-                                 <img :src="imgurl" alt="" class="shadow-lg rounded-full max-w-full h-auto align-middle border-none h-full w-full object-cover">
+                                 <img :src="imgurl" alt="" class="shadow-lg rounded-full max-w-full h-auto align-middle border-2 border-white h-full w-full object-cover">
                                  <div class="ml-5">
                                    <button type="button" class="" @click="clearPreview()">change</button>
                                  </div>
