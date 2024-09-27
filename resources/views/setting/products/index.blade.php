@@ -35,7 +35,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-5">
                         @foreach ($products as $product)
                             <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                               <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-64 w-full object-cover">
+                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-64 w-full object-cover">
                                 <div class="p-4">
                                     <h4 class="text-lg font-bold text-gray-800">{{ $product->name }}</h4>
                                     <p class="text-gray-600">{{ $product->category ? $product->category->name : 'Uncategorized' }}</p>
@@ -64,6 +64,29 @@
         document.getElementById('category_filter').addEventListener('change', function() {
             let categoryId = this.value;
             window.location.href = categoryId ? '{{ route('admin.products.index') }}?category=' + categoryId : '{{ route('admin.products.index') }}';
+        });
+
+        // Add delete confirmation using SweetAlert2
+        document.querySelectorAll('form[action^="{{ route('admin.products.destroy', '') }}"]').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent form submission
+                const deleteForm = this; // Store reference to the form
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteForm.submit(); // Submit the form if confirmed
+                    }
+                });
+            });
         });
     </script>
 </x-app-layout>

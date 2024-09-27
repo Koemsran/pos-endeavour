@@ -12,7 +12,8 @@
                         <div>
                             <a href="#" id="openAddModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">New Category</a>
                         </div>
-                    </div><hr>
+                    </div>
+                    <hr>
                     <table class="text-left w-full border-collapse">
                         <thead>
                             <tr>
@@ -27,14 +28,24 @@
                                 <td class="py-4 px-6 border-b border-grey-light">{{ $index+1 }}</td>
                                 <td class="py-4 px-6 border-b border-grey-light">{{ $category->name }}</td>
                                 <td class="py-4 px-6 border-b border-grey-light text-right">
-                                    <a href="#" data-id="{{ $category->id }}" data-name="{{ $category->name }}" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark text-blue-400 openEditModal">Edit</a>
+                                    <!-- Edit Icon -->
+                                    <a href="#"
+                                        data-id="{{ $category->id }}"
+                                        data-name="{{ $category->name }}"
+                                        class="text-blue-500 hover:text-blue-700 mr-2 openEditModal"
+                                        title="edit">
+                                        <i class='bx bx-edit text-2xl'></i>
+                                    </a>
 
-                                    <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="inline delete-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="text-grey-lighter font-bold py-1 px-3 rounded text-xs bg-blue hover:bg-blue-dark text-red-400 delete-button">Delete</button>
-                                    </form>
+                                    <!-- Delete Icon -->
+                                    <button type="button"
+                                        class="text-red-500 hover:text-red-700 delete-button"
+                                        data-id="{{ $category->id }}"
+                                        title="delete">
+                                        <i class='bx bx-trash text-2xl'></i>
+                                    </button>
                                 </td>
+
                             </tr>
                             @endforeach
                         </tbody>
@@ -194,8 +205,8 @@
             const deleteButtons = document.querySelectorAll('.delete-button');
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const form = this.closest('.delete-form');
+                    event.preventDefault(); // Prevent default button behavior
+                    const form = this.closest('form'); // Get the closest form
 
                     Swal.fire({
                         title: '<span style="color: #d33; font-weight: bold;">Are you sure?</span>',
@@ -208,13 +219,15 @@
                         cancelButtonText: '<span style="font-weight: bold;">Cancel</span>',
                         background: '#f7f7f7',
                         customClass: {
-                            popup: 'border-2 border-gray-300',
+                            popup: 'border-2 border-gray-300 shadow-lg rounded-lg',
+                            title: 'text-xl font-semibold text-gray-900',
+                            content: 'text-gray-800',
                             confirmButton: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
                             cancelButton: 'bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded'
                         }
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            form.submit();
+                            form.submit(); // Submit the form if confirmed
                         }
                     });
                 });

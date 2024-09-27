@@ -142,7 +142,6 @@
     document.addEventListener('DOMContentLoaded', () => {
       const clientModal = document.getElementById('client-modal');
       const editClientModal = document.getElementById('edit-client-modal');
-      const deleteConfirmationModal = document.getElementById('delete-confirmation-modal');
       let deleteClientId = null;
 
       // Open add client modal
@@ -177,39 +176,47 @@
         editClientModal.classList.add('hidden');
       });
 
-      // Open delete confirmation modal
+      // Open delete confirmation using SweetAlert2
       document.querySelectorAll('.delete-client').forEach(button => {
         button.addEventListener('click', () => {
           deleteClientId = button.getAttribute('data-id');
-          deleteConfirmationModal.classList.remove('hidden');
+
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              const form = document.createElement('form');
+              form.method = 'POST';
+              form.action = `/admin/clients/${deleteClientId}`;
+
+              // CSRF token
+              const csrfField = document.createElement('input');
+              csrfField.type = 'hidden';
+              csrfField.name = '_token';
+              csrfField.value = '{{ csrf_token() }}';
+              form.appendChild(csrfField);
+
+              // Method field for DELETE
+              const methodField = document.createElement('input');
+              methodField.type = 'hidden';
+              methodField.name = '_method';
+              methodField.value = 'DELETE';
+              form.appendChild(methodField);
+
+              document.body.appendChild(form);
+              form.submit();
+            }
+          });
         });
-      });
-
-      // Confirm delete action
-      document.getElementById('confirm-delete').addEventListener('click', () => {
-        if (deleteClientId) {
-          const form = document.createElement('form');
-          form.method = 'POST';
-          form.action = `/admin/clients/${deleteClientId}`;
-          const csrfField = document.createElement('input');
-          csrfField.type = 'hidden';
-          csrfField.name = '_token';
-          csrfField.value = '{{ csrf_token() }}';
-          form.appendChild(csrfField);
-          const methodField = document.createElement('input');
-          methodField.type = 'hidden';
-          methodField.name = '_method';
-          methodField.value = 'DELETE';
-          form.appendChild(methodField);
-          document.body.appendChild(form);
-          form.submit();
-        }
-      });
-
-      // Cancel delete action
-      document.getElementById('cancel-delete').addEventListener('click', () => {
-        deleteConfirmationModal.classList.add('hidden');
       });
     });
   </script>
+
 </x-app-layout>
