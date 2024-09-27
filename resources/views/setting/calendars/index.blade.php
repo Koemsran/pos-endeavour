@@ -14,7 +14,8 @@
             </div>
         </div>
     </main>
-    <!-- Modal for adding events -->
+
+    <!-- Modal for adding/updating events -->
     <div id="eventModal" class="fixed z-50 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="flex items-center justify-center min-h-screen px-4 text-center">
             <div class="fixed inset-0 transition-opacity" aria-hidden="true">
@@ -27,21 +28,22 @@
                     <form id="eventForm">
                         <div class="mb-4">
                             <label for="eventTitle" class="block text-sm font-medium text-gray-700">Event Title</label>
-                            <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" id="eventTitle" required>
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventTitle" required>
                         </div>
                         <div class="mb-4">
                             <label for="eventStart" class="block text-sm font-medium text-gray-700">Start Time</label>
-                            <input type="datetime-local" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" id="eventStart" required>
+                            <input type="datetime-local" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventStart" required>
                         </div>
                         <div class="mb-4">
                             <label for="eventEnd" class="block text-sm font-medium text-gray-700">End Time</label>
-                            <input type="datetime-local" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-opacity-50" id="eventEnd" required>
+                            <input type="datetime-local" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventEnd" required>
                         </div>
                     </form>
                 </div>
                 <div class="mt-4">
                     <button type="button" class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" id="saveEventButton">Save Event</button>
-                    <button type="button" class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="closeModalButton">Cancel</button>
+                    <button type="button" class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" id="deleteEventButton">Delete Event</button>
+                    <button type="button" class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-gray-400 border border-transparent rounded-md shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400" id="closeModalButton">Cancel</button>
                 </div>
             </div>
         </div>
@@ -59,6 +61,7 @@
 
         var calendarEl = document.getElementById('calendar');
         var events = []; // Your static or dynamic events array
+        let currentEvent = null; // Variable to hold the current event for editing
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
@@ -78,10 +81,20 @@
             dateClick: function(info) {
                 // Show modal when a date is clicked
                 $('#eventModal').removeClass('hidden');
+                $('#eventTitle').val(''); // Clear previous title
                 $('#eventStart').val(info.dateStr);
                 let endDate = new Date(info.dateStr);
                 endDate.setHours(endDate.getHours() + 1);
                 $('#eventEnd').val(endDate.toISOString().slice(0, 16));
+                currentEvent = null; // Clear current event
+            },
+            eventClick: function(info) {
+                // Show modal when an event is clicked and populate it with event data
+                $('#eventModal').removeClass('hidden');
+                $('#eventTitle').val(info.event.title);
+                $('#eventStart').val(info.event.start.toISOString().slice(0, 16));
+                $('#eventEnd').val(info.event.end ? info.event.end.toISOString().slice(0, 16) : '');
+                currentEvent = info.event; // Store the current event for updating
             }
         });
 
@@ -91,27 +104,46 @@
             var start = $('#eventStart').val();
             var end = $('#eventEnd').val();
 
-            // Add new event to the calendar
-            calendar.addEvent({
-                title: title,
-                start: start,
-                end: end,
-                backgroundColor: '#3a87ad', // Example background color
-                borderColor: '#3a87ad', // Example border color
-                textColor: '#ffffff' // Example text color
-            });
+            if (currentEvent) {
+                // Update existing event
+                currentEvent.setProp('title', title);
+                currentEvent.setStart(start);
+                currentEvent.setEnd(end);
+            } else {
+                // Add new event to the calendar
+                calendar.addEvent({
+                    title: title,
+                    start: start,
+                    end: end,
+                    backgroundColor: '#3a87ad', // Example background color
+                    borderColor: '#3a87ad', // Example border color
+                    textColor: '#ffffff' // Example text color
+                });
+            }
 
             // Hide modal
             $('#eventModal').addClass('hidden');
 
             // Reset the form
             $('#eventForm')[0].reset();
+            currentEvent = null; // Reset current event
+        });
+
+        // Delete event on button click
+        $('#deleteEventButton').on('click', function() {
+            if (currentEvent) {
+                currentEvent.remove(); // Remove the event from the calendar
+                $('#eventModal').addClass('hidden'); // Hide the modal
+                $('#eventForm')[0].reset(); // Reset the form
+                currentEvent = null; // Reset current event
+            }
         });
 
         // Close modal on cancel button click
         $('#closeModalButton').on('click', function() {
             $('#eventModal').addClass('hidden');
             $('#eventForm')[0].reset();
+            currentEvent = null; // Reset current event
         });
 
         calendar.render();
