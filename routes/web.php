@@ -112,6 +112,3 @@ Route::get('/admin/clients', [AdminClientController::class, 'index'])->name('adm
 
 //Client's progress
 Route::get('/client/progress/{id}', [AdminProgressController::class, 'progress'])->name('client.progresses.index');
-
-//Event 
-Route::get('/envent', [ScheduleController::class, 'getEvents']);
