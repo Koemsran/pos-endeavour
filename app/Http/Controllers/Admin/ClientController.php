@@ -13,8 +13,13 @@ class ClientController extends Controller
     //=====================Listing Categories =================//
     public function index(Request $request)
     {
-        // Get all clients with the latest first
-        $clients = Client::latest()->paginate(10); // Use paginate for better performance
+        // Get search query
+        $search = $request->input('search');
+
+        // Get clients with optional search
+        $clients = Client::when($search, function ($query, $search) {
+            return $query->where('name', 'LIKE', "%{$search}%");
+        })->latest()->paginate(10);
 
         // Return the view with clients data
         return view('setting.clients-data.index', compact('clients'));
