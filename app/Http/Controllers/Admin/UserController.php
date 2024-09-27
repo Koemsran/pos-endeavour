@@ -127,7 +127,9 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
+            'phone_number' => 'required|string|max:15', // Add validation for phone number
             'email' => 'required|email|unique:users,email,' . $user->id . ',id',
+            'roles' => 'required|array',
         ]);
 
         if ($request->password != null) {
