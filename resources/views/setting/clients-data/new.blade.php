@@ -7,24 +7,24 @@
 
     <div class="py-12">
         @if(session('success'))
-            <script>
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'center',
-                    iconColor: 'white',
-                    customClass: {
-                        popup: 'colored-toast',
-                    },
-                    showConfirmButton: false,
-                    timer: 1500,
-                    timerProgressBar: true,
-                });
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'center',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+            });
 
-                Toast.fire({
-                    icon: 'success',
-                    title: '{{ session("success") }}',
-                });
-            </script>
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session("success") }}',
+            });
+        </script>
         @endif
         <div class="max-w-xl mx-auto">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
@@ -64,7 +64,7 @@
         // Add event listener to the form
         document.getElementById('create-product-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the form from submitting normally
-            
+
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -88,35 +88,35 @@
 </x-app-layout>
 
 <style>
-.colored-toast.swal2-icon-success {
-    background-color: #a5dc86 !important;
-}
+    .colored-toast.swal2-icon-success {
+        background-color: #a5dc86 !important;
+    }
 
-.colored-toast.swal2-icon-error {
-    background-color: #f27474 !important;
-}
+    .colored-toast.swal2-icon-error {
+        background-color: #f27474 !important;
+    }
 
-.colored-toast.swal2-icon-warning {
-    background-color: #f8bb86 !important;
-}
+    .colored-toast.swal2-icon-warning {
+        background-color: #f8bb86 !important;
+    }
 
-.colored-toast.swal2-icon-info {
-    background-color: #3fc3ee !important;
-}
+    .colored-toast.swal2-icon-info {
+        background-color: #3fc3ee !important;
+    }
 
-.colored-toast.swal2-icon-question {
-    background-color: #87adbd !important;
-}
+    .colored-toast.swal2-icon-question {
+        background-color: #87adbd !important;
+    }
 
-.colored-toast .swal2-title {
-    color: white;
-}
+    .colored-toast .swal2-title {
+        color: white;
+    }
 
-.colored-toast .swal2-close {
-    color: white;
-}
+    .colored-toast .swal2-close {
+        color: white;
+    }
 
-.colored-toast .swal2-html-container {
-    color: white;
-}
+    .colored-toast .swal2-html-container {
+        color: white;
+    }
 </style>
