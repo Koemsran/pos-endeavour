@@ -38,6 +38,8 @@
                             <label for="eventEnd" class="block text-sm font-medium text-gray-700">End Time</label>
                             <input type="datetime-local" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventEnd" required>
                         </div>
+                        <input type="hidden" name="user_id" id="eventUser" value="{{ auth()->user()->id }}" required>
+                        <input type="hidden" name="client_id" id="eventClient" value="1" required>
                     </form>
                 </div>
                 <div class="mt-4">
@@ -55,14 +57,13 @@
     <script>
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
-        var calendarEl = document.getElementById('calendar');
-        var events = []; // Your static or dynamic events array
-        let currentEvent = null; // Variable to hold the current event for editing
+        let currentEvent = null;
 
+        var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
                 left: 'prev,next today',
@@ -70,84 +71,136 @@
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             initialView: 'dayGridMonth',
-            timeZone: 'UTC',
-            events: events,
+            events: {
+                url: '/admin/schedules', // Fetch events from Laravel controller
+                method: 'GET',
+                failure: function() {
+                    alert('there was an error while fetching events!');
+                }
+            },
             editable: true,
-            eventDidMount: function(info) {
-                info.el.style.backgroundColor = info.event.extendedProps.backgroundColor;
-                info.el.style.borderColor = info.event.extendedProps.borderColor;
-                info.el.style.color = info.event.extendedProps.textColor;
-            },
+
             dateClick: function(info) {
-                // Show modal when a date is clicked
-                $('#eventModal').removeClass('hidden');
-                $('#eventTitle').val(''); // Clear previous title
+                $('#eventTitle').val('');
                 $('#eventStart').val(info.dateStr);
-                let endDate = new Date(info.dateStr);
-                endDate.setHours(endDate.getHours() + 1);
-                $('#eventEnd').val(endDate.toISOString().slice(0, 16));
-                currentEvent = null; // Clear current event
+                $('#eventEnd').val('');
+                currentEvent = null;
+                $('#eventModal').removeClass('hidden');
             },
+
             eventClick: function(info) {
-                // Show modal when an event is clicked and populate it with event data
                 $('#eventModal').removeClass('hidden');
                 $('#eventTitle').val(info.event.title);
                 $('#eventStart').val(info.event.start.toISOString().slice(0, 16));
                 $('#eventEnd').val(info.event.end ? info.event.end.toISOString().slice(0, 16) : '');
-                currentEvent = info.event; // Store the current event for updating
+                $('#eventUser').val(info.event.extendedProps.user_id);
+                $('#eventClient').val(info.event.extendedProps.client_id);
+                currentEvent = info.event;
+            },
+
+            eventDrop: function(info) {
+                updateEvent(info.event);
+            },
+
+            eventResize: function(info) {
+                updateEvent(info.event);
             }
-        });
-
-        // Save event on button click
-        $('#saveEventButton').on('click', function() {
-            var title = $('#eventTitle').val();
-            var start = $('#eventStart').val();
-            var end = $('#eventEnd').val();
-
-            if (currentEvent) {
-                // Update existing event
-                currentEvent.setProp('title', title);
-                currentEvent.setStart(start);
-                currentEvent.setEnd(end);
-            } else {
-                // Add new event to the calendar
-                calendar.addEvent({
-                    title: title,
-                    start: start,
-                    end: end,
-                    backgroundColor: '#3a87ad', // Example background color
-                    borderColor: '#3a87ad', // Example border color
-                    textColor: '#ffffff' // Example text color
-                });
-            }
-
-            // Hide modal
-            $('#eventModal').addClass('hidden');
-
-            // Reset the form
-            $('#eventForm')[0].reset();
-            currentEvent = null; // Reset current event
-        });
-
-        // Delete event on button click
-        $('#deleteEventButton').on('click', function() {
-            if (currentEvent) {
-                currentEvent.remove(); // Remove the event from the calendar
-                $('#eventModal').addClass('hidden'); // Hide the modal
-                $('#eventForm')[0].reset(); // Reset the form
-                currentEvent = null; // Reset current event
-            }
-        });
-
-        // Close modal on cancel button click
-        $('#closeModalButton').on('click', function() {
-            $('#eventModal').addClass('hidden');
-            $('#eventForm')[0].reset();
-            currentEvent = null; // Reset current event
         });
 
         calendar.render();
-    </script>
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        $('#saveEventButton').on('click', function() {
+            var eventData = {
+                title: $('#eventTitle').val(),
+                start: $('#eventStart').val(),
+                end: $('#eventEnd').val(),
+                user_id: $('#eventUser').val(),
+                client_id: $('#eventClient').val()
+            };
+
+            if (currentEvent) {
+                $.ajax({
+                    url: '/admin/schedules/' + currentEvent.id,
+                    method: 'PUT',
+                    data: eventData,
+                    success: function(response) {
+                        currentEvent.setProp('title', response.event.title);
+                        currentEvent.setDates(response.event.start, response.event.end);
+                        $('#eventModal').addClass('hidden');
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error updating event: ' + error);
+                    }
+                });
+            } else {
+                if (new Date(eventData.start) > new Date(eventData.end)) {
+                    console.error("The end date must be after the start date.");
+                } else {
+                    $.ajax({
+                        url: '/admin/schedules',
+                        method: 'POST',
+                        data: eventData,
+                        success: function(response) {
+                            calendar.addEvent({
+                                id: response.event.id,
+                                title: response.event.title,
+                                start: response.event.start,
+                                end: response.event.end,
+                                extendedProps: {
+                                    user_id: response.event.user_id,
+                                    client_id: response.event.client_id
+                                }
+                            });
+                            $('#eventModal').addClass('hidden');
+                        },
+                        error: function(xhr, status, error) {
+                            alert('Error creating event: ' + error);
+                        }
+                    });
+                }
+            }
+        });
+
+        $('#deleteEventButton').on('click', function() {
+            if (currentEvent) {
+                $.ajax({
+                    url: '/admin/schedules/' + currentEvent.id,
+                    method: 'DELETE',
+                    success: function() {
+                        currentEvent.remove(); // Remove the event from the calendar
+                        $('#eventModal').addClass('hidden');
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error deleting event: ' + error);
+                    }
+                });
+            }
+        });
+
+        $('#closeModalButton').on('click', function() {
+            $('#eventModal').addClass('hidden');
+        });
+
+        function updateEvent(event) {
+            var eventData = {
+                title: event.title,
+                start: event.start.toISOString(),
+                end: event.end ? event.end.toISOString() : null,
+                user_id: event.extendedProps.user_id,
+                client_id: event.extendedProps.client_id
+            };
+
+            $.ajax({
+                url: '/admin/schedules/' + event.id,
+                method: 'PUT',
+                data: eventData,
+                success: function(response) {
+                    event.setProp('title', response.event.title);
+                },
+                error: function(xhr, status, error) {
+                    alert('Error updating event: ' + error);
+                }
+            });
+        }
+    </script>
 </x-app-layout>
