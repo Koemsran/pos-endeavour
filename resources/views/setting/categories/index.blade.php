@@ -44,10 +44,16 @@
                                         title="delete">
                                         <i class='bx bx-trash text-2xl'></i>
                                     </button>
-                                </td>
 
+                                    <!-- Hidden Form for Deleting Category -->
+                                    <form id="delete-form-{{ $category->id }}" action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="hidden">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </td>
                             </tr>
                             @endforeach
+
                         </tbody>
                     </table>
                 </div>
@@ -206,7 +212,8 @@
             deleteButtons.forEach(button => {
                 button.addEventListener('click', function(event) {
                     event.preventDefault(); // Prevent default button behavior
-                    const form = this.closest('form'); // Get the closest form
+                    const categoryId = this.getAttribute('data-id');
+                    const form = document.getElementById(`delete-form-${categoryId}`); // Get the corresponding form
 
                     Swal.fire({
                         title: '<span style="color: #d33; font-weight: bold;">Are you sure?</span>',
