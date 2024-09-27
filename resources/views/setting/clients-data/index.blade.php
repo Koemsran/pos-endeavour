@@ -217,6 +217,17 @@
           timer: 1500
         });
       @endif
+
+      // Handle clearing the search input
+      const searchInput = document.getElementById('search-input');
+      searchInput.addEventListener('input', () => {
+        if (searchInput.value.trim() === '') {
+          // Reset the form and redirect to the client index route to show all clients
+          const form = document.getElementById('search-form');
+          form.action = "{{ route('admin.clients.index') }}"; // Set to the route that lists all clients
+          form.submit(); // Submit the form to refresh the client list
+        }
+      });
     });
   </script>
 </x-app-layout>
