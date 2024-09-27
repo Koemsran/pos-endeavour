@@ -1,4 +1,3 @@
-
 <div
   class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded"
 >
@@ -9,7 +8,7 @@
           Performance
         </h6>
         <h2 class="text-blueGray-700 text-xl font-semibold">
-          Client Distribution
+          Client Progress
         </h2>
       </div>
     </div>
@@ -27,23 +26,35 @@ document.addEventListener('DOMContentLoaded', function () {
     let config = {
         type: 'pie',
         data: {
-          labels: ["Direct", "Social Media", "Email", "Other"],
+          labels: [
+            "Phone Consultation", 
+            "Office Consultation", 
+            "Booking", 
+            "Contract", 
+            "Refund", 
+            "In Process", 
+            "Paid"
+          ],
           datasets: [{
-            label: 'Client Distribution',
-            data: [300, 50, 100, 80, 120],
+            label: ' ',
+            data: [300, 50, 100, 80, 120, 150, 200],  // Updated data array to match the labels count
             backgroundColor: [
-              '#ff6384',
-              '#36a2eb',
-              '#ffce56',
-              '#4bc0c0',
-              '#9966ff'
+              '#ff6384',  // Red
+              '#36a2eb',  // Blue
+              '#ffce56',  // Yellow
+              '#4bc0c0',  // Green
+              '#9966ff',  // Purple
+              '#ff9f40',  // Orange
+              '#c9cbcf'   // Gray
             ],
             hoverBackgroundColor: [
               '#ff6384',
               '#36a2eb',
               '#ffce56',
               '#4bc0c0',
-              '#9966ff'
+              '#9966ff',
+              '#ff9f40',
+              '#c9cbcf'
             ]
           }]
         },
