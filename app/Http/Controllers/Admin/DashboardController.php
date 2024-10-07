@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Models\Client;
+use App\Models\Paid;
 use App\Models\User;
 use Carbon\Carbon;
 
@@ -11,72 +13,58 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Total counts
         $totalUsers = User::count();
+        $totalClients = Client::count();
+        $totalBookings = Booking::count();
+        $totalPaid = Paid::sum('amount');
 
-        // Get user count by roles
-        $adminCount = User::whereHas('roles', function($query) {
-            $query->where('name', 'admin');
-        })->count();
-
-        $ownerCount = User::whereHas('roles', function($query) {
-            $query->where('name', 'owner');
-        })->count();
-
-        $customerCount = User::whereHas('roles', function($query) {
-            $query->where('name', 'customer');
-        })->count();
-
-        $daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        $weeklyUsers = [];
-
-        // Data for today =============================================================================================
+        // Today's data
         $todayUsers = User::whereDate('created_at', Carbon::today())->count();
+        $todayBookings = Booking::whereDate('created_at', Carbon::today())->count();
+        $todayPaid = Paid::whereDate('created_at', Carbon::today())->sum('amount');
+        $todayClients = Client::whereDate('created_at', Carbon::today())->count();
 
-        foreach ($daysOfWeek as $day) {
-            $totalUsersRegister = User::whereDate('created_at', Carbon::parse('this week ' . $day)->format('Y-m-d'))
-                ->count();
+        // This week's data
+        $totalUsersThisWeek = User::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+        $totalBookingsThisWeek = Booking::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
+        $weeklyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('amount');
+        $totalClientsThisWeek = Client::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
 
-            $weeklyUsers[] = $totalUsersRegister; // Store total bookings for each day
-        }
+        // This month's data
+        $totalUsersThisMonth = User::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
+        $totalBookingsThisMonth = Booking::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
+        $monthlyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->sum('amount');
+        $totalClientsThisMonth = Client::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
 
-        $totalUsersRegister = array_sum($weeklyUsers); // Total sum for the week
+        // This year's data
+        $totalUsersThisYear = User::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->count();
+        $totalBookingsThisYear = Booking::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->count();
+        $yearlyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->sum('amount');
+        $totalClientsThisYear = Client::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->count();
 
-        // Data for month =============================================================================================
-
-         $startOfMonth = Carbon::now()->startOfMonth();
-         $endOfMonth = Carbon::now()->endOfMonth();
-         $startOfWeek = $startOfMonth->copy()->startOfWeek();
-         $monthlyData = [
-             'payments' => [],
-             'bookings' => [],
-             'fields' => [],
-             'users' => [],
-             'feedback' => [],
-         ];
- 
-         while ($startOfWeek->lessThanOrEqualTo($endOfMonth)) {
-             $endOfWeek = $startOfWeek->copy()->endOfWeek()->min($endOfMonth);
- 
-             $weekUsers = User::whereBetween('created_at', [$startOfWeek, $endOfWeek])->count();
- 
-             $monthlyData['users'][] = $weekUsers;
- 
-             $startOfWeek->addWeek();
-        }
-
-        // Data for years =============================================================================================
-        $startOfYear = Carbon::now()->startOfYear();
-        $endOfYear = Carbon::now()->endOfYear();
-        $yearlyData = [
-            'users' => User::whereBetween('created_at', [$startOfYear, $endOfYear])->count(),
-        ];
-
-        return view('dashboard', compact(
-            'totalUsers',
-            'todayUsers','monthlyData', 'yearlyData',
-            'adminCount',
-        ));
-    
+        // Pass data to the view
+        return view('dashboard', [
+            'totalUsers' => $totalUsers,
+            'totalClients' => $totalClients,
+            'totalBookings' => $totalBookings,
+            'totalPaid' => $totalPaid,
+            'todayUsers' => $todayUsers,
+            'todayBookings' => $todayBookings,
+            'todayPaid' => $todayPaid,
+            'todayClients' => $todayClients,
+            'totalUsersThisWeek' => $totalUsersThisWeek,
+            'totalBookingsThisWeek' => $totalBookingsThisWeek,
+            'weeklyPaid' => $weeklyPaid,
+            'totalClientsThisWeek' => $totalClientsThisWeek,
+            'totalUsersThisMonth' => $totalUsersThisMonth,
+            'totalBookingsThisMonth' => $totalBookingsThisMonth,
+            'monthlyPaid' => $monthlyPaid,
+            'totalClientsThisMonth' => $totalClientsThisMonth,
+            'totalUsersThisYear' => $totalUsersThisYear,
+            'totalBookingsThisYear' => $totalBookingsThisYear,
+            'yearlyPaid' => $yearlyPaid,
+            'totalClientsThisYear' => $totalClientsThisYear,
+        ]);
     }
-
 }

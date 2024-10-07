@@ -8,11 +8,10 @@
     <div class="py-12">
         <div class="max-w-full mx-auto sm:px-6">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-3">
-                {{-- Product List --}}
                 <div class="flex justify-between items-center mb-4 ml-5">
                     <h3 class="text-lg font-bold text-gray-800">List of Products</h3>
                 </div>
-                {{-- Filter by Category --}}
+                
                 <div class="flex justify-between items-center mb-4 ml-5">
                     <div class="flex items-center space-x-2 w-2/5">
                         <label for="category_filter" class="block text-sm font-medium text-gray-700">Filter by Category:</label>
@@ -41,9 +40,9 @@
                                     <p class="text-gray-600 mt-1">It's a type of <strong>{{ $product->category ? $product->category->name : 'Uncategorized' }}</strong> </p>
                                     <p class="text-gray-800 font-semibold text-green-700 text-2xl mt-3">Price: ${{ number_format($product->price, 2) }}</p>
                                     <div class="flex justify-end mt-2">
-                                        <a href="{{ route('admin.products.edit', $product->id) }}" class="text-blue-500 hover:text-blue-700 mr-2">
+                                        <button class="text-blue-500 hover:text-blue-700 mr-2" onclick="openModal({{ $product }})">
                                             <i class='bx bx-edit text-2xl'></i>
-                                        </a>
+                                        </button>
                                         <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline-block">
                                             @csrf
                                             @method('DELETE')
@@ -60,10 +59,93 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal for Update Product -->
+    <div id="updateModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="flex items-center justify-center h-full">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-xl">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium">Edit Product</h3>
+                    <form id="updateForm" action="" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+
+                        <!-- Image Preview -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Current Image:</label>
+                            <img id="currentImage" src="" alt="" class="h-32 w-32 object-cover rounded">
+                        </div>
+
+                        <!-- Upload New Image -->
+                        <div class="mb-4">
+                            <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Update Image:</label>
+                            <input type="file" name="image" id="image" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <!-- Product Name -->
+                        <div class="mb-4">
+                            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                            <input type="text" name="name" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <!-- Product Description -->
+                        <div class="mb-4">
+                            <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+                            <textarea name="description" id="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                        </div>
+
+                        <!-- Product Price -->
+                        <div class="mb-4">
+                            <label for="price" class="block text-gray-700 text-sm font-bold mb-2">Price:</label>
+                            <input type="text" name="price" id="price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-4">
+                            <label for="category_id" class="block text-gray-700 text-sm font-bold mb-2">Category:</label>
+                            <select name="category_id" id="category_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="">Select a category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="flex items-center justify-between">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Update Product
+                            </button>
+                            <button type="button" id="closeModal" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.getElementById('category_filter').addEventListener('change', function() {
             let categoryId = this.value;
             window.location.href = categoryId ? '{{ route('admin.products.index') }}?category=' + categoryId : '{{ route('admin.products.index') }}';
+        });
+
+        // Open modal and populate fields
+        function openModal(product) {
+            document.getElementById('updateForm').action = '/admin/products/' + product.id; // Set form action
+            document.getElementById('currentImage').src = '/storage/' + product.image; // Set current image
+            document.getElementById('name').value = product.name; // Populate name
+            document.getElementById('description').value = product.description; // Populate description
+            document.getElementById('price').value = product.price; // Populate price
+            document.getElementById('category_id').value = product.category_id; // Populate category
+            document.getElementById('updateModal').classList.remove('hidden'); // Show modal
+        }
+
+        // Close modal
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('updateModal').classList.add('hidden');
         });
 
         // Add delete confirmation using SweetAlert2
