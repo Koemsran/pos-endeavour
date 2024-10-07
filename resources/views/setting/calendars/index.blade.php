@@ -28,18 +28,21 @@
                     <form id="eventForm">
                         <div class="mb-4">
                             <label for="eventTitle" class="block text-sm font-medium text-gray-700">Event Title</label>
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventTitle" required>
+                            <input type="text" name="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventTitle" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="eventDate" class="block text-sm font-medium text-gray-700">Date</label>
+                            <input type="date" name="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventDate" required>
                         </div>
                         <div class="mb-4">
                             <label for="eventStart" class="block text-sm font-medium text-gray-700">Start Time</label>
-                            <input type="datetime-local" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventStart" required>
+                            <input type="time" name="start" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventStart" required>
                         </div>
                         <div class="mb-4">
                             <label for="eventEnd" class="block text-sm font-medium text-gray-700">End Time</label>
-                            <input type="datetime-local" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventEnd" required>
+                            <input type="time" name="end" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="eventEnd" required>
                         </div>
                         <input type="hidden" name="user_id" id="eventUser" value="{{ auth()->user()->id }}" required>
-                        <input type="hidden" name="client_id" id="eventClient" value="1" required>
                     </form>
                 </div>
                 <div class="mt-4">
@@ -51,18 +54,13 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
     <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
         let currentEvent = null;
 
+        // Initialize the calendar
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
             headerToolbar: {
@@ -70,34 +68,46 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
-            initialView: 'dayGridMonth',
-            events: {
-                url: '/admin/schedules', // Fetch events from Laravel controller
-                method: 'GET',
-                failure: function() {
-                    alert('there was an error while fetching events!');
-                }
-            },
+            initialView: 'timeGridWeek',
+
+            // Fetch events from Laravel endpoint
+            events: @json($events), // Correctly use the JSON data
+
             editable: true,
 
+            // When a date is clicked, show the modal to add a new event
             dateClick: function(info) {
-                $('#eventTitle').val('');
-                $('#eventStart').val(info.dateStr);
-                $('#eventEnd').val('');
+                document.getElementById('eventTitle').value = '';
+                document.getElementById('eventDate').value = info.date.toISOString().split('T')[0]; // Set date based on click
+                document.getElementById('eventStart').value = ''; // Clear the time input
+                document.getElementById('eventEnd').value = '';
                 currentEvent = null;
-                $('#eventModal').removeClass('hidden');
+                document.getElementById('eventModal').classList.remove('hidden');
             },
 
             eventClick: function(info) {
-                $('#eventModal').removeClass('hidden');
-                $('#eventTitle').val(info.event.title);
-                $('#eventStart').val(info.event.start.toISOString().slice(0, 16));
-                $('#eventEnd').val(info.event.end ? info.event.end.toISOString().slice(0, 16) : '');
-                $('#eventUser').val(info.event.extendedProps.user_id);
-                $('#eventClient').val(info.event.extendedProps.client_id);
+                document.getElementById('eventModal').classList.remove('hidden');
+
+                // Set the event title
+                document.getElementById('eventTitle').value = info.event.title;
+
+                // Set the event date (using ISO format)
+                document.getElementById('eventDate').value = info.event.start.toISOString().split('T')[0];
+
+                // Set the start time in HH:mm format
+                document.getElementById('eventStart').value = info.event.start.toTimeString().slice(0, 5);
+
+                // Set the end time in HH:mm format (check if end is defined)
+                if (info.event.end) {
+                    document.getElementById('eventEnd').value = info.event.end.toTimeString().slice(0, 5);
+                } else {
+                    document.getElementById('eventEnd').value = '';
+                }
+
                 currentEvent = info.event;
             },
 
+            // Update the event when it is dragged or resized
             eventDrop: function(info) {
                 updateEvent(info.event);
             },
@@ -109,98 +119,136 @@
 
         calendar.render();
 
-        $('#saveEventButton').on('click', function() {
+        // Create or Update Event
+        document.getElementById('saveEventButton').addEventListener('click', function() {
+            // Helper function to format time as HH:mm
+            function formatTime(inputTime) {
+                const timeParts = inputTime.split(':');
+                if (timeParts.length === 2) {
+                    const hours = String(timeParts[0]).padStart(2, '0'); // Ensure 2-digit hour
+                    const minutes = String(timeParts[1]).padStart(2, '0'); // Ensure 2-digit minutes
+                    return `${hours}:${minutes}`; // Return formatted time
+                }
+                return inputTime; // Return original if not in expected format
+            }
+
+            // Create eventData with formatted start and end times
             var eventData = {
-                title: $('#eventTitle').val(),
-                start: $('#eventStart').val(),
-                end: $('#eventEnd').val(),
-                user_id: $('#eventUser').val(),
-                client_id: $('#eventClient').val()
+                title: document.getElementById('eventTitle').value.trim(), // Trim whitespace from the title
+                date: document.getElementById('eventDate').value, // Event date in YYYY-MM-DD format
+                start: formatTime(document.getElementById('eventStart').value), // Format start time
+                end: formatTime(document.getElementById('eventEnd').value), // Format end time
+                user_id: document.getElementById('eventUser').value.trim() // Trim whitespace from the user ID
             };
 
+            // Validate input
+            if (!eventData.title || !eventData.start || !eventData.end) {
+                alert('Please fill in the title, date, and time.');
+                return;
+            }
+
             if (currentEvent) {
-                $.ajax({
-                    url: '/admin/schedules/' + currentEvent.id,
-                    method: 'PUT',
-                    data: eventData,
-                    success: function(response) {
-                        currentEvent.setProp('title', response.event.title);
-                        currentEvent.setDates(response.event.start, response.event.end);
-                        $('#eventModal').addClass('hidden');
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Error updating event: ' + error);
-                    }
-                });
-            } else {
-                if (new Date(eventData.start) > new Date(eventData.end)) {
-                    console.error("The end date must be after the start date.");
-                } else {
-                    $.ajax({
-                        url: '/admin/schedules',
-                        method: 'POST',
-                        data: eventData,
-                        success: function(response) {
-                            calendar.addEvent({
-                                id: response.event.id,
-                                title: response.event.title,
-                                start: response.event.start,
-                                end: response.event.end,
-                                extendedProps: {
-                                    user_id: response.event.user_id,
-                                    client_id: response.event.client_id
-                                }
-                            });
-                            $('#eventModal').addClass('hidden');
-                        },
-                        error: function(xhr, status, error) {
-                            alert('Error creating event: ' + error);
-                        }
+                // Prepare event data for update
+                const eventData = {
+                    title: document.getElementById('eventTitle').value,
+                    date: document.getElementById('eventDate').value, // Assuming date is selected separately
+                    start: document.getElementById('eventStart').value, // Assuming time is selected separately
+                    end: document.getElementById('eventEnd').value, // Assuming time is selected separately
+                    user_id: document.getElementById('eventUserId')
+                };
+
+                // Update existing event
+                axios.put(`/admin/schedules/${currentEvent.id}`, eventData)
+                    .then(response => {
+                        const updatedEvent = response.data.event;
+
+                        // Combine the date with the start and end times
+                        const updatedStart = new Date(`${updatedEvent.date}T${updatedEvent.start}`);
+                        const updatedEnd = new Date(`${updatedEvent.date}T${updatedEvent.end}`);
+
+                        // Update the event in FullCalendar
+                        currentEvent.setProp('title', updatedEvent.title);
+                        currentEvent.setStart(updatedStart);
+                        currentEvent.setEnd(updatedEnd);
+                    })
+                    .catch(error => {
+                        console.error('Error updating event:', error);
                     });
-                }
+            } else {
+                // Create new event
+                axios.post('/admin/schedules', eventData)
+                    .then(response => {
+                        const newEvent = response.data.event;
+
+                        // Combine the date with the start and end times
+                        const newStart = new Date(`${newEvent.date}T${newEvent.start}`);
+                        const newEnd = new Date(`${newEvent.date}T${newEvent.end}`);
+
+                        // Add the new event to FullCalendar
+                        calendar.addEvent({
+                            id: newEvent.id,
+                            title: newEvent.title,
+                            start: newStart,
+                            end: newEnd,
+                            allDay: false // Set to true if the event is all-day
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error creating event:', error);
+                        alert('Failed to create the event. Please try again.');
+                    });
             }
+
+            // Close the modal
+            document.getElementById('eventModal').classList.add('hidden');
         });
 
-        $('#deleteEventButton').on('click', function() {
+        // Close modal
+        document.getElementById('closeModalButton').addEventListener('click', function() {
+            document.getElementById('eventModal').classList.add('hidden');
+        });
+
+        // Delete Event
+        document.getElementById('deleteEventButton').addEventListener('click', function() {
+
             if (currentEvent) {
-                $.ajax({
-                    url: '/admin/schedules/' + currentEvent.id,
-                    method: 'DELETE',
-                    success: function() {
-                        currentEvent.remove(); // Remove the event from the calendar
-                        $('#eventModal').addClass('hidden');
-                    },
-                    error: function(xhr, status, error) {
-                        alert('Error deleting event: ' + error);
-                    }
-                });
+                if (confirm('Are you sure you want to delete this event?')) {
+                    axios.delete(`/admin/schedules/${currentEvent.id}`, {
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            }
+                        })
+                        .then(() => {
+                            currentEvent.remove(); // Remove the event from FullCalendar
+                            alert('Event deleted successfully.');
+                        })
+                        .catch(error => {
+                            console.error('Error deleting event:', error);
+                            currentEvent.remove();
+                        });
+                }
+            } else {
+                alert('No event selected to delete.');
             }
-        });
-
-        $('#closeModalButton').on('click', function() {
-            $('#eventModal').addClass('hidden');
+            document.getElementById('eventModal').classList.add('hidden');
         });
 
         function updateEvent(event) {
-            var eventData = {
+            // Define event data for update
+            const eventData = {
                 title: event.title,
                 start: event.start.toISOString(),
-                end: event.end ? event.end.toISOString() : null,
-                user_id: event.extendedProps.user_id,
-                client_id: event.extendedProps.client_id
+                end: event.end ? event.end.toISOString() : null // Handle potential null end
             };
 
-            $.ajax({
-                url: '/admin/schedules/' + event.id,
-                method: 'PUT',
-                data: eventData,
-                success: function(response) {
-                    event.setProp('title', response.event.title);
-                },
-                error: function(xhr, status, error) {
-                    alert('Error updating event: ' + error);
-                }
-            });
+            axios.put(`/admin/schedules/${event.id}`, eventData)
+                .then(() => {
+                    alert('Event updated successfully.');
+                })
+                .catch(error => {
+                    console.error('Error updating event:', error);
+                    alert('Failed to update the event. Please try again.');
+                });
         }
     </script>
 </x-app-layout>

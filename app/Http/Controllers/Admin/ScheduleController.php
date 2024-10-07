@@ -11,16 +11,17 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        $events = Event::all();
-
-        // Return events as JSON if the request expects JSON
-        if (request()->ajax()) {
-            return response()->json($events);
-        }
-
+        $events = Event::all()->map(function ($event) {
+            return [
+                'id' => $event->id,
+                'title' => $event->title,
+                'start' => $event->date . 'T' . $event->start, // Ensure start is in ISO format
+                'end' => $event->date . 'T' . $event->end,     // Ensure end is in ISO format
+            ];
+        });
         return view('setting.calendars.index', compact('events'));
     }
-   
+
     public function create()
     {
         //
@@ -34,23 +35,16 @@ class ScheduleController extends Controller
         // Validate incoming request
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
-            'start' => 'required|date', // validate as date (or datetime if time is included)
-            'end' => 'required|date|after_or_equal:start', // validate as date and ensure it is after or equal to start
-            'user_id' => 'nullable|exists:users,id', // ensure user exists in database, allow null
-            'client_id' => 'nullable|exists:clients,id', // ensure client exists in database, allow null
+            'date' => 'required|date',
+            'start' => 'required|date_format:H:i', // validate as full ISO datetime
+            'end' => 'required|date_format:H:i|after_or_equal:start',
+            'user_id' => 'nullable|exists:users,id',
         ]);
 
-        // Create new product
-        $event = new Event();
-        $event->title = $validatedData['title'];
-        $event->user_id = $validatedData['user_id'];
-        $event->client_id = $validatedData['client_id'];
-        $event->start = $validatedData['start'];
-        $event->end = $validatedData['end'];
-        $event->save();
+        // Create new event
+        $event = Event::create($validatedData);
 
-        // Redirect to a success page or back to the form with a success message
-        return redirect()->route('admin.schedules.index')->with('success', 'Event created successfully.');
+        return response()->json(['event' => $event], 201);
     }
 
     /**
@@ -70,29 +64,31 @@ class ScheduleController extends Controller
         // Validate incoming request
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
-            'start' => 'required|date', // validate as date (or datetime if time is included)
-            'end' => 'required|date|after_or_equal:start', // validate as date and ensure it is after or equal to start
-            'user_id' => 'nullable|exists:users,id', // ensure user exists in database, allow null
-            'client_id' => 'nullable|exists:clients,id', // ensure client exists in database, allow null
+            'date' => 'required|date',
+            'start' => 'required|date_format:H:i', // Validate as time only (H:i)
+            'end' => 'required|date_format:H:i|after_or_equal:start',
+            'user_id' => 'nullable|exists:users,id',
         ]);
 
-        // Create new calendar
+        // Update the event
         $event->title = $validatedData['title'];
-        $event->user_id = $validatedData['user_id'];
-        $event->client_id = $validatedData['client_id'];
+        $event->date = $validatedData['date'];
         $event->start = $validatedData['start'];
         $event->end = $validatedData['end'];
+        $event->user_id = $validatedData['user_id'] ?? null; // Optional user ID
         $event->save();
 
-        // Redirect back with success message
-        return redirect()->route('admin.schedules.index')->with('success', 'Calendar updated successfully.');
+        // Return the updated event as a JSON response
+        return response()->json(['event' => $event]);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Event $event)
+    public function destroy($id)
     {
+        $event = Event::findOrFail($id); // Find the event by ID or fail if not found
         $event->delete();
         return redirect()->route('admin.schedules.index')->with('success', 'Event deleted successfully.');
     }

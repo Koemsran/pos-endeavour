@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('client_id');
             $table->string('title');
-            $table->datetime('start');
-            $table->datetime('end');
+            $table->date('date');
+            $table->time('start');
+            $table->time('end');
             $table->timestamps();
         });
     }
