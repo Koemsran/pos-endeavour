@@ -154,9 +154,8 @@
                     date: document.getElementById('eventDate').value, // Assuming date is selected separately
                     start: document.getElementById('eventStart').value, // Assuming time is selected separately
                     end: document.getElementById('eventEnd').value, // Assuming time is selected separately
-                    user_id: document.getElementById('eventUserId')
+                    user_id: document.getElementById('eventUser').value.trim()
                 };
-
                 // Update existing event
                 axios.put(`/admin/schedules/${currentEvent.id}`, eventData)
                     .then(response => {
@@ -172,6 +171,7 @@
                         currentEvent.setEnd(updatedEnd);
                     })
                     .catch(error => {
+                        
                         console.error('Error updating event:', error);
                     });
             } else {

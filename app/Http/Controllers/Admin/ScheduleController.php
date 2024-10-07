@@ -59,7 +59,7 @@ class ScheduleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, $id)
     {
         // Validate incoming request
         $validatedData = $request->validate([
@@ -69,7 +69,7 @@ class ScheduleController extends Controller
             'end' => 'required|date_format:H:i|after_or_equal:start',
             'user_id' => 'nullable|exists:users,id',
         ]);
-
+        $event = Event::findOrFail($id);
         // Update the event
         $event->title = $validatedData['title'];
         $event->date = $validatedData['date'];
