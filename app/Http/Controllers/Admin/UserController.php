@@ -70,9 +70,8 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|min:0',
             'phone_number' => 'required|string|max:20',
-            'qr' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:20480',
         ]);
 
         $user = new User();
@@ -80,12 +79,6 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->phone_number = $request->phone_number;
-
-        if ($request->hasFile('qr')) {
-            $file = $request->file('qr');
-            $filePath = $file->store('images', 'public');
-            $user->qr = $filePath;
-        }
 
         $user->save();
 
