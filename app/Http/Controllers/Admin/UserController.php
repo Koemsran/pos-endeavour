@@ -62,7 +62,7 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-    // */
+    */
 
 
     public function store(RegisterRequest $request)
@@ -175,8 +175,6 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-
-
         $user = User::find($id);
         $user->delete();
         return redirect()->back()->withSuccess('User deleted !!!');
