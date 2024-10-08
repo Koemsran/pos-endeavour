@@ -87,7 +87,6 @@ Route::namespace('App\Http\Controllers\Admin')->name('admin.')->prefix('admin')
         Route::resource('users', 'UserController');
         Route::resource('clients', 'ClientController');
         Route::resource('schedules', 'ScheduleController');
-        Route::resource('progresses', 'ProgressController');
         Route::resource('products', 'ProductController');
         Route::resource('categories', 'CategoryController');
         Route::get('/profile', [ProfileController::class, 'list'])->name('profile');
@@ -111,7 +110,7 @@ Route::get('/admin/categories', [CategoryController::class, 'index'])->name('adm
 Route::get('/admin/clients', [AdminClientController::class, 'index'])->name('admin.clients.index');
 
 //Client's progress
-Route::get('/client/progress/{id}', [AdminProgressController::class, 'progress'])->name('client.progresses.index');
+Route::get('/client/progress/{client_id}', [AdminProgressController::class, 'index'])->name('client.progress.index');
 
 // This route should handle the delete action
 Route::delete('/admin/schedules/{id}', [ScheduleController::class, 'destroy']);

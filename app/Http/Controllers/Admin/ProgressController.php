@@ -12,11 +12,10 @@ class ProgressController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
-        $clients = Client::all(); // You can use eager loading if needed
-
-    return view('setting.clients-progress.index', compact('clients'));
+        $client = Client::find($id);
+        return view('setting.clients-progress.index', compact('client'));
     }
     /**
      * Show the form for creating a new resource.

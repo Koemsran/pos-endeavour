@@ -46,9 +46,10 @@
               <td class="px-6 py-4 whitespace-nowrap">{{ $client->age }}</td>
               <td class="px-6 py-4 whitespace-nowrap">Paid</td>
               <td class="px-4 py-2 whitespace-nowrap flex gap-2">
-                <a href="#" class="text-green-500 hover:text-green-700 edit-client" title="progress" data-id="{{ $client->id }}" data-name="{{ $client->name }}" data-phone="{{ $client->phone_number }}" data-age="{{ $client->age }}">
+                <a href="{{ route('client.progress.index', ['client_id' => $client->id])}}" class="text-green-500 hover:text-green-700" title="progress">
                   <i class='bx bx-line-chart text-2xl'></i>
                 </a>
+
                 <a href="#" class="text-blue-500 hover:text-blue-700 edit-client" title="edit" data-id="{{ $client->id }}" data-name="{{ $client->name }}" data-phone="{{ $client->phone_number }}" data-age="{{ $client->age }}">
                   <i class='bx bx-edit text-2xl'></i>
                 </a>
