@@ -105,7 +105,7 @@ class ProductController extends Controller
         $product->description = $validatedData['description'];
         $product->price = $validatedData['price'];
         $product->category_id = $validatedData['category_id'];
-       
+
         $product->save();
 
         // Redirect back with success message
@@ -115,9 +115,11 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
+        $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+
+        return response()->json(['message' => 'Product deleted successfully.']);
     }
 }
