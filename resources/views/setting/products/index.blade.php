@@ -10,8 +10,9 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-3">
                 <div class="flex justify-between items-center mb-4 ml-5">
                     <h3 class="text-lg font-bold text-gray-800">List of Products</h3>
+                    <button class="create-new-product bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New Product</button>
                 </div>
-                
+
                 <div class="flex justify-between items-center mb-4 ml-5">
                     <div class="flex items-center space-x-2 w-2/5">
                         <label for="category_filter" class="block text-sm font-medium text-gray-700">Filter by Category:</label>
@@ -24,7 +25,6 @@
                             @endforeach
                         </select>
                     </div>
-                    <a href="{{ route('admin.products.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add New</a>
                 </div>
                 <hr>
 
@@ -37,25 +37,68 @@
                                 <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-64 w-full object-cover">
                                 <div class="p-4">
                                     <h4 class="text-lg font-bold text-gray-800">Name: {{ $product->name }}</h4>
-                                    <p class="text-gray-600 mt-1">It's a type of <strong>{{ $product->category ? $product->category->name : 'Uncategorized' }}</strong> </p>
+                                    <p class="text-gray-600 mt-1">It's a type of <strong>{{ $product->category ? $product->category->name : 'Uncategorized' }}</strong></p>
                                     <p class="text-gray-800 font-semibold text-green-700 text-2xl mt-3">Price: ${{ number_format($product->price, 2) }}</p>
                                     <div class="flex justify-end mt-2">
-                                        <button class="text-blue-500 hover:text-blue-700 mr-2" onclick="openModal({{ $product }})">
+                                        <button class="text-blue-500 hover:text-blue-700 mr-2" onclick="openModal(@json($product))">
                                             <i class='bx bx-edit text-2xl'></i>
                                         </button>
-                                        <form action="{{ route('admin.products.destroy', $product->id) }}" method="POST" class="inline-block">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-500 hover:text-red-700">
-                                                <i class='bx bx-trash text-2xl'></i>
-                                            </button>
-                                        </form>
+                                        <button class="text-red-500 hover:text-red-700" onclick="openDeleteModal({{ $product->id }})">
+                                            <i class='bx bx-trash text-2xl'></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         @endforeach
                     </div>
                 @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Create Product -->
+    <div id="createModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="flex items-center justify-center h-full">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-xl">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium">Create Product</h3>
+                    <form id="createForm" action="{{ route('admin.products.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-4">
+                            <label for="create_name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                            <input type="text" name="name" id="create_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="create_description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+                            <textarea name="description" id="create_description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="create_price" class="block text-gray-700 text-sm font-bold mb-2">Price:</label>
+                            <input type="text" name="price" id="create_price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="create_category_id" class="block text-gray-700 text-sm font-bold mb-2">Category:</label>
+                            <select name="category_id" id="create_category_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                <option value="">Select a category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="create_image" class="block text-gray-700 text-sm font-bold mb-2">Image:</label>
+                            <input type="file" name="image" id="create_image" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Create Product
+                            </button>
+                            <button type="button" id="closeCreateModal" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -126,49 +169,64 @@
         </div>
     </div>
 
+    <!-- Modal for Delete Confirmation -->
+    <div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="flex items-center justify-center h-full">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-md">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium">Confirm Delete</h3>
+                    <p class="mt-2">Are you sure you want to delete this product?</p>
+                    <div class="flex justify-between mt-4">
+                        <button id="confirmDelete" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Delete
+                        </button>
+                        <button id="cancelDelete" class="bg-gray-300 hover:bg-gray-400 text-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.getElementById('category_filter').addEventListener('change', function() {
             let categoryId = this.value;
             window.location.href = categoryId ? '{{ route('admin.products.index') }}?category=' + categoryId : '{{ route('admin.products.index') }}';
         });
 
-        // Open modal and populate fields
         function openModal(product) {
-            document.getElementById('updateForm').action = '/admin/products/' + product.id; // Set form action
-            document.getElementById('currentImage').src = '/storage/' + product.image; // Set current image
-            document.getElementById('name').value = product.name; // Populate name
-            document.getElementById('description').value = product.description; // Populate description
-            document.getElementById('price').value = product.price; // Populate price
-            document.getElementById('category_id').value = product.category_id; // Populate category
-            document.getElementById('updateModal').classList.remove('hidden'); // Show modal
+            document.getElementById('updateForm').action = '/admin/products/' + product.id;
+            document.getElementById('currentImage').src = '/storage/' + product.image;
+            document.getElementById('name').value = product.name;
+            document.getElementById('description').value = product.description;
+            document.getElementById('price').value = product.price;
+            document.getElementById('category_id').value = product.category_id;
+            document.getElementById('updateModal').classList.remove('hidden');
         }
 
-        // Close modal
         document.getElementById('closeModal').addEventListener('click', function() {
             document.getElementById('updateModal').classList.add('hidden');
         });
 
-        // Add delete confirmation using SweetAlert2
-        document.querySelectorAll('form[action^="{{ route('admin.products.destroy', '') }}"]').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevent form submission
-                const deleteForm = this; // Store reference to the form
+        document.querySelector('.create-new-product').addEventListener('click', function() {
+            document.getElementById('createModal').classList.remove('hidden');
+        });
 
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete it!',
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        deleteForm.submit(); // Submit the form if confirmed
-                    }
-                });
-            });
+        document.getElementById('closeCreateModal').addEventListener('click', function() {
+            document.getElementById('createModal').classList.add('hidden');
+        });
+
+        function openDeleteModal(productId) {
+            document.getElementById('deleteModal').classList.remove('hidden');
+            document.getElementById('confirmDelete').onclick = function() {
+                document.getElementById('deleteForm').action = '/admin/products/' + productId;
+                document.getElementById('deleteForm').submit();
+            };
+        }
+
+        document.getElementById('cancelDelete').addEventListener('click', function() {
+            document.getElementById('deleteModal').classList.add('hidden');
         });
     </script>
 </x-app-layout>
