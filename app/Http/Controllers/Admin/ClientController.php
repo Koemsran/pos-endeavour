@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
+use App\Models\Progress;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -50,6 +51,11 @@ class ClientController extends Controller
         $client->age = $validatedData['age'];
         $client->phone_number = $validatedData['phone_number'];
         $client->save();
+
+        $progress =new Progress();
+        $progress->client_id = $client->id;
+        $progress->step_number = 0;
+        $progress->save();
 
         // Redirect to a success page or back to the form with a success message
         return redirect()->route('admin.clients.index')->with('success', 'Client created successfully.');

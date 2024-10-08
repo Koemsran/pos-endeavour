@@ -12,7 +12,7 @@ class Client extends Model
     protected $fillable = ['name', 'phone_number', 'age'];
     public function progress()
     {
-        return $this->hasMany(Progress::class);
+        return $this->hasMany(Progress::class, 'client_id'); // Ensure this is correct
     }
     public static function store($request, $id = null)
     {
