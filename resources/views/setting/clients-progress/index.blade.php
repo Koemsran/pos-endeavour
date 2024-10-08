@@ -5,6 +5,7 @@
         <div class="bg-white shadow-md rounded my-6 p-5">
           <div>
             <h1 class="flex items-center py-2 px-6 "><i class='bx bx-user-plus text-3xl mr-3'></i> <strong> {{$client->name}}</strong></h1>
+            <input type="text" hidden id="current_step" value="{{$progress->step_number}}">
             <form action="{{ route('client.progress.index', ['client_id' => $client->id])}}" method="GET" class="flex items-center mb-4 w-full" id="search-form">
               <input type="number" name="search" placeholder="Search view by step number..."
                 class="px-4 py-2 border rounded-l-lg focus:outline-none focus:border-blue-500"
@@ -98,11 +99,11 @@
                     </div>
                     <div class="mb-4">
                       <label for="ielts" class="block text-gray-700 text-sm font-bold mb-2">IELTS Lavel:</label>
-                      <input type="text" id="ielts" name="ielts" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <input type="number" id="ielts" name="ielts" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="mb-4">
                       <label for="hsk" class="block text-gray-700 text-sm font-bold mb-2">HSK Lavel:</label>
-                      <input type="text" id="hsk" name="hsk" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <input type="number" id="hsk" name="hsk" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                   </div>
                   <div class="flex gap-5">
@@ -121,8 +122,8 @@
                   </div>
 
                   <div class="mb-4">
-                    <label for="current_education" class="block text-gray-700 text-sm font-bold mb-2">Program Looking for:</label>
-                    <select name="current_education" id="current_education" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <label for="program_looking" class="block text-gray-700 text-sm font-bold mb-2">Program Looking for:</label>
+                    <select name="program_looking" id="program_looking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                       <option value="">Select client's study program</option>
                       <option value="Bachelor's">Bachelor's</option>
                       <option value="Master's">Master's</option>
@@ -131,14 +132,15 @@
                   </div>
 
                   <div class="mb-4">
-                    <label for="study_destination" class="block text-gray-700 text-sm font-bold mb-2">Prefer Country:</label>
-                    <select name="study_destination" id="study_destination" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <label for="prefer_country" class="block text-gray-700 text-sm font-bold mb-2">Prefer Country:</label>
+                    <select name="prefer_country" id="prefer_country" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                       <option value="">Select country</option>
                       <option value="USA">USA</option>
                       <option value="China">China</option>
                       <option value="Australia">Australia</option>
                     </select>
                   </div>
+                  <input type="number" hidden name="progress_id" id="progress_id" value="{{$progress->id}}">
                 </div>
 
                 <!-- Step 2 -->
@@ -277,6 +279,8 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert2 library -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   <script>
     const Toast = Swal.mixin({
       toast: true,
@@ -300,7 +304,7 @@
     const modalContent = document.getElementById("modalContent");
     const skipButton = document.getElementById("skip");
 
-    let currentStep = 0; // Current step index
+    let currentStep = +document.getElementById('current_step').value;
 
     // Show modal when clicking Start button
     startButton.addEventListener("click", () => {
@@ -314,34 +318,67 @@
     });
 
     // Handle form submission
-    infoForm.addEventListener("submit", (e) => {
+    infoForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      modal.classList.add("hidden"); // Close modal after submit
-      infoForm.reset();
-      // Show Toast notification
-      Toast.fire({
-        icon: 'success',
-        title: 'Completed successfully!',
-      }).then(() => {
-        currentStep++; // Move to the next step
 
-        // Hide the Start button and enable Previous/Next buttons after the first step
-        if (currentStep === 1) {
-          startButton.classList.add("hidden"); // Hide Start button after the first step
-          prevButton.disabled = false; // Enable the Previous button
-          nextButton.disabled = false; // Enable the Next button
-        }
+      // Collect form data
+      const formData = {
+        name: document.getElementById("name").value,
+        phone_number: document.getElementById("phone_number").value,
+        age: document.getElementById("age").value,
+        source: document.getElementById("source").value,
+        ielts: document.getElementById("ielts").value,
+        hsk: document.getElementById("hsk").value,
+        grade: document.getElementById("grade").value,
+        major: document.getElementById("major").value,
+        prefer_school: document.getElementById("prefer_school").value,
+        program_looking: document.getElementById("program_looking").value,
+        prefer_country: document.getElementById("prefer_country").value,
+        progress_id: document.getElementById("progress_id").value,
+        status: 'completed'
+      };
+      console.log(formData);
 
-        updateProgress();
-        if (currentStep < steps.length) {
-          showStepModal(currentStep); // Show the next step modal
-        } else {
-          Toast.fire({
-            icon: 'success',
-            title: 'All steps completed!',
-          });
-        }
-      });
+      try {
+        const queryString = new URLSearchParams(formData).toString();
+
+        // Redirect with query parameters
+        const redirectUrl = `/client/phone_consult?${queryString}`;
+        window.location.href = redirectUrl;
+
+        // Handle success
+        modal.classList.add("hidden"); // Close modal after submit
+        infoForm.reset(); // Reset form
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Completed successfully!',
+        }).then(() => {
+          currentStep++; // Move to the next step
+          if (currentStep === 1) {
+            startButton.classList.add("hidden"); // Hide Start button after the first step
+            prevButton.disabled = false; // Enable the Previous button
+            nextButton.disabled = false; // Enable the Next button
+          }
+
+          updateProgress();
+          if (currentStep < steps.length) {
+            showStepModal(currentStep); // Show the next step modal
+          } else {
+            Toast.fire({
+              icon: 'success',
+              title: 'All steps completed!',
+            });
+          }
+        });
+      } catch (error) {
+        // Handle error (e.g., show error notification)
+        Toast.fire({
+          icon: 'error',
+          title: 'Failed to submit the form!',
+        });
+        console.error(error);
+      }
     });
 
     // Next button handler

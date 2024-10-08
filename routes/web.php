@@ -1,30 +1,15 @@
 <?php
 
-use App\Http\Controllers\SettingsController;
-use App\Http\Controllers\Admin\FeedbackController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\FieldController;
-use App\Http\Controllers\Admin\MailSettingController;
-use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProfileController;
-use App\Http\Controllers\Admin\BookingController;
-use App\Http\Controllers\Admin\ChatCotroller;
 use App\Http\Controllers\Admin\ClientController as AdminClientController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\PhoneConsultationController;
 use App\Http\Controllers\Admin\ProgressController as AdminProgressController;
 use App\Http\Controllers\Admin\ScheduleController;
-use App\Http\Controllers\Admin\SettingController;
 // use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\SlideshowController; // Add this line
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\SlideshowAdminController; // Add this line
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\MailController;
-use App\Http\Controllers\ProgressController;
 use Faker\Core\File;
 use GuzzleHttp\Psr7\Response;
 
@@ -112,5 +97,8 @@ Route::get('/admin/clients', [AdminClientController::class, 'index'])->name('adm
 //Client's progress
 Route::get('/client/progress/{client_id}', [AdminProgressController::class, 'show'])->name('client.progress.index');
 
-// This route should handle the delete action
+//schedule
 Route::delete('/admin/schedules/{id}', [ScheduleController::class, 'destroy']);
+
+//Phone consultaion 
+Route::get('/client/phone_consult', [PhoneConsultationController::class, 'store'])->name('client.phone_consult');
