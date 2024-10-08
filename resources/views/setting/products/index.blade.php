@@ -39,8 +39,8 @@
                                     <h4 class="text-lg font-bold text-gray-800">Name: {{ $product->name }}</h4>
                                     <p class="text-gray-600 mt-1">It's a type of <strong>{{ $product->category ? $product->category->name : 'Uncategorized' }}</strong></p>
                                     <p class="text-gray-800 font-semibold text-green-700 text-2xl mt-3">Price: ${{ number_format($product->price, 2) }}</p>
-                                    <div class="flex justify-end mt-2">
-                                        <button class="text-blue-500 hover:text-blue-700 mr-2" onclick="openModal(@json($product))">
+                                    <div class="flex justify-end mt-2 space-x-4">
+                                        <button class="text-blue-500 hover:text-blue-700" onclick="openEditModal({{ $product }})">
                                             <i class='bx bx-edit text-2xl'></i>
                                         </button>
                                         <button class="text-red-500 hover:text-red-700" onclick="openDeleteModal({{ $product->id }})">
@@ -103,63 +103,41 @@
         </div>
     </div>
 
-    <!-- Modal for Update Product -->
-    <div id="updateModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+    <!-- Modal for Edit Product -->
+    <div id="editModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
         <div class="flex items-center justify-center h-full">
             <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-xl">
                 <div class="p-6">
                     <h3 class="text-lg font-medium">Edit Product</h3>
-                    <form id="updateForm" action="" method="POST" enctype="multipart/form-data">
+                    <form id="editForm" action="" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-
-                        <!-- Image Preview -->
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2">Current Image:</label>
-                            <img id="currentImage" src="" alt="" class="h-32 w-32 object-cover rounded">
+                            <label for="edit_name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                            <input type="text" name="name" id="edit_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         </div>
-
-                        <!-- Upload New Image -->
                         <div class="mb-4">
-                            <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Update Image:</label>
-                            <input type="file" name="image" id="image" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <label for="edit_description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
+                            <textarea name="description" id="edit_description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                         </div>
-
-                        <!-- Product Name -->
                         <div class="mb-4">
-                            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
-                            <input type="text" name="name" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <label for="edit_price" class="block text-gray-700 text-sm font-bold mb-2">Price:</label>
+                            <input type="text" name="price" id="edit_price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                         </div>
-
-                        <!-- Product Description -->
                         <div class="mb-4">
-                            <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description:</label>
-                            <textarea name="description" id="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
-                        </div>
-
-                        <!-- Product Price -->
-                        <div class="mb-4">
-                            <label for="price" class="block text-gray-700 text-sm font-bold mb-2">Price:</label>
-                            <input type="text" name="price" id="price" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                        </div>
-
-                        <!-- Category -->
-                        <div class="mb-4">
-                            <label for="category_id" class="block text-gray-700 text-sm font-bold mb-2">Category:</label>
-                            <select name="category_id" id="category_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <label for="edit_category_id" class="block text-gray-700 text-sm font-bold mb-2">Category:</label>
+                            <select name="category_id" id="edit_category_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                 <option value="">Select a category</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-
-                        <!-- Submit Button -->
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 Update Product
                             </button>
-                            <button type="button" id="closeModal" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            <button type="button" id="closeEditModal" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                                 Cancel
                             </button>
                         </div>
@@ -195,20 +173,6 @@
             window.location.href = categoryId ? '{{ route('admin.products.index') }}?category=' + categoryId : '{{ route('admin.products.index') }}';
         });
 
-        function openModal(product) {
-            document.getElementById('updateForm').action = '/admin/products/' + product.id;
-            document.getElementById('currentImage').src = '/storage/' + product.image;
-            document.getElementById('name').value = product.name;
-            document.getElementById('description').value = product.description;
-            document.getElementById('price').value = product.price;
-            document.getElementById('category_id').value = product.category_id;
-            document.getElementById('updateModal').classList.remove('hidden');
-        }
-
-        document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('updateModal').classList.add('hidden');
-        });
-
         document.querySelector('.create-new-product').addEventListener('click', function() {
             document.getElementById('createModal').classList.remove('hidden');
         });
@@ -217,11 +181,35 @@
             document.getElementById('createModal').classList.add('hidden');
         });
 
+        document.getElementById('closeEditModal').addEventListener('click', function() {
+            document.getElementById('editModal').classList.add('hidden');
+        });
+
+        function openEditModal(product) {
+            document.getElementById('edit_name').value = product.name;
+            document.getElementById('edit_description').value = product.description;
+            document.getElementById('edit_price').value = product.price;
+            document.getElementById('edit_category_id').value = product.category_id;
+            document.getElementById('editForm').action = `/admin/products/${product.id}`;
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
         function openDeleteModal(productId) {
             document.getElementById('deleteModal').classList.remove('hidden');
             document.getElementById('confirmDelete').onclick = function() {
-                document.getElementById('deleteForm').action = '/admin/products/' + productId;
-                document.getElementById('deleteForm').submit();
+                fetch(`/admin/products/${productId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        location.reload(); // Refresh the page to see the updated list
+                    } else {
+                        alert('Failed to delete the product.');
+                    }
+                });
             };
         }
 
