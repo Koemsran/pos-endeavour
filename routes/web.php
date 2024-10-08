@@ -110,7 +110,7 @@ Route::get('/admin/categories', [CategoryController::class, 'index'])->name('adm
 Route::get('/admin/clients', [AdminClientController::class, 'index'])->name('admin.clients.index');
 
 //Client's progress
-Route::get('/client/progress/{client_id}', [AdminProgressController::class, 'index'])->name('client.progress.index');
+Route::get('/client/progress/{client_id}', [AdminProgressController::class, 'show'])->name('client.progress.index');
 
 // This route should handle the delete action
 Route::delete('/admin/schedules/{id}', [ScheduleController::class, 'destroy']);
