@@ -4,7 +4,8 @@
       <div class="container mx-auto px-6 py-2">
         <div class="bg-white shadow-md rounded my-6 p-5">
           <div>
-            <form action="{{ route('admin.progresses.index') }}" method="GET" class="flex items-center mb-4 w-full" id="search-form">
+            <h1 class="flex items-center py-2 px-6 "><i class='bx bx-user-plus text-3xl mr-3'></i> <strong> {{$client->name}}</strong></h1>
+            <form action="{{ route('client.progress.index', ['client_id' => $client->id])}}" method="GET" class="flex items-center mb-4 w-full" id="search-form">
               <input type="number" name="search" placeholder="Search view by step number..."
                 class="px-4 py-2 border rounded-l-lg focus:outline-none focus:border-blue-500"
                 id="search-input" style="width: auto; max-width: 20%; flex: 1;">
@@ -70,7 +71,7 @@
 
               <!-- Form of Step -->
 
-              <form id="infoForm">
+              <form id="infoForm" novalidate>
 
                 <!-- Step 1 -->
 
@@ -78,22 +79,22 @@
                   <div class="flex gap-5">
                     <div class="mb-4">
                       <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name:</label>
-                      <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="name" name="name" value="{{$client->name}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
                       <label for="phone_number" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
-                      <input type="tel" id="phone_number" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="tel" id="phone_number" name="phone_number" value="{{$client->phone_number}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                      <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
-                      <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
+                      <input type="number" id="age" name="age" value="{{$client->age}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                   </div>
                   <div class="flex gap-5">
 
                     <div class="mb-4">
-                      <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
-                      <input type="number" id="age" name="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="source" class="block text-gray-700 text-sm font-bold mb-2">Source:</label>
+                      <input type="text" id="source" name="source" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
                       <label for="ielts" class="block text-gray-700 text-sm font-bold mb-2">IELTS Lavel:</label>
@@ -106,63 +107,23 @@
                   </div>
                   <div class="flex gap-5">
                     <div class="mb-4">
-                      <label for="current_university" class="block text-gray-700 text-sm font-bold mb-2">Current University:</label>
-                      <input type="text" id="current_university" name="current_university" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="grade" class="block text-gray-700 text-sm font-bold mb-2">Grade:</label>
+                      <input type="text" id="grade" name="grade" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                      <label for="current_skill" class="block text-gray-700 text-sm font-bold mb-2">Current Skill:</label>
-                      <input type="text" id="current_skill" name="current_skill" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="major" class="block text-gray-700 text-sm font-bold mb-2">Major:</label>
+                      <input type="text" id="major" name="major" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                      <label for="prefer_skill" class="block text-gray-700 text-sm font-bold mb-2">Preferred Skill:</label>
-                      <input type="text" id="prefer_skill" name="prefer_skill" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="prefer_school" class="block text-gray-700 text-sm font-bold mb-2">Prefer School:</label>
+                      <input type="text" id="prefer_school" name="prefer_school" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                   </div>
 
                   <div class="mb-4">
-                    <label for="current_education" class="block text-gray-700 text-sm font-bold mb-2">Current Level of Education:</label>
+                    <label for="current_education" class="block text-gray-700 text-sm font-bold mb-2">Program Looking for:</label>
                     <select name="current_education" id="current_education" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                      <option value="">Select current education</option>
-                      <!-- Dropped Out School -->
-                      <optgroup label="Dropped Out School">
-                        <option value="Dropped Out School">Dropped Out School</option>
-                      </optgroup>
-                      <!-- High School -->
-                      <optgroup label="High School">
-                        <option value="10th Grade">10th Grade</option>
-                        <option value="11th Grade">11th Grade</option>
-                        <option value="12th Grade">12th Grade</option>
-                      </optgroup>
-
-                      <!-- Bachelor's Degree -->
-                      <optgroup label="Bachelor's Degree">
-                        <option value="Undergraduate (Year 1)">Undergraduate (Year 1)</option>
-                        <option value="Undergraduate (Year 2)">Undergraduate (Year 2)</option>
-                        <option value="Undergraduate (Year 3)">Undergraduate (Year 3)</option>
-                        <option value="Undergraduate (Year 4)">Undergraduate (Year 4)</option>
-                      </optgroup>
-
-                      <!-- Master's Degree -->
-                      <optgroup label="Master's Degree">
-                        <option value="Master's (Year 1)">Master's (Year 1)</option>
-                        <option value="Master's (Year 2)">Master's (Year 2)</option>
-                      </optgroup>
-
-                      <!-- PhD -->
-                      <optgroup label="PhD">
-                        <option value="PhD (Year 1)">PhD (Year 1)</option>
-                        <option value="PhD (Year 2)">PhD (Year 2)</option>
-                        <option value="PhD (Year 3)">PhD (Year 3)</option>
-                        <option value="PhD (Year 4+)">PhD (Year 4+)</option>
-                      </optgroup>
-
-                    </select>
-                  </div>
-
-                  <div class="mb-4">
-                    <label for="current_education" class="block text-gray-700 text-sm font-bold mb-2">Level of Study Desired:</label>
-                    <select name="current_education" id="current_education" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                      <option value="">Select your level of study desired</option>
+                      <option value="">Select client's study program</option>
                       <option value="Bachelor's">Bachelor's</option>
                       <option value="Master's">Master's</option>
                       <option value="PhD">PhD</option>
@@ -170,105 +131,136 @@
                   </div>
 
                   <div class="mb-4">
-                    <label for="study_destination" class="block text-gray-700 text-sm font-bold mb-2">Study Destination:</label>
+                    <label for="study_destination" class="block text-gray-700 text-sm font-bold mb-2">Prefer Country:</label>
                     <select name="study_destination" id="study_destination" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                      <option value="">Select your study destination</option>
+                      <option value="">Select country</option>
                       <option value="USA">USA</option>
                       <option value="China">China</option>
-                      <option value="UK">UK</option>
                       <option value="Australia">Australia</option>
                     </select>
                   </div>
-
-                  <div class="mb-4">
-                    <label for="study_destination" class="block text-gray-700 text-sm font-bold mb-2">Preferred Universities:</label>
-                    <select name="study_destination" id="study_destination" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                      <option value="">Select your preferred university</option>
-                      <!-- USA -->
-                      <optgroup label="USA">
-                        <option value="Harvard University">Harvard University</option>
-                        <option value="Stanford University">Stanford University</option>
-                        <option value="Massachusetts Institute of Technology (MIT)">Massachusetts Institute of Technology (MIT)</option>
-                        <option value="University of California, Berkeley">University of California, Berkeley</option>
-                        <option value="Columbia University">Columbia University</option>
-                      </optgroup>
-
-                      <!-- China -->
-                      <optgroup label="China">
-                        <option value="Tsinghua University">Tsinghua University</option>
-                        <option value="Peking University">Peking University</option>
-                        <option value="Fudan University">Fudan University</option>
-                        <option value="Shanghai Jiao Tong University">Shanghai Jiao Tong University</option>
-                        <option value="Zhejiang University">Zhejiang University</option>
-                      </optgroup>
-
-                      <!-- UK -->
-                      <optgroup label="UK">
-                        <option value="University of Oxford">University of Oxford</option>
-                        <option value="University of Cambridge">University of Cambridge</option>
-                        <option value="Imperial College London">Imperial College London</option>
-                        <option value="London School of Economics (LSE)">London School of Economics (LSE)</option>
-                        <option value="University College London (UCL)">University College London (UCL)</option>
-                      </optgroup>
-
-                      <!-- Australia -->
-                      <optgroup label="Australia">
-                        <option value="University of Melbourne">University of Melbourne</option>
-                        <option value="Australian National University (ANU)">Australian National University (ANU)</option>
-                        <option value="University of Sydney">University of Sydney</option>
-                        <option value="University of Queensland">University of Queensland</option>
-                        <option value="University of New South Wales (UNSW)">University of New South Wales (UNSW)</option>
-                      </optgroup>
-                    </select>
-
-                  </div>
                 </div>
+
                 <!-- Step 2 -->
 
                 <div class="step-form" id="step2" hidden>
+                  <div class="flex gap-5">
+                    <div class="mb-4">
+                      <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name:</label>
+                      <input type="text" id="name" name="name" value="{{$client->name}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="phone_number" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+                      <input type="tel" id="phone_number" name="phone_number" value="{{$client->phone_number}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
+                      <input type="number" id="age" name="age" value="{{$client->age}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                  </div>
+                  <div class="flex gap-5">
+                    <div class="mb-4">
+                      <label for="test_language" class="block text-gray-700 text-sm font-bold mb-2">Education Level:</label>
+                      <input type="text" id="test_language" name="test_language" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <div class="mb-4">
+                      <label for="school" class="block text-gray-700 text-sm font-bold mb-2">School:</label>
+                      <input type="text" id="school" name="school" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                    <div class="mb-4">
+                      <label for="test_language" class="block text-gray-700 text-sm font-bold mb-2">Language test:</label>
+                      <input type="text" id="test_language" name="test_language" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    </div>
+                  </div>
+                  <div class="flex gap-5">
+                    <div class="mb-4">
+                      <label for="prefer_university" class="block text-gray-700 text-sm font-bold mb-2">Prefer University:</label>
+                      <input type="text" id="prefer_university" name="prefer_university" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="major" class="block text-gray-700 text-sm font-bold mb-2">Major:</label>
+                      <input type="text" id="major" name="major" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="major" class="block text-gray-700 text-sm font-bold mb-2">Currently Address:</label>
+                      <input type="text" id="major" name="major" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                  </div>
+
                   <div class="mb-4">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 2:</label>
-                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <label for="current_education" class="block text-gray-700 text-sm font-bold mb-2">Program Looking for:</label>
+                    <select name="current_education" id="current_education" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <option value="">Select client's study program</option>
+                      <option value="Bachelor's">Bachelor's</option>
+                      <option value="Master's">Master's</option>
+                      <option value="PhD">PhD</option>
+                    </select>
+                  </div>
+
+                  <div class="mb-4">
+                    <label for="study_destination" class="block text-gray-700 text-sm font-bold mb-2">Prefer Country:</label>
+                    <select name="study_destination" id="study_destination" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <option value="">Select country</option>
+                      <option value="USA">USA</option>
+                      <option value="China">China</option>
+                      <option value="Australia">Australia</option>
+                    </select>
                   </div>
                 </div>
                 <!-- Step 3 -->
 
                 <div class="step-form" id="step3" hidden>
                   <div class="mb-4">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 3:</label>
-                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
+                    <input type="number" id="amount" name="amount" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                   </div>
                 </div>
                 <!-- Step 4 -->
-
                 <div class="step-form" id="step4" hidden>
                   <div class="mb-4">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 4:</label>
-                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <div class="flex items-center mb-4">
+                      <input id="booking" type="radio" name="booking" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="booking" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Booking</label>
+                    </div>
+                    <div class="flex items-center mb-4">
+                      <input id="booking-waiver" type="radio" name="booking_waiver" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="booking-waiver" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Booking fee waiver</label>
+                    </div>
                   </div>
                 </div>
 
                 <!-- Step 5 -->
                 <div class="step-form" id="step5" hidden>
                   <div class="mb-4">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 5:</label>
-                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <div class="flex items-center mb-4">
+                      <input id="refund1" type="radio" name="refund-options" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="refund1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Refund because scholarships not accepted</label>
+                    </div>
+                    <div class="flex items-center mb-4">
+                      <input id="refund2" type="radio" name="refund-options" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="refund2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Refund because failed Visa</label>
+                    </div>
+                    <div class="flex items-center mb-4">
+                      <input id="unrefund" type="radio" name="refund-options" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="unrefund" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Unrefund because client passed</label>
+                    </div>
                   </div>
                 </div>
 
                 <!-- Step 6 -->
                 <div class="step-form" id="step6" hidden>
                   <div class="mb-4">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 6:</label>
-                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <div class="flex items-center mb-4">
+                      <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Prepared documents for the application</label>
+                    </div>
                   </div>
                 </div>
 
                 <!-- Step 7 -->
                 <div class="step-form" id="step7" hidden>
-                  <div class="mb-4">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Step 7:</label>
-                    <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                  <div class="mb-4 text-center text-3xl text-green-500">
+                    Congratulation!
                   </div>
                 </div>
 
@@ -430,7 +422,6 @@
       skipButton.classList.toggle("hidden", currentStep !== 1 && currentStep !== 2 && currentStep !== 4);
 
     }
-    $("input").prop('required',true);
     // Initialize with first step inactive
     updateProgress();
   </script>
