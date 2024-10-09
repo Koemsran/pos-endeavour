@@ -171,7 +171,7 @@
                         currentEvent.setEnd(updatedEnd);
                     })
                     .catch(error => {
-                        
+
                         console.error('Error updating event:', error);
                     });
             } else {
@@ -250,5 +250,47 @@
                     alert('Failed to update the event. Please try again.');
                 });
         }
+        // Function to search events by date
+        document.getElementById('search-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            const searchDate = document.getElementById('search-input').value; // Get the date input
+            if (!searchDate) {
+                alert('Please select a date to search.');
+                return;
+            }
+
+            // Check for matching events
+            const matchingEvents = calendar.getEvents().filter(event => {
+                const eventDate = event.start.toISOString().split('T')[0]; // Extract the date part
+                return eventDate === searchDate; // Compare with the search date
+            });
+
+            if (matchingEvents.length > 0) {
+                // If matching events are found, show the popup with details
+                const eventDetails = matchingEvents.map(event => `Title: ${event.title}\nDate: ${event.start.toISOString().split('T')[0]}\nStart: ${event.start.toTimeString().slice(0, 5)}\nEnd: ${event.end ? event.end.toTimeString().slice(0, 5) : 'N/A'}`).join('\n\n');
+
+                Swal.fire({
+                    title: 'You have schedule with client',
+                    text: eventDetails,
+                    icon: 'success',
+                    confirmButtonText: 'Okay',
+                    customClass: {
+                        confirmButton: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+                    }
+                });
+            } else {
+                // If no events are found
+                Swal.fire({
+                    title: 'No Events Found',
+                    text: `No events found for the date: ${searchDate}`,
+                    icon: 'warning',
+                    confirmButtonText: 'Okay',
+                    customClass: {
+                        confirmButton: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+                    }
+                });
+            }
+        });
     </script>
 </x-app-layout>
