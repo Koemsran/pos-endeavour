@@ -1,12 +1,18 @@
 <?php
 
+use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ClientController as AdminClientController;
+use App\Http\Controllers\Admin\ContractController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\InprocessController;
+use App\Http\Controllers\Admin\OfficeConsultationController;
+use App\Http\Controllers\Admin\PaidController;
 use App\Http\Controllers\Admin\PhoneConsultationController;
 use App\Http\Controllers\Admin\ProgressController as AdminProgressController;
+use App\Http\Controllers\Admin\RefundContrller;
 use App\Http\Controllers\Admin\ScheduleController;
 // use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
@@ -100,5 +106,11 @@ Route::get('/client/progress/{client_id}', [AdminProgressController::class, 'sho
 //schedule
 Route::delete('/admin/schedules/{id}', [ScheduleController::class, 'destroy']);
 
-//Phone consultaion 
+//client progress 
 Route::get('/client/phone_consult', [PhoneConsultationController::class, 'store'])->name('client.phone_consult');
+Route::get('/client/office_consult', [OfficeConsultationController::class, 'store'])->name('client.office_consult');
+Route::get('/client/booking', [BookingController::class, 'store'])->name('client.booking');
+Route::get('/client/contract', [ContractController::class, 'store'])->name('client.contract');
+Route::get('/client/refund', [RefundContrller::class, 'store'])->name('client.refund');
+Route::get('/client/in_process', [InprocessController::class, 'store'])->name('client.in_process');
+Route::get('/client/paid', [PaidController::class, 'store'])->name('client.paid');

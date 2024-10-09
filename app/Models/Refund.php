@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Booking extends Model
+class Refund extends Model
 {
     use HasFactory;
     protected $fillable = [
         'progress_id',
         'client_id',
-        'amount',
-        'booking_date',
+        'refund_reason',
     ];
     public function progress(){
         return $this->belongsTo(Progress::class, 'progress_id');

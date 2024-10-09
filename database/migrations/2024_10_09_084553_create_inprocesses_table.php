@@ -9,11 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('paids', function (Blueprint $table) {
+        Schema::create('inprocesses', function (Blueprint $table) {
             $table->id();
-            $table->decimal('amount', 10, 2);
+            $table->integer('progress_id');
+            $table->integer('client_id');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('paids');
+        Schema::dropIfExists('inprocesses');
     }
 };

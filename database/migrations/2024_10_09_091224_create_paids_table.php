@@ -9,24 +9,23 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('bookings', function (Blueprint $table) {
+        Schema::create('paids', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained()->onDelete('cascade'); // assuming a relationship with clients
             $table->integer('progress_id');
+            $table->integer('client_id');
             $table->integer('amount');
-            $table->dateTime('booking_date');
+            $table->date('paid_date');
             $table->timestamps();
         });
     }
 
-
-    /**S
+    /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('bookings');
+        Schema::dropIfExists('paids');
     }
 };

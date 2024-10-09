@@ -73,6 +73,8 @@
               <!-- Form of Step -->
 
               <form id="infoForm" novalidate>
+                <input type="number" hidden name="progress_id" id="progress_id" value="{{$progress->id}}">
+                <input type="number" hidden name="client_id" id="client_id" value="{{$client->id}}">
 
                 <!-- Step 1 -->
 
@@ -140,7 +142,6 @@
                       <option value="Australia">Australia</option>
                     </select>
                   </div>
-                  <input type="number" hidden name="progress_id" id="progress_id" value="{{$progress->id}}">
                 </div>
 
                 <!-- Step 2 -->
@@ -162,16 +163,16 @@
                   </div>
                   <div class="flex gap-5">
                     <div class="mb-4">
-                      <label for="test_language" class="block text-gray-700 text-sm font-bold mb-2">Education Level:</label>
-                      <input type="text" id="test_language" name="test_language" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <label for="education_level" class="block text-gray-700 text-sm font-bold mb-2">Education Level:</label>
+                      <input type="text" id="education_level" name="education_level" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="mb-4">
                       <label for="school" class="block text-gray-700 text-sm font-bold mb-2">School:</label>
                       <input type="text" id="school" name="school" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="mb-4">
-                      <label for="test_language" class="block text-gray-700 text-sm font-bold mb-2">Language test:</label>
-                      <input type="text" id="test_language" name="test_language" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <label for="language_test" class="block text-gray-700 text-sm font-bold mb-2">Language test:</label>
+                      <input type="text" id="language_test" name="language_test" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                   </div>
                   <div class="flex gap-5">
@@ -180,18 +181,18 @@
                       <input type="text" id="prefer_university" name="prefer_university" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                      <label for="major" class="block text-gray-700 text-sm font-bold mb-2">Major:</label>
-                      <input type="text" id="major" name="major" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="major2" class="block text-gray-700 text-sm font-bold mb-2">Major:</label>
+                      <input type="text" id="major2" name="major2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                      <label for="major" class="block text-gray-700 text-sm font-bold mb-2">Currently Address:</label>
-                      <input type="text" id="major" name="major" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Currently Address:</label>
+                      <input type="text" id="address" name="address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                   </div>
 
                   <div class="mb-4">
-                    <label for="current_education" class="block text-gray-700 text-sm font-bold mb-2">Program Looking for:</label>
-                    <select name="current_education" id="current_education" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <label for="program_looking2" class="block text-gray-700 text-sm font-bold mb-2">Program Looking for:</label>
+                    <select name="program_looking2" id="program_looking2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                       <option value="">Select client's study program</option>
                       <option value="Bachelor's">Bachelor's</option>
                       <option value="Master's">Master's</option>
@@ -200,8 +201,8 @@
                   </div>
 
                   <div class="mb-4">
-                    <label for="study_destination" class="block text-gray-700 text-sm font-bold mb-2">Prefer Country:</label>
-                    <select name="study_destination" id="study_destination" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <label for="prefer_country2" class="block text-gray-700 text-sm font-bold mb-2">Prefer Country:</label>
+                    <select name="prefer_country2" id="prefer_country2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                       <option value="">Select country</option>
                       <option value="USA">USA</option>
                       <option value="China">China</option>
@@ -217,15 +218,16 @@
                     <input type="number" id="amount" name="amount" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                   </div>
                 </div>
+
                 <!-- Step 4 -->
                 <div class="step-form" id="step4" hidden>
                   <div class="mb-4">
                     <div class="flex items-center mb-4">
-                      <input id="booking" type="radio" name="booking" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                      <input id="booking" type="radio" name="booking_option" value="1" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                       <label for="booking" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Booking</label>
                     </div>
                     <div class="flex items-center mb-4">
-                      <input id="booking-waiver" type="radio" name="booking_waiver" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                      <input id="booking-waiver" type="radio" name="booking_option" value="0" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                       <label for="booking-waiver" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Booking fee waiver</label>
                     </div>
                   </div>
@@ -235,16 +237,16 @@
                 <div class="step-form" id="step5" hidden>
                   <div class="mb-4">
                     <div class="flex items-center mb-4">
-                      <input id="refund1" type="radio" name="refund-options" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                      <label for="refund1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Refund because scholarships not accepted</label>
+                      <input id="refund-scholarship" type="radio" name="refund_reason" value="Refund because scholarships not accepted" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" required>
+                      <label for="refund-scholarship" class="ms-2 text-sm font-medium text-gray-900">Refund because scholarships not accepted</label>
                     </div>
                     <div class="flex items-center mb-4">
-                      <input id="refund2" type="radio" name="refund-options" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                      <label for="refund2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Refund because failed Visa</label>
+                      <input id="refund-visa" type="radio" name="refund_reason" value="Refund because failed Visa" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                      <label for="refund-visa" class="ms-2 text-sm font-medium text-gray-900">Refund because failed Visa</label>
                     </div>
                     <div class="flex items-center mb-4">
-                      <input id="unrefund" type="radio" name="refund-options" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                      <label for="unrefund" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Unrefund because client passed</label>
+                      <input id="unrefund-client" type="radio" name="refund_reason" value="Unrefund because client passed" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
+                      <label for="unrefund-client" class="ms-2 text-sm font-medium text-gray-900">Unrefund because client passed</label>
                     </div>
                   </div>
                 </div>
@@ -253,14 +255,18 @@
                 <div class="step-form" id="step6" hidden>
                   <div class="mb-4">
                     <div class="flex items-center mb-4">
-                      <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                      <label for="default-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Prepared documents for the application</label>
+                      <input id="prepared-docs-checkbox" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                      <label for="prepared-docs-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Prepared documents for the application</label>
                     </div>
                   </div>
                 </div>
 
                 <!-- Step 7 -->
                 <div class="step-form" id="step7" hidden>
+                  <div class="mb-4">
+                    <label for="amount1" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
+                    <input type="number" id="amount1" name="amount1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                  </div>
                   <div class="mb-4 text-center text-3xl text-green-500">
                     Congratulation!
                   </div>
@@ -320,57 +326,134 @@
     // Handle form submission
     infoForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-
+      currentStep++
+      let formData = {}
       // Collect form data
-      const formData = {
-        name: document.getElementById("name").value,
-        phone_number: document.getElementById("phone_number").value,
-        age: document.getElementById("age").value,
-        source: document.getElementById("source").value,
-        ielts: document.getElementById("ielts").value,
-        hsk: document.getElementById("hsk").value,
-        grade: document.getElementById("grade").value,
-        major: document.getElementById("major").value,
-        prefer_school: document.getElementById("prefer_school").value,
-        program_looking: document.getElementById("program_looking").value,
-        prefer_country: document.getElementById("prefer_country").value,
-        progress_id: document.getElementById("progress_id").value,
-        status: 'completed'
-      };
-      console.log(formData);
+      if (currentStep === 1) {
+        formData = {
+          name: document.getElementById("name").value,
+          phone_number: document.getElementById("phone_number").value,
+          age: document.getElementById("age").value,
+          source: document.getElementById("source").value,
+          ielts: document.getElementById("ielts").value,
+          hsk: document.getElementById("hsk").value,
+          grade: document.getElementById("grade").value,
+          major: document.getElementById("major").value,
+          prefer_school: document.getElementById("prefer_school").value,
+          program_looking: document.getElementById("program_looking").value,
+          prefer_country: document.getElementById("prefer_country").value,
+          progress_id: document.getElementById("progress_id").value,
+          status: 'completed'
+        };
+
+      } else if (currentStep === 2) {
+        formData = {
+          progress_id: document.getElementById("progress_id").value,
+          client_id: document.getElementById("client_id").value,
+          school: document.getElementById("school").value,
+          education_level: document.getElementById("education_level").value,
+          language_test: document.getElementById("language_test").value,
+          prefer_university: document.getElementById("prefer_university").value,
+          major: document.getElementById("major2").value,
+          address: document.getElementById("address").value,
+          program_looking: document.getElementById("program_looking2").value,
+          prefer_country: document.getElementById("prefer_country2").value,
+        };
+      } else if (currentStep === 3) {
+        formData = {
+          progress_id: document.getElementById("progress_id").value,
+          client_id: document.getElementById("client_id").value,
+          amount: document.getElementById("amount").value,
+          booking_date: new Date().toISOString().slice(0, 10),
+        }
+      } else if (currentStep === 4) {
+        formData = {
+          progress_id: document.getElementById("progress_id").value,
+          client_id: document.getElementById("client_id").value,
+          status: document.querySelector('input[name="booking_option"]:checked') ?
+            parseInt(document.querySelector('input[name="booking_option"]:checked').value, 10) // Get the selected radio button value as a number
+            :
+            null
+
+        };
+      } else if (currentStep === 5) {
+        formData = {
+          progress_id: document.getElementById("progress_id").value,
+          client_id: document.getElementById("client_id").value,
+          refund_reason: document.querySelector('input[name="refund_reason"]:checked')?.value // Get the checked radio button value
+        };
+      } else if (currentStep === 6) {
+        formData = {
+          progress_id: document.getElementById("progress_id").value,
+          client_id: document.getElementById("client_id").value,
+          status: document.getElementById("prepared-docs-checkbox").checked ? "true" : "false"
+        }
+      } else if (currentStep === 7) {
+        formData = {
+          progress_id: document.getElementById("progress_id").value,
+          client_id: document.getElementById("client_id").value,
+          amount: document.getElementById("amount1").value,
+          paid_date: new Date().toISOString().slice(0, 10),
+        }
+      } else {
+        alert("Invalid step");
+      }
 
       try {
         const queryString = new URLSearchParams(formData).toString();
 
-        // Redirect with query parameters
-        const redirectUrl = `/client/phone_consult?${queryString}`;
-        window.location.href = redirectUrl;
-
         // Handle success
-        modal.classList.add("hidden"); // Close modal after submit
-        infoForm.reset(); // Reset form
 
+        if (currentStep === 1) {
+          startButton.classList.add("hidden"); // Hide Start button after the first step
+          prevButton.disabled = false; // Enable the Previous button
+          nextButton.disabled = false; // Enable the Next button
+        }
+        updateProgress();
+        if (currentStep < steps.length) {
+          showStepModal(currentStep); // Show the next step modal
+        } else {
+          Toast.fire({
+            icon: 'success',
+            title: 'All steps completed!',
+          });
+        }
+        let redirectUrl = '';
+        // Redirect with query parameters
+        if (currentStep === 1) {
+          redirectUrl = `/client/phone_consult?${queryString}`;
+
+        } else if (currentStep === 2) {
+          redirectUrl = `/client/office_consult?${queryString}`;
+
+        } else if (currentStep === 3) {
+          redirectUrl = `/client/booking?${queryString}`;
+
+        } else if (currentStep === 4) {
+          redirectUrl = `/client/contract?${queryString}`;
+
+        } else if (currentStep === 5) {
+          redirectUrl = `/client/refund?${queryString}`;
+
+        } else if (currentStep === 6) {
+          redirectUrl = `/client/in_process?${queryString}`;
+        } else if (currentStep === 7) {
+          redirectUrl = `/client/paid?${queryString}`;
+
+        } else {
+          alert('Current step is not valid')
+          let redirectUrl = `/client/progress/${document.getElementById("client_id").value}`
+        }
+
+        window.location.href = redirectUrl;
         Toast.fire({
           icon: 'success',
           title: 'Completed successfully!',
-        }).then(() => {
-          currentStep++; // Move to the next step
-          if (currentStep === 1) {
-            startButton.classList.add("hidden"); // Hide Start button after the first step
-            prevButton.disabled = false; // Enable the Previous button
-            nextButton.disabled = false; // Enable the Next button
-          }
 
-          updateProgress();
-          if (currentStep < steps.length) {
-            showStepModal(currentStep); // Show the next step modal
-          } else {
-            Toast.fire({
-              icon: 'success',
-              title: 'All steps completed!',
-            });
-          }
-        });
+        })
+        modal.classList.add("hidden"); // Close modal after submit
+        infoForm.reset(); // Reset form
+
       } catch (error) {
         // Handle error (e.g., show error notification)
         Toast.fire({
@@ -379,6 +462,7 @@
         });
         console.error(error);
       }
+
     });
 
     // Next button handler
