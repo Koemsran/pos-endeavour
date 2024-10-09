@@ -28,7 +28,6 @@
               <tr class="hover:bg-grey-lighter">
                 <td class="py-4 px-6 border-b border-grey-light">{{ $permission->name }}</td>
                 <td class="py-4 px-6 border-b border-grey-light text-right">
-
                   @can('Permission edit')
                   <a href="#" data-id="{{ $permission->id }}" data-name="{{ $permission->name }}" class="text-blue-500 hover:text-blue-700 openEditModal" title="Edit">
                     <i class='bx bx-edit text-2xl'></i>
@@ -36,15 +35,14 @@
                   @endcan
 
                   @can('Permission delete')
-                  <form action="{{ route('admin.permissions.destroy', $permission->id) }}" method="POST" class="inline">
+                  <form id="delete-form-{{ $permission->id }}" action="{{ route('admin.permissions.destroy', $permission->id) }}" method="POST" class="inline">
                     @csrf
-                    @method('delete')
-                    <button type="button" onclick="deleteField('{{ $permission->id }}')" class="text-red-500 hover:text-red-700" title="Delete">
+                    @method('DELETE')
+                    <button type="button" onclick="deleteField({{ $permission->id }})" class="text-red-500 hover:text-red-700" title="Delete">
                       <i class='bx bx-trash text-2xl'></i>
                     </button>
                   </form>
                   @endcan
-
                 </td>
               </tr>
               @endforeach
@@ -120,55 +118,6 @@
   </div>
 
   <script>
-    // Delete permission confirmation
-    function deleteField(permissionId) {
-      Swal.fire({
-        title: '<span style="color: #d33; font-weight: bold;">Are you sure?</span>',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '<span style="font-weight: bold;">Yes, delete it!</span>',
-        cancelButtonText: '<span style="font-weight: bold;">Cancel</span>',
-        background: '#f7f7f7',
-        customClass: {
-          popup: 'border-2 border-gray-300',
-          confirmButton: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded',
-          cancelButton: 'bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded'
-        }
-      }).then((result) => {
-        if (result.isConfirmed) {
-          fetch(`/admin/permissions/${permissionId}`, {
-              method: 'DELETE',
-              headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Content-Type': 'application/json'
-              }
-            })
-            .then(response => {
-              if (response.ok) {
-                Swal.fire({
-                  title: 'Deleted!',
-                  text: 'Your permission has been deleted.',
-                  icon: 'success',
-                  confirmButtonText: 'Okay'
-                }).then(() => {
-                  location.reload(); // Reload the page to see the changes
-                });
-              } else {
-                Swal.fire({
-                  title: 'Error!',
-                  text: 'There was an error deleting the permission.',
-                  icon: 'error',
-                  confirmButtonText: 'Okay'
-                });
-              }
-            });
-        }
-      });
-    }
-
     // Open add permission modal
     document.getElementById('openAddModal').addEventListener('click', function() {
       document.getElementById('addModal').classList.remove('hidden');
@@ -193,5 +142,22 @@
     document.getElementById('closeEditModal').addEventListener('click', function() {
       document.getElementById('editModal').classList.add('hidden'); // Hide the modal
     });
+
+    // Delete permission confirmation
+    function deleteField(permissionId) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById(`delete-form-${permissionId}`).submit();
+        }
+      });
+    }
   </script>
 </x-app-layout>
