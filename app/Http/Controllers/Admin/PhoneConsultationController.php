@@ -74,7 +74,11 @@ class PhoneConsultationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $phoneConsult = PhoneConsultation::where('progress_id', $id)->first();
+        if (!$phoneConsult) {
+            return redirect()->route('client.progress.index')->with('error', 'Phone consultation not found.');
+        }
+        return view('client.progress.index', compact(['phoneConsult']));
     }
 
     /**

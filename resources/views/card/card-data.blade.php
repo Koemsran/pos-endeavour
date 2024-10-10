@@ -45,8 +45,8 @@
                 <div class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
-                        <strong style="font-size: 25px">{{ $todayBookings }}+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total Booking</p>
+                        <strong style="font-size: 25px">${{ $todayBookings }}.00</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Booking Amount</p>
                     </div>
                 </div>
                 <div class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
@@ -80,8 +80,8 @@
                 <div class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
-                        <strong style="font-size: 25px">{{ $totalBookingsThisWeek }}+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total Booking</p>
+                        <strong style="font-size: 25px">${{ $totalBookingsThisWeek }}.00</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Booking Amount</p>
                     </div>
                 </div>
                 <div class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
@@ -115,8 +115,8 @@
                 <div class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
-                        <strong style="font-size: 25px">{{ $totalBookingsThisMonth }}+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total Booking</p>
+                        <strong style="font-size: 25px">${{ $totalBookingsThisMonth }}.00</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Booking Amount</p>
                     </div>
                 </div>
                 <div class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
@@ -150,8 +150,8 @@
                 <div class="flex gap-5 p-6 bg-teal-200 border border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">
                     <i class='bx bx-calendar-check text-3xl'></i>
                     <div class="content">
-                        <strong style="font-size: 25px">{{ $totalBookingsThisYear }}+</strong>
-                        <p class="mb-3 font-normal text-black-500">Total Booking</p>
+                        <strong style="font-size: 25px">${{ $totalBookingsThisYear }}.00</strong>
+                        <p class="mb-3 font-normal text-black-500">Total Booking Amount</p>
                     </div>
                 </div>
                 <div class="flex gap-5 p-6 border bg-blue-200 border-gray-200 rounded-lg shadow transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105 hover:bg-blue-900 hover:text-white flex-grow w-auto">

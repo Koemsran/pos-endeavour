@@ -56,23 +56,24 @@ class ProgressController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Client $client, $stepNumber)
+    public function update(string $id)
     {
-        // Mark previous step as completed
-        $progress = $client->progress()->where('step_number', $stepNumber - 1)->first();
-        if ($progress) {
-            $progress->status = 'completed';
-            $progress->completed_at = now();
-            $progress->save();
-        }
+        try {
+            // Fetch progress and increment step_number if it exists
+            $progress = Progress::find($id);
+            if ($progress) {
+                $progress->step_number += 1; // Increment the step_number by 1
+                $progress->save();           // Save the updated progress
+            }
+            // Redirect to a success page with a success message
+            return redirect()->route('client.progress.index')->with('success', 'Booking created successfully.');
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Error creating booking: ' . $e->getMessage());
 
-        // Create new entry for current step
-        Progress::create([
-            'client_id' => $client->id,
-            'step_number' => $stepNumber,
-            'status' => 'in-progress',
-            'started_at' => now(),
-        ]);
+            // Redirect back with an error message
+            return redirect()->back()->with('error', 'Failed to create booking. Please try again.');
+        }
     }
 
     /**

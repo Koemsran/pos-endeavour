@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\RefundContrller;
 use App\Http\Controllers\Admin\ScheduleController;
 // use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\Progress;
 use Faker\Core\File;
 use GuzzleHttp\Psr7\Response;
 
@@ -102,15 +103,30 @@ Route::get('/admin/clients', [AdminClientController::class, 'index'])->name('adm
 
 //Client's progress
 Route::get('/client/progress/{client_id}', [AdminProgressController::class, 'show'])->name('client.progress.index');
+Route::get('/client/progress/update/{id}', [AdminProgressController::class, 'update'])->name('client.progress.update');
 
 //schedule
 Route::delete('/admin/schedules/{id}', [ScheduleController::class, 'destroy']);
 
 //client progress 
 Route::get('/client/phone_consult', [PhoneConsultationController::class, 'store'])->name('client.phone_consult');
+Route::get('/client/phone_consult/show/{id}', [PhoneConsultationController::class, 'show'])->name('client.phone_consult.show');
+
 Route::get('/client/office_consult', [OfficeConsultationController::class, 'store'])->name('client.office_consult');
+Route::get('/client/office_consult/show/{id}', [OfficeConsultationController::class, 'show'])->name('client.office_consult.show');
+
 Route::get('/client/booking', [BookingController::class, 'store'])->name('client.booking');
+Route::get('/client/booking/show/{id}', [BookingController::class, 'show'])->name('client.booking.show');
+
 Route::get('/client/contract', [ContractController::class, 'store'])->name('client.contract');
+Route::get('/client/contract/show/{id}', [ContractController::class, 'show'])->name('client.contract.show');
+
 Route::get('/client/refund', [RefundContrller::class, 'store'])->name('client.refund');
+Route::get('/client/refund/show/{id}', [RefundContrller::class, 'show'])->name('client.refund.show');
+
 Route::get('/client/in_process', [InprocessController::class, 'store'])->name('client.in_process');
+Route::get('/client/in_process/show/{id}', [InprocessController::class, 'show'])->name('client.in_process.show');
+
 Route::get('/client/paid', [PaidController::class, 'store'])->name('client.paid');
+Route::get('/client/paid/show/{id}', [PaidController::class, 'show'])->name('client.paid.show');
+

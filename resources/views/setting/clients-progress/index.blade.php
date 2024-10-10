@@ -401,23 +401,8 @@
 
       try {
         const queryString = new URLSearchParams(formData).toString();
-
-        // Handle success
-
-        if (currentStep === 1) {
-          startButton.classList.add("hidden"); // Hide Start button after the first step
-          prevButton.disabled = false; // Enable the Previous button
-          nextButton.disabled = false; // Enable the Next button
-        }
         updateProgress();
-        if (currentStep < steps.length) {
-          showStepModal(currentStep); // Show the next step modal
-        } else {
-          Toast.fire({
-            icon: 'success',
-            title: 'All steps completed!',
-          });
-        }
+
         let redirectUrl = '';
         // Redirect with query parameters
         if (currentStep === 1) {
@@ -477,11 +462,11 @@
       // Move to the next step without submitting the form
       currentStep++;
       modal.classList.add("hidden"); // Close modal
+      let redirectUrl = `/client/progress/update/${document.getElementById("progress_id").value}`
       updateProgress();
 
       // Enable the Next button only if not at the last step
       nextButton.disabled = currentStep >= steps.length - 1; // Disable Next if at last step
-
       if (currentStep < steps.length) {
         showStepModal(currentStep); // Show modal for the next step
       } else {
@@ -490,6 +475,7 @@
           title: 'All steps completed!',
         });
       }
+      window.location.href = redirectUrl;
     });
     // Previous button handler
     prevButton.addEventListener("click", () => {
@@ -497,6 +483,11 @@
         currentStep--;
         updateProgress();
         showStepModal(currentStep); // Show modal for the current step
+        
+      }
+      if(currentStep === 1){
+        let redirectUrl = `/client/phone_consult/show/${document.getElementById("progress_id").value}`
+        window.location.href = redirectUrl;
       }
     });
 
@@ -519,6 +510,24 @@
           step.classList.add("bg-gray-300");
           step.classList.remove("bg-blue-500", "bg-green-500");
           step.innerHTML = (index + 1).toString(); // Show step number
+        }
+        if (currentStep === 1) {
+          startButton.classList.add("hidden"); // Hide Start button for step 1
+          prevButton.disabled = false; // Enable Previous button
+          nextButton.disabled = false; // Enable Next button
+        } else if (currentStep > 1) {
+          // Change button states based on other steps
+          startButton.classList.add("hidden"); // Keep Start button hidden
+          prevButton.disabled = currentStep === 1; // Disable if on the first step
+          nextButton.disabled = currentStep === steps.length; // Disable if on the last step
+        }
+        if (currentStep < steps.length && currentStep >= 1) {
+          showStepModal(currentStep); // Show the next step modal
+        } else if (currentStep === steps.length) {
+          Toast.fire({
+            icon: 'success',
+            title: 'All steps completed!',
+          });
         }
       });
     }
