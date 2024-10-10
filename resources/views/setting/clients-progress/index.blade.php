@@ -4,7 +4,7 @@
       <div class="container mx-auto px-6 py-2">
         <div class="bg-white shadow-md rounded my-6 p-5">
           <div>
-            <h1 class="flex items-center py-2 px-6 "><i class='bx bx-user-plus text-3xl mr-3'></i> <strong> {{$client->name}}</strong></h1>
+            <h1 class="flex items-center py-2 px-6 "><i class='bx bx-user-plus text-3xl mr-3'></i> <strong> {{$client->name}} </strong></h1>
             <input type="text" hidden id="current_step" value="{{$progress->step_number}}">
             <form action="{{ route('client.progress.index', ['client_id' => $client->id])}}" method="GET" class="flex items-center mb-4 w-full" id="search-form">
               <input type="number" name="search" placeholder="Search view by step number..."
@@ -16,7 +16,6 @@
             </form>
           </div>
           <hr>
-
           <div class="w-full p-5 mt-5">
             <div class="relative flex justify-between items-center mb-8">
               <!-- Steps -->
@@ -274,7 +273,7 @@
 
                 <div class="flex justify-end gap-4">
                   <button type="button" id="skip" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Skip</button> <!-- Skip Button -->
-                  <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Submit</button>
+                  <button type="submit" id="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Submit</button>
                 </div>
               </form>
             </div>
@@ -482,12 +481,13 @@
       if (currentStep > 0) {
         currentStep--;
         updateProgress();
-        showStepModal(currentStep); // Show modal for the current step
-        
+        // showStepModal(currentStep); // Show modal for the current step
+
       }
-      if(currentStep === 1){
+      if (currentStep === 0) {
         let redirectUrl = `/client/phone_consult/show/${document.getElementById("progress_id").value}`
         window.location.href = redirectUrl;
+        showStepModal(currentStep)
       }
     });
 
@@ -550,7 +550,7 @@
       if (currentForm) currentForm.hidden = false;
       modalContent.innerText = stepMessages[currentStep]; // Update the modal content with the step message
       skipButton.classList.toggle("hidden", currentStep !== 1 && currentStep !== 2 && currentStep !== 4);
-
+      
     }
     // Initialize with first step inactive
     updateProgress();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\PhoneConsultation;
 use App\Models\Progress;
 use Illuminate\Http\Request;
@@ -74,11 +75,18 @@ class PhoneConsultationController extends Controller
      */
     public function show(string $id)
     {
-        $phoneConsult = PhoneConsultation::where('progress_id', $id)->first();
-        if (!$phoneConsult) {
-            return redirect()->route('client.progress.index')->with('error', 'Phone consultation not found.');
+
+        try {
+            $phoneConsult = PhoneConsultation::where('progress_id', $id)->first();
+            // Redirect to a success page with a success message
+            return view('setting.client-progress.index', compact('phoneConsult'));
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Error creating booking: ' . $e->getMessage());
+
+            // Redirect back with an error message
+            return redirect()->back()->with('error', 'Failed to show phone consultation. Please try again.');
         }
-        return view('client.progress.index', compact(['phoneConsult']));
     }
 
     /**
