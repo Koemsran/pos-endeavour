@@ -69,20 +69,22 @@
                 right: 'dayGridMonth,timeGridWeek,timeGridDay'
             },
             initialView: 'timeGridWeek',
+            timeZone: 'local', // Ensure correct timezone handling
 
             // Fetch events from Laravel endpoint
-            events: @json($events), // Correctly use the JSON data
+            events: @json($events),
 
             editable: true,
 
-            // When a date is clicked, show the modal to add a new event
+            // When a date or time is clicked, show the modal to add a new event
             dateClick: function(info) {
+                const clickedDate = info.date; // Get the clicked date
                 document.getElementById('eventTitle').value = '';
-                document.getElementById('eventDate').value = info.date.toISOString().split('T')[0]; // Set date based on click
-                document.getElementById('eventStart').value = ''; // Clear the time input
-                document.getElementById('eventEnd').value = '';
-                currentEvent = null;
-                document.getElementById('eventModal').classList.remove('hidden');
+                document.getElementById('eventDate').value = clickedDate.toISOString().split('T')[0]; // Set the date
+                document.getElementById('eventStart').value = ''; // Clear start time
+                document.getElementById('eventEnd').value = ''; // Clear end time
+                currentEvent = null; // Reset current event
+                document.getElementById('eventModal').classList.remove('hidden'); // Show modal
             },
 
             eventClick: function(info) {
@@ -91,23 +93,18 @@
                 // Set the event title
                 document.getElementById('eventTitle').value = info.event.title;
 
-                // Set the event date (using ISO format)
+                // Set the event date
                 document.getElementById('eventDate').value = info.event.start.toISOString().split('T')[0];
 
                 // Set the start time in HH:mm format
                 document.getElementById('eventStart').value = info.event.start.toTimeString().slice(0, 5);
 
                 // Set the end time in HH:mm format (check if end is defined)
-                if (info.event.end) {
-                    document.getElementById('eventEnd').value = info.event.end.toTimeString().slice(0, 5);
-                } else {
-                    document.getElementById('eventEnd').value = '';
-                }
+                document.getElementById('eventEnd').value = info.event.end ? info.event.end.toTimeString().slice(0, 5) : '';
 
                 currentEvent = info.event;
             },
 
-            // Update the event when it is dragged or resized
             eventDrop: function(info) {
                 updateEvent(info.event);
             },
@@ -121,76 +118,65 @@
 
         // Create or Update Event
         document.getElementById('saveEventButton').addEventListener('click', function() {
-            // Helper function to format time as HH:mm
             function formatTime(inputTime) {
                 const timeParts = inputTime.split(':');
                 if (timeParts.length === 2) {
-                    const hours = String(timeParts[0]).padStart(2, '0'); // Ensure 2-digit hour
-                    const minutes = String(timeParts[1]).padStart(2, '0'); // Ensure 2-digit minutes
-                    return `${hours}:${minutes}`; // Return formatted time
+                    const hours = String(timeParts[0]).padStart(2, '0');
+                    const minutes = String(timeParts[1]).padStart(2, '0');
+                    return `${hours}:${minutes}`;
                 }
-                return inputTime; // Return original if not in expected format
+                return inputTime;
             }
 
-            // Create eventData with formatted start and end times
             var eventData = {
-                title: document.getElementById('eventTitle').value.trim(), // Trim whitespace from the title
-                date: document.getElementById('eventDate').value, // Event date in YYYY-MM-DD format
-                start: formatTime(document.getElementById('eventStart').value), // Format start time
-                end: formatTime(document.getElementById('eventEnd').value), // Format end time
-                user_id: document.getElementById('eventUser').value.trim() // Trim whitespace from the user ID
+                title: document.getElementById('eventTitle').value.trim(),
+                date: document.getElementById('eventDate').value,
+                start: formatTime(document.getElementById('eventStart').value),
+                end: formatTime(document.getElementById('eventEnd').value),
+                user_id: document.getElementById('eventUser').value.trim()
             };
 
-            // Validate input
             if (!eventData.title || !eventData.start || !eventData.end) {
                 alert('Please fill in the title, date, and time.');
                 return;
             }
 
             if (currentEvent) {
-                // Prepare event data for update
-                const eventData = {
+                const updatedEventData = {
                     title: document.getElementById('eventTitle').value,
-                    date: document.getElementById('eventDate').value, // Assuming date is selected separately
-                    start: document.getElementById('eventStart').value, // Assuming time is selected separately
-                    end: document.getElementById('eventEnd').value, // Assuming time is selected separately
+                    date: document.getElementById('eventDate').value,
+                    start: document.getElementById('eventStart').value,
+                    end: document.getElementById('eventEnd').value,
                     user_id: document.getElementById('eventUser').value.trim()
                 };
-                // Update existing event
-                axios.put(`/admin/schedules/${currentEvent.id}`, eventData)
+                axios.put(`/admin/schedules/${currentEvent.id}`, updatedEventData)
                     .then(response => {
                         const updatedEvent = response.data.event;
 
-                        // Combine the date with the start and end times
                         const updatedStart = new Date(`${updatedEvent.date}T${updatedEvent.start}`);
                         const updatedEnd = new Date(`${updatedEvent.date}T${updatedEvent.end}`);
 
-                        // Update the event in FullCalendar
                         currentEvent.setProp('title', updatedEvent.title);
                         currentEvent.setStart(updatedStart);
                         currentEvent.setEnd(updatedEnd);
                     })
                     .catch(error => {
-
                         console.error('Error updating event:', error);
                     });
             } else {
-                // Create new event
                 axios.post('/admin/schedules', eventData)
                     .then(response => {
                         const newEvent = response.data.event;
 
-                        // Combine the date with the start and end times
                         const newStart = new Date(`${newEvent.date}T${newEvent.start}`);
                         const newEnd = new Date(`${newEvent.date}T${newEvent.end}`);
 
-                        // Add the new event to FullCalendar
                         calendar.addEvent({
                             id: newEvent.id,
                             title: newEvent.title,
                             start: newStart,
                             end: newEnd,
-                            allDay: false // Set to true if the event is all-day
+                            allDay: false
                         });
                     })
                     .catch(error => {
@@ -199,7 +185,6 @@
                     });
             }
 
-            // Close the modal
             document.getElementById('eventModal').classList.add('hidden');
         });
 
@@ -210,7 +195,6 @@
 
         // Delete Event
         document.getElementById('deleteEventButton').addEventListener('click', function() {
-
             if (currentEvent) {
                 if (confirm('Are you sure you want to delete this event?')) {
                     axios.delete(`/admin/schedules/${currentEvent.id}`, {
@@ -219,7 +203,7 @@
                             }
                         })
                         .then(() => {
-                            currentEvent.remove(); // Remove the event from FullCalendar
+                            currentEvent.remove();
                             alert('Event deleted successfully.');
                         })
                         .catch(error => {
@@ -234,11 +218,10 @@
         });
 
         function updateEvent(event) {
-            // Define event data for update
             const eventData = {
                 title: event.title,
                 start: event.start.toISOString(),
-                end: event.end ? event.end.toISOString() : null // Handle potential null end
+                end: event.end ? event.end.toISOString() : null
             };
 
             axios.put(`/admin/schedules/${event.id}`, eventData)
@@ -250,28 +233,27 @@
                     alert('Failed to update the event. Please try again.');
                 });
         }
+
         // Function to search events by date
         document.getElementById('search-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
+            event.preventDefault();
 
-            const searchDate = document.getElementById('search-input').value; // Get the date input
+            const searchDate = document.getElementById('search-input').value;
             if (!searchDate) {
                 alert('Please select a date to search.');
                 return;
             }
 
-            // Check for matching events
             const matchingEvents = calendar.getEvents().filter(event => {
-                const eventDate = event.start.toISOString().split('T')[0]; // Extract the date part
-                return eventDate === searchDate; // Compare with the search date
+                const eventDate = event.start.toISOString().split('T')[0];
+                return eventDate === searchDate;
             });
 
             if (matchingEvents.length > 0) {
-                // If matching events are found, show the popup with details
                 const eventDetails = matchingEvents.map(event => `Title: ${event.title}\nDate: ${event.start.toISOString().split('T')[0]}\nStart: ${event.start.toTimeString().slice(0, 5)}\nEnd: ${event.end ? event.end.toTimeString().slice(0, 5) : 'N/A'}`).join('\n\n');
 
                 Swal.fire({
-                    title: 'You have schedule with client',
+                    title: 'You have a schedule with client',
                     text: eventDetails,
                     icon: 'success',
                     confirmButtonText: 'Okay',
@@ -280,7 +262,6 @@
                     }
                 });
             } else {
-                // If no events are found
                 Swal.fire({
                     title: 'No Events Found',
                     text: `No events found for the date: ${searchDate}`,

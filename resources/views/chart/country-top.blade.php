@@ -9,15 +9,14 @@
 </div>
 
 <script>
-    const xValues = ["China", "USA", "UK", "Australia", "Cambodia"];
-    const yValues = [55, 49, 44, 24, 15];
+    // Updated values to remove UK and Cambodia
+    const xValues = ["China", "USA", "Australia"]; 
+    const yValues = [55, 49, 24]; // Updated values accordingly
     const barColors = [
         "#b91d47",
         "#00aba9",
-        "#2b5797",
-        "#e8c3b9",
-        "#1e7145"
-    ];
+        "#e8c3b9"
+    ]; // Updated colors to match the new dataset
 
     new Chart("myChart", {
         type: "doughnut",
