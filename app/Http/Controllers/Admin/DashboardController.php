@@ -7,6 +7,11 @@ use App\Models\Booking;
 use App\Models\Client;
 use App\Models\Paid;
 use App\Models\User;
+use App\Models\PhoneConsultation;
+use App\Models\OfficeConsultation;
+use App\Models\Contract;
+use App\Models\Refund;
+use App\Models\Inprocess;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -43,6 +48,21 @@ class DashboardController extends Controller
         $yearlyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->sum('amount');
         $totalClientsThisYear = Client::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->count();
 
+        // Client progress data with zero counts included
+        $clientProgress = [
+            'Phone Consultation' => PhoneConsultation::distinct('progress_id')->count('progress_id'),
+            'Office Consultation' => OfficeConsultation::distinct('progress_id')->count('progress_id'),
+            'Booking' => Booking::distinct('progress_id')->count('progress_id'),
+            'Contract' => Contract::distinct('progress_id')->count('progress_id'),
+            'Refund' => Refund::distinct('progress_id')->count('progress_id'),
+            'In Process' => Inprocess::distinct('progress_id')->count('progress_id'),
+            'Paid' => Paid::distinct('progress_id')->count('progress_id'),
+        ];
+
+        
+        // Debugging output
+        // dd($clientProgress);
+
         // Pass data to the view
         return view('dashboard', [
             'totalUsers' => $totalUsers,
@@ -65,6 +85,7 @@ class DashboardController extends Controller
             'totalBookingsThisYear' => $totalBookingsThisYear,
             'yearlyPaid' => $yearlyPaid,
             'totalClientsThisYear' => $totalClientsThisYear,
+            'clientProgress' => $clientProgress, // Pass client progress data
         ]);
     }
 }
