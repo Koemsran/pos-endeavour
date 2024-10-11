@@ -1,7 +1,7 @@
 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg p-6 max-w-3xl">
     <div class="mb-4">
         <h6 class="uppercase text-gray-500 mb-1 text-xs font-semibold">Performance</h6>
-        <h2 class="text-gray-700 text-xl font-semibold">Top 5 Countries</h2>
+        <h2 class="text-gray-700 text-xl font-semibold">Top 3 Countries</h2>
     </div>
     <div class="relative flex justify-center items-center" style="height: 400px;">
         <canvas id="myChart" style="width:100%; max-width:800px;"></canvas>
