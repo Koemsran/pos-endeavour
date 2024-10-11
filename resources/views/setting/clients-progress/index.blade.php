@@ -22,30 +22,51 @@
               <div class="flex flex-col items-center">
                 <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold step" data-step="Phone Consultation">1</div>
                 <span class="mt-2 text-sm">Phone Consultation</span>
+                <button disabled class="edit1 edit text-gray-500" title="edit" data-step="1">
+                  <i class='bx bx-edit text-lg'></i>
+                </button>
               </div>
               <div class="flex flex-col items-center">
                 <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold step" data-step="Office Consultation">2</div>
                 <span class="mt-2 text-sm">Office Consultation</span>
+                <button disabled class="edit2 text-gray-500 edit" title="edit" data-step="2">
+                  <i class='bx bx-edit text-lg'></i>
+                </button>
               </div>
               <div class="flex flex-col items-center">
                 <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold step" data-step="Booking">3</div>
                 <span class="mt-2 text-sm">Booking</span>
+                <button disabled class="edit3 text-gray-500 edit" title="edit" data-step="3">
+                  <i class='bx bx-edit text-lg'></i>
+                </button>
               </div>
               <div class="flex flex-col items-center">
                 <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold step" data-step="Contract">4</div>
                 <span class="mt-2 text-sm">Contract</span>
+                <button disabled class="edit4 text-gray-500 edit" title="edit" data-step="4">
+                  <i class='bx bx-edit text-lg'></i>
+                </button>
               </div>
               <div class="flex flex-col items-center">
                 <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold step" data-step="Refund">5</div>
                 <span class="mt-2 text-sm">Refund</span>
+                <button disabled class="edit5 text-gray-500 edit" title="edit" data-step="5">
+                  <i class='bx bx-edit text-lg'></i>
+                </button>
               </div>
               <div class="flex flex-col items-center">
                 <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold step" data-step="In Process">6</div>
                 <span class="mt-2 text-sm">In Process</span>
+                <button disabled class="edit6 text-gray-500 edit" title="edit" data-step="6">
+                  <i class='bx bx-edit text-lg'></i>
+                </button>
               </div>
               <div class="flex flex-col items-center">
                 <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold step" data-step="Paid">7</div>
                 <span class="mt-2 text-sm">Paid</span>
+                <button disabled class="edit7 text-gray-500 edit" title="edit" data-step="7">
+                  <i class='bx bx-edit text-lg'></i>
+                </button>
               </div>
             </div>
           </div>
@@ -53,8 +74,9 @@
           <!-- Buttons -->
           <div class="flex space-x-4 p-5">
             <button id="start" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Start</button>
-            <button id="prev" class="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400" disabled>Previous</button>
-            <button id="next" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600" disabled>Next</button>
+            <button id="prev" class="bg-gray-300 text-white py-2 px-4 rounded" disabled>Previous</button>
+            <button id="next" class="bg-gray-300 text-white py-2 px-4 rounded" disabled>Next</button>
+            <button id="done" class="bg-blue-500 text-white py-2 px-4 rounded hidden">Done</button>
           </div>
 
           <!-- Modal (Popup) -->
@@ -274,6 +296,8 @@
                 <div class="flex justify-end gap-4">
                   <button type="button" id="skip" class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Skip</button> <!-- Skip Button -->
                   <button type="submit" id="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Submit</button>
+                  <button type="button" id="cancel" hidden class="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">Cancel</button>
+                  <button type="submit" id="save" hidden class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Save</button>
                 </div>
               </form>
             </div>
@@ -299,27 +323,91 @@
       timerProgressBar: true,
     });
 
+
+
     const steps = document.querySelectorAll(".step");
+    const edits = document.querySelectorAll(".edit");
     const prevButton = document.getElementById("prev");
     const nextButton = document.getElementById("next");
     const startButton = document.getElementById("start");
+    const doneButton = document.getElementById("done");
     const modal = document.getElementById("modal");
     const closeModalButton = document.getElementById("closeModal");
     const infoForm = document.getElementById("infoForm");
     const modalContent = document.getElementById("modalContent");
     const skipButton = document.getElementById("skip");
-
     let currentStep = +document.getElementById('current_step').value;
+    let saveBtn = document.getElementById('save');
+    let cancelBtn = document.getElementById('cancel');
+    let submitBtn = document.getElementById('submit');
+    //Edit btn
+
+    edits.forEach((edit) => {
+      edit.addEventListener("click", () => {
+        const stepId = edit.dataset.step;
+        const progressId = document.getElementById("progress_id").value;
+
+        // Define the correct URL based on the stepId
+        let fetchUrl = '';
+
+        if (stepId == 1) {
+          fetchUrl = `/client/phone_consult/show/${progressId}`;
+        } else if (stepId == 2) {
+          fetchUrl = `/client/office_consult/show/${progressId}`;
+        } else if (stepId == 3) {
+          fetchUrl = `/client/booking/show/${progressId}`;
+        } else if (stepId == 4) {
+          fetchUrl = `/client/contract/show/${progressId}`;
+        } else if (stepId == 5) {
+          fetchUrl = `/client/refund/show/${progressId}`;
+        } else if (stepId == 6) {
+          fetchUrl = `/client/in_process/show/${progressId}`;
+        } else if (stepId == 7) {
+          fetchUrl = `/client/paid/show/${progressId}`;
+        }
+
+        // Make the fetch request to the determined URL
+        fetch(fetchUrl)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Error fetching consultation data: ${response.status}`);
+            }
+            return response.json(); // Parse the JSON response
+          })
+          .then(data => {
+            // Check if the `phoneConsult` or similar data exists
+            if (data.success && data.phoneConsult) {
+              showEditStepModal(stepId, data.phoneConsult); // Pass data to your modal function
+            } else {
+              console.error("Consultation data not found:", data);
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching consultation data:", error);
+          });
+      });
+    });
+
+
 
     // Show modal when clicking Start button
     startButton.addEventListener("click", () => {
       modal.classList.remove("hidden");
       showStepModal(currentStep); // Show the first step modal
     });
+    cancelBtn.addEventListener("click", () => {
+      modal.classList.add("hidden");
+      saveBtn.hidden = true
+      cancelBtn.hidden = true
+      submitBtn.classList.remove('hidden')
+    });
 
     // Close modal
     closeModalButton.addEventListener("click", () => {
       modal.classList.add("hidden");
+      saveBtn.hidden = true
+      cancelBtn.hidden = true
+      submitBtn.classList.remove('hidden')
     });
 
     // Handle form submission
@@ -406,23 +494,38 @@
         // Redirect with query parameters
         if (currentStep === 1) {
           redirectUrl = `/client/phone_consult?${queryString}`;
+          let editIcon = document.querySelector('.edit1');
+          editIcon.disabled = false;
 
         } else if (currentStep === 2) {
           redirectUrl = `/client/office_consult?${queryString}`;
+          let editIcon = document.querySelector('.edit2');
+          editIcon.disabled = false;
 
         } else if (currentStep === 3) {
           redirectUrl = `/client/booking?${queryString}`;
+          let editIcon = document.querySelector('.edit3');
+          editIcon.disabled = false;
 
         } else if (currentStep === 4) {
           redirectUrl = `/client/contract?${queryString}`;
+          let editIcon = document.querySelector('.edit4');
+          editIcon.disabled = false;
 
         } else if (currentStep === 5) {
           redirectUrl = `/client/refund?${queryString}`;
+          let editIcon = document.querySelector('.edit5');
+          editIcon.disabled = false;
 
         } else if (currentStep === 6) {
           redirectUrl = `/client/in_process?${queryString}`;
+          let editIcon = document.querySelector('.edit6');
+          editIcon.disabled = false;
+
         } else if (currentStep === 7) {
           redirectUrl = `/client/paid?${queryString}`;
+          let editIcon = document.querySelector('.edit7');
+          editIcon.disabled = false;
 
         } else {
           alert('Current step is not valid')
@@ -481,14 +584,12 @@
       if (currentStep > 0) {
         currentStep--;
         updateProgress();
-        // showStepModal(currentStep); // Show modal for the current step
 
       }
-      if (currentStep === 0) {
-        let redirectUrl = `/client/phone_consult/show/${document.getElementById("progress_id").value}`
-        window.location.href = redirectUrl;
-        showStepModal(currentStep)
-      }
+    });
+    doneButton.addEventListener("click", () => {
+      let redirectUrl = '/admin/clients'
+      window.location.href = redirectUrl;
     });
 
     function updateProgress() {
@@ -498,6 +599,10 @@
           step.classList.add("bg-green-500");
           step.classList.remove("bg-gray-300", "bg-blue-500");
           step.innerHTML = "&#10003;"; // Add check icon (HTML code for checkmark)
+          let editIcon = document.querySelector(`.edit${currentStep}`);
+          editIcon.disabled = false;
+          editIcon.classList.remove('text-gray-500');
+          editIcon.classList.add('text-blue-500');
         }
         // If the current step is active
         else if (index === currentStep) {
@@ -511,19 +616,26 @@
           step.classList.remove("bg-blue-500", "bg-green-500");
           step.innerHTML = (index + 1).toString(); // Show step number
         }
-        if (currentStep === 1) {
-          startButton.classList.add("hidden"); // Hide Start button for step 1
-          prevButton.disabled = false; // Enable Previous button
-          nextButton.disabled = false; // Enable Next button
-        } else if (currentStep > 1) {
+        if (currentStep >= 1) {
           // Change button states based on other steps
-          startButton.classList.add("hidden"); // Keep Start button hidden
+          startButton.classList.add("hidden");
+          prevButton.disabled = false; // Enable Previous button
+          nextButton.disabled = false;
           prevButton.disabled = currentStep === 1; // Disable if on the first step
           nextButton.disabled = currentStep === steps.length; // Disable if on the last step
+          nextButton.classList.remove('bg-gray-300')
+          nextButton.classList.add('bg-blue-500')
+          nextButton.classList.add('text-white')
+          prevButton.classList.remove('bg-gray-300')
+          prevButton.classList.add('bg-blue-500')
+          prevButton.classList.add('text-white')
+          
         }
         if (currentStep < steps.length && currentStep >= 1) {
           showStepModal(currentStep); // Show the next step modal
         } else if (currentStep === steps.length) {
+          nextButton.classList.add("hidden");
+          doneButton.classList.remove("hidden");
           Toast.fire({
             icon: 'success',
             title: 'All steps completed!',
@@ -550,8 +662,92 @@
       if (currentForm) currentForm.hidden = false;
       modalContent.innerText = stepMessages[currentStep]; // Update the modal content with the step message
       skipButton.classList.toggle("hidden", currentStep !== 1 && currentStep !== 2 && currentStep !== 4);
-      
+
     }
+    // Show modal for the current step
+    function showEditStepModal(stepNumber, data) {
+      modal.classList.remove("hidden");
+      const stepMessages = [
+        "You are in step: Phone Consultation",
+        "You are in step: Office Consultation",
+        "You are in step: Booking",
+        "You are in step: Contract",
+        "You are in step: Refund",
+        "You are in step: In Process",
+        "You are in step: Paid Thank you for your payment!"
+      ];
+      const stepForms = document.querySelectorAll('.step-form');
+      stepForms.forEach(form => form.hidden = true);
+      const currentForm = document.getElementById(`step${stepNumber}`);
+      if (currentForm) currentForm.hidden = false;
+      modalContent.innerText = stepMessages[currentStep - 1];
+
+      saveBtn.hidden = false
+      cancelBtn.hidden = false
+      skipButton.classList.add('hidden')
+      submitBtn.classList.add('hidden')
+
+      if (currentStep === 1) {
+        document.getElementById("name").value = data.name;
+        document.getElementById("phone_number").value = data.phone_number;
+        document.getElementById("age").value = data.age;
+        document.getElementById("source").value = data.source;
+        document.getElementById("ielts").value = data.ielts;
+        document.getElementById("hsk").value = data.hsk;
+        document.getElementById("grade").value = data.grade;
+        document.getElementById("major").value = data.major;
+        document.getElementById("prefer_school").value = data.prefer_school;
+        document.getElementById("program_looking").value = data.program_looking;
+        document.getElementById("prefer_country").value = data.prefer_country;
+        document.getElementById("progress_id").value = data.progress_id;
+
+      } else if (currentStep === 2) {
+        document.getElementById("progress_id").value = data.progress_id;
+        document.getElementById("client_id").value = data.client_id;
+        document.getElementById("school").value = data.school;
+        document.getElementById("education_level").value = data.education_level;
+        document.getElementById("language_test").value = data.language_test;
+        document.getElementById("prefer_university").value = data.prefer_university;
+        document.getElementById("major2").value = data.major;
+        document.getElementById("address").value = data.address;
+        document.getElementById("program_looking2").value = data.program_looking;
+        document.getElementById("prefer_country2").value = data.prefer_country;
+
+      } else if (currentStep === 3) {
+        document.getElementById("progress_id").value = data.progress_id
+        document.getElementById("client_id").value = data.client_id
+        document.getElementById("amount").value = data.amount
+
+      } else if (currentStep === 4) {
+        if (data.status === 0) {
+          document.getElementById("booking-waiver").checked = true; // Check the booking fee waiver option
+        } else {
+          document.getElementById("booking").checked = true; // Otherwise, check the booking option
+        }
+
+      } else if (currentStep === 5) {
+        // Check the radio button based on the label text
+        if (data.refund_reason === "Refund because scholarships not accepted") {
+          document.getElementById("refund-scholarship").checked = true; // Check the first option
+        } else if (data.refund_reason === "Refund because failed Visa") {
+          document.getElementById("refund-visa").checked = true; // Check the second option
+        } else if (data.refund_reason === "Unrefund because client passed") {
+          document.getElementById("unrefund-client").checked = true; // Check the third option
+        }
+
+      } else if (currentStep === 6) {
+        if (data.status) {
+          document.getElementById("prepared-docs-checkbox").checked = true; // Check the booking fee waiver option
+        }
+
+      } else if (currentStep === 7) {
+        document.getElementById("progress_id").value = data.progress_id
+        document.getElementById("client_id").value = data.client_id
+        document.getElementById("amount1").value = data.amount
+      }
+
+    }
+
     // Initialize with first step inactive
     updateProgress();
   </script>

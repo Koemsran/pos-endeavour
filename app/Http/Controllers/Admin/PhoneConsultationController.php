@@ -75,19 +75,33 @@ class PhoneConsultationController extends Controller
      */
     public function show(string $id)
     {
-
         try {
             $phoneConsult = PhoneConsultation::where('progress_id', $id)->first();
-            // Redirect to a success page with a success message
-            return view('setting.client-progress.index', compact('phoneConsult'));
+
+            if (!$phoneConsult) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Phone consultation not found.'
+                ], 404);
+            }
+
+            // Return the phone consultation data as JSON
+            return response()->json([
+                'success' => true,
+                'phoneConsult' => $phoneConsult
+            ], 200);
         } catch (\Exception $e) {
             // Log the error for debugging
-            \Log::error('Error creating booking: ' . $e->getMessage());
+            \Log::error('Error fetching phone consultation data: ' . $e->getMessage());
 
-            // Redirect back with an error message
-            return redirect()->back()->with('error', 'Failed to show phone consultation. Please try again.');
+            // Return a JSON response for the error
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch phone consultation. Please try again.'
+            ], 500);
         }
     }
+
 
     /**
      * Show the form for editing the specified resource.

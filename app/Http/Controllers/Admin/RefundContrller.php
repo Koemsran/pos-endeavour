@@ -64,7 +64,31 @@ class RefundContrller extends Controller
      */
     public function show(string $id)
     {
-        //
+        try {
+            $phoneConsult = Refund::where('progress_id', $id)->first();
+
+            if (!$phoneConsult) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Phone consultation not found.'
+                ], 404);
+            }
+
+            // Return the phone consultation data as JSON
+            return response()->json([
+                'success' => true,
+                'phoneConsult' => $phoneConsult
+            ], 200);
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Error fetching phone consultation data: ' . $e->getMessage());
+
+            // Return a JSON response for the error
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to fetch phone consultation. Please try again.'
+            ], 500);
+        }
     }
 
     /**
