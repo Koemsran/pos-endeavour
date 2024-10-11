@@ -24,7 +24,7 @@
 
     // If there are no progress values, set default values
     if (dataValues.length === 0 || dataValues.every(value => value === 0)) {
-      labels = ['No Progress']; // Default label
+      labels = ['No Progress Yet']; // Default label
       dataValues = [1]; // Default value (set to 1 for display purposes)
     }
 
