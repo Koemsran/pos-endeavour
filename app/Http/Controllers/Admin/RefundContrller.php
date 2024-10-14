@@ -104,7 +104,35 @@ class RefundContrller extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'progress_id' => 'required|numeric',
+            'client_id' => 'required|numeric',
+            'refund_reason' => 'required|string',
+        ]);
+
+        try {
+            // Find the refund by id or fail if not found
+            $refund = Refund::findOrFail($id);
+
+            // Update the refund with the validated data
+            $refund->update($validatedData);
+
+            // Redirect to the progress index with a success message
+            return redirect()->route('client.progress.index')->with('success', 'Refund updated successfully.');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Log error if the refund record was not found
+            \Log::error('Refund not found: ' . $e->getMessage());
+
+            // Redirect back with an error message if the record was not found
+            return redirect()->back()->with('error', 'Refund not found.');
+        } catch (\Exception $e) {
+            // Log any other unexpected errors for debugging
+            \Log::error('Error updating refund: ' . $e->getMessage());
+
+            // Redirect back with a general error message
+            return redirect()->back()->with('error', 'Failed to update refund. Please try again.');
+        }
     }
 
     /**

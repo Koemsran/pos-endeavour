@@ -110,7 +110,33 @@ class OfficeConsultationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validate incoming request
+        $validatedData = $request->validate([
+            'progress_id' => 'required|numeric',
+            'client_id' => 'required|numeric',
+            'education_level' => 'required|string',
+            'school' => 'required|string',
+            'language_test' => 'required|string',
+            'prefer_university' => 'required|string',
+            'address' => 'required|string',
+            'major' => 'required|string',
+            'program_looking' => 'required|string',
+            'prefer_country' => 'required|string',
+        ]);
+        try {
+            // Create new phone consultation using mass assignment
+            $officeConsultation = OfficeConsultation::find($id);
+            $officeConsultation->update($validatedData);
+
+            // Redirect to a success page with a success message
+            return redirect()->route('client.progress.index')->with('success', 'Office consultation created successfully.');
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Error creating office consultation: ' . $e->getMessage());
+
+            // Redirect back with an error message
+            return redirect()->back()->with('error', 'Failed to create office consultation. Please try again.');
+        }
     }
 
     /**

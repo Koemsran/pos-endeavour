@@ -106,8 +106,38 @@ class PaidController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'progress_id' => 'required|numeric',
+            'client_id' => 'required|numeric',
+            'amount' => 'required|numeric',
+            'paid_date' => 'nullable|date',
+        ]);
+
+        try {
+            // Find the Paid record by ID and update it
+            $paid = Paid::findOrFail($id);
+
+            // Update the Paid record with validated data
+            $paid->update($validatedData);
+
+            // Redirect to a success page with a success message
+            return redirect()->route('client.progress.index')->with('success', 'Payment updated successfully.');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            // Log the error if the Paid record is not found
+            \Log::error('Paid record not found: ' . $e->getMessage());
+
+            // Redirect back with an error message if the Paid record was not found
+            return redirect()->back()->with('error', 'Payment record not found.');
+        } catch (\Exception $e) {
+            // Log any other unexpected errors for debugging
+            \Log::error('Error updating payment: ' . $e->getMessage());
+
+            // Redirect back with a general error message
+            return redirect()->back()->with('error', 'Failed to update payment. Please try again.');
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.

@@ -111,22 +111,30 @@ Route::delete('/admin/schedules/{id}', [ScheduleController::class, 'destroy']);
 //client progress 
 Route::get('/client/phone_consult', [PhoneConsultationController::class, 'store'])->name('client.phone_consult');
 Route::get('/client/phone_consult/show/{id}', [PhoneConsultationController::class, 'show'])->name('client.phone_consult.show');
+Route::get('/client/phone_consult/update/{id}', [PhoneConsultationController::class, 'update'])->name('client.phone_consult.update');
 
 Route::get('/client/office_consult', [OfficeConsultationController::class, 'store'])->name('client.office_consult');
 Route::get('/client/office_consult/show/{id}', [OfficeConsultationController::class, 'show'])->name('client.office_consult.show');
+Route::get('/client/office_consult/update/{id}', [OfficeConsultationController::class, 'update'])->name('client.office_consult.update');
 
 Route::get('/client/booking', [BookingController::class, 'store'])->name('client.booking');
 Route::get('/client/booking/show/{id}', [BookingController::class, 'show'])->name('client.booking.show');
+Route::get('/client/booking/update/{id}', [BookingController::class, 'update'])->name('client.booking.update');
 
 Route::get('/client/contract', [ContractController::class, 'store'])->name('client.contract');
 Route::get('/client/contract/show/{id}', [ContractController::class, 'show'])->name('client.contract.show');
+Route::get('/client/contract/update/{id}', [ContractController::class, 'update'])->name('client.contract.update');
 
 Route::get('/client/refund', [RefundContrller::class, 'store'])->name('client.refund');
 Route::get('/client/refund/show/{id}', [RefundContrller::class, 'show'])->name('client.refund.show');
+Route::get('/client/refund/update/{id}', [RefundContrller::class, 'update'])->name('client.refund.update');
 
 Route::get('/client/in_process', [InprocessController::class, 'store'])->name('client.in_process');
 Route::get('/client/in_process/show/{id}', [InprocessController::class, 'show'])->name('client.in_process.show');
+Route::get('/client/in_process/update/{id}', [InprocessController::class, 'update'])->name('client.in_process.update');
 
 Route::get('/client/paid', [PaidController::class, 'store'])->name('client.paid');
 Route::get('/client/paid/show/{id}', [PaidController::class, 'show'])->name('client.paid.show');
+Route::get('/client/paid/update/{id}', [PaidController::class, 'update'])->name('client.paid.update');
+
 

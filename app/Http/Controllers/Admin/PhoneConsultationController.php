@@ -116,7 +116,37 @@ class PhoneConsultationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd(1);
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'age' => 'required|numeric',
+            'phone_number' => 'required|string', // Change validation if needed
+            'progress_id' => 'required|numeric',
+            'status' => 'required|string',
+            'source' => 'nullable|string',
+            'ielts' => 'nullable|numeric',
+            'hsk' => 'nullable|numeric',
+            'grade' => 'required|string',
+            'major' => 'required|string',
+            'prefer_school' => 'required|string',
+            'program_looking' => 'required|string',
+            'prefer_country' => 'required|string',
+        ]);
+
+        try {
+            // Create new phone consultation using mass assignment
+            $phoneConsult = PhoneConsultation::find($id);
+            $phoneConsult->update($validatedData);
+
+            // Redirect to a success page with a success message
+            return redirect()->route('client.progress.index')->with('success', 'Phone consultation created successfully.');
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Error creating phone consultation: ' . $e->getMessage());
+
+            // Redirect back with an error message
+            return redirect()->back()->with('error', 'Failed to create phone consultation. Please try again.');
+        }
     }
 
     /**

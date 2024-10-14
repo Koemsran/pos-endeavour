@@ -22,7 +22,7 @@
               <div class="flex flex-col items-center">
                 <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center text-white font-bold step" data-step="Phone Consultation">1</div>
                 <span class="mt-2 text-sm">Phone Consultation</span>
-                <button disabled class="edit1 edit text-gray-500" title="edit" data-step="1">
+                <button disabled class="edit1 text-gray-500 edit" title="edit" data-step="1">
                   <i class='bx bx-edit text-lg'></i>
                 </button>
               </div>
@@ -114,8 +114,8 @@
                       <input type="number" id="age" name="age" value="{{$client->age}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                   </div>
-                  <div class="flex gap-5">
 
+                  <div class="flex gap-5">
                     <div class="mb-4">
                       <label for="source" class="block text-gray-700 text-sm font-bold mb-2">Source:</label>
                       <input type="text" id="source" name="source" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
@@ -129,6 +129,7 @@
                       <input type="number" id="hsk" name="hsk" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                   </div>
+                  
                   <div class="flex gap-5">
                     <div class="mb-4">
                       <label for="grade" class="block text-gray-700 text-sm font-bold mb-2">Grade:</label>
@@ -288,9 +289,6 @@
                     <label for="amount1" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
                     <input type="number" id="amount1" name="amount1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                   </div>
-                  <div class="mb-4 text-center text-3xl text-green-500">
-                    Congratulation!
-                  </div>
                 </div>
 
                 <div class="flex justify-end gap-4">
@@ -340,13 +338,13 @@
     let saveBtn = document.getElementById('save');
     let cancelBtn = document.getElementById('cancel');
     let submitBtn = document.getElementById('submit');
+    let editIcons = document.querySelectorAll('.edit');
     //Edit btn
 
     edits.forEach((edit) => {
       edit.addEventListener("click", () => {
         const stepId = edit.dataset.step;
         const progressId = document.getElementById("progress_id").value;
-
         // Define the correct URL based on the stepId
         let fetchUrl = '';
 
@@ -387,8 +385,6 @@
           });
       });
     });
-
-
 
     // Show modal when clicking Start button
     startButton.addEventListener("click", () => {
@@ -494,38 +490,30 @@
         // Redirect with query parameters
         if (currentStep === 1) {
           redirectUrl = `/client/phone_consult?${queryString}`;
-          let editIcon = document.querySelector('.edit1');
-          editIcon.disabled = false;
 
         } else if (currentStep === 2) {
           redirectUrl = `/client/office_consult?${queryString}`;
-          let editIcon = document.querySelector('.edit2');
-          editIcon.disabled = false;
+
 
         } else if (currentStep === 3) {
           redirectUrl = `/client/booking?${queryString}`;
-          let editIcon = document.querySelector('.edit3');
-          editIcon.disabled = false;
+
 
         } else if (currentStep === 4) {
           redirectUrl = `/client/contract?${queryString}`;
-          let editIcon = document.querySelector('.edit4');
-          editIcon.disabled = false;
+
 
         } else if (currentStep === 5) {
           redirectUrl = `/client/refund?${queryString}`;
-          let editIcon = document.querySelector('.edit5');
-          editIcon.disabled = false;
+
 
         } else if (currentStep === 6) {
           redirectUrl = `/client/in_process?${queryString}`;
-          let editIcon = document.querySelector('.edit6');
-          editIcon.disabled = false;
+
 
         } else if (currentStep === 7) {
           redirectUrl = `/client/paid?${queryString}`;
-          let editIcon = document.querySelector('.edit7');
-          editIcon.disabled = false;
+
 
         } else {
           alert('Current step is not valid')
@@ -599,10 +587,6 @@
           step.classList.add("bg-green-500");
           step.classList.remove("bg-gray-300", "bg-blue-500");
           step.innerHTML = "&#10003;"; // Add check icon (HTML code for checkmark)
-          let editIcon = document.querySelector(`.edit${currentStep}`);
-          editIcon.disabled = false;
-          editIcon.classList.remove('text-gray-500');
-          editIcon.classList.add('text-blue-500');
         }
         // If the current step is active
         else if (index === currentStep) {
@@ -629,7 +613,7 @@
           prevButton.classList.remove('bg-gray-300')
           prevButton.classList.add('bg-blue-500')
           prevButton.classList.add('text-white')
-          
+
         }
         if (currentStep < steps.length && currentStep >= 1) {
           showStepModal(currentStep); // Show the next step modal
@@ -643,6 +627,15 @@
         }
       });
     }
+    editIcons.forEach((edit, index) => {
+      // If the step is completed
+      if (index < currentStep) {
+        edit.disabled = false;
+        edit.classList.remove('text-gray-500');
+        edit.classList.add('text-blue-500');
+      }
+
+    });
 
     // Show modal for the current step
     function showStepModal(stepNumber) {
@@ -680,14 +673,13 @@
       stepForms.forEach(form => form.hidden = true);
       const currentForm = document.getElementById(`step${stepNumber}`);
       if (currentForm) currentForm.hidden = false;
-      modalContent.innerText = stepMessages[currentStep - 1];
+      modalContent.innerText = stepMessages[stepNumber - 1];
 
       saveBtn.hidden = false
       cancelBtn.hidden = false
       skipButton.classList.add('hidden')
       submitBtn.classList.add('hidden')
-
-      if (currentStep === 1) {
+      if (stepNumber == 1) {
         document.getElementById("name").value = data.name;
         document.getElementById("phone_number").value = data.phone_number;
         document.getElementById("age").value = data.age;
@@ -701,7 +693,7 @@
         document.getElementById("prefer_country").value = data.prefer_country;
         document.getElementById("progress_id").value = data.progress_id;
 
-      } else if (currentStep === 2) {
+      } else if (stepNumber == 2) {
         document.getElementById("progress_id").value = data.progress_id;
         document.getElementById("client_id").value = data.client_id;
         document.getElementById("school").value = data.school;
@@ -713,19 +705,19 @@
         document.getElementById("program_looking2").value = data.program_looking;
         document.getElementById("prefer_country2").value = data.prefer_country;
 
-      } else if (currentStep === 3) {
+      } else if (stepNumber == 3) {
         document.getElementById("progress_id").value = data.progress_id
         document.getElementById("client_id").value = data.client_id
         document.getElementById("amount").value = data.amount
 
-      } else if (currentStep === 4) {
+      } else if (stepNumber == 4) {
         if (data.status === 0) {
           document.getElementById("booking-waiver").checked = true; // Check the booking fee waiver option
         } else {
           document.getElementById("booking").checked = true; // Otherwise, check the booking option
         }
 
-      } else if (currentStep === 5) {
+      } else if (stepNumber == 5) {
         // Check the radio button based on the label text
         if (data.refund_reason === "Refund because scholarships not accepted") {
           document.getElementById("refund-scholarship").checked = true; // Check the first option
@@ -735,12 +727,12 @@
           document.getElementById("unrefund-client").checked = true; // Check the third option
         }
 
-      } else if (currentStep === 6) {
+      } else if (stepNumber == 6) {
         if (data.status) {
           document.getElementById("prepared-docs-checkbox").checked = true; // Check the booking fee waiver option
         }
 
-      } else if (currentStep === 7) {
+      } else if (stepNumber == 7) {
         document.getElementById("progress_id").value = data.progress_id
         document.getElementById("client_id").value = data.client_id
         document.getElementById("amount1").value = data.amount
