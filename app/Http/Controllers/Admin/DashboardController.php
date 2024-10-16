@@ -18,7 +18,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Total counts
+        // Total counts (existing data)
         $totalUsers = User::count();
         $totalClients = Client::count();
         $totalBookings = Booking::sum('amount');
@@ -59,9 +59,15 @@ class DashboardController extends Controller
             'Paid' => Paid::distinct('progress_id')->count('progress_id'),
         ];
 
-        
-        // Debugging output
-        // dd($clientProgress);
+        // Count the number of clients by country
+        $countryData = PhoneConsultation::select('prefer_country', \DB::raw('count(*) as total'))
+                             ->groupBy('prefer_country')
+                             ->orderBy('total', 'desc')
+                             ->get();
+
+        // Extract country names and counts for the chart
+        $countryNames = $countryData->pluck('prefer_country')->toArray(); // Country names
+        $countryCounts = $countryData->pluck('total')->toArray(); // Country counts
 
         // Pass data to the view
         return view('dashboard', [
@@ -86,6 +92,8 @@ class DashboardController extends Controller
             'yearlyPaid' => $yearlyPaid,
             'totalClientsThisYear' => $totalClientsThisYear,
             'clientProgress' => $clientProgress, // Pass client progress data
+            'countryNames' => $countryNames, // Country names for the chart
+            'countryCounts' => $countryCounts, // Country counts for the chart
         ]);
     }
 }
