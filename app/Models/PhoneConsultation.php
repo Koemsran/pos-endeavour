@@ -13,7 +13,6 @@ class PhoneConsultation extends Model
         'age',
         'phone_number',
         'progress_id',
-        'status',
         'source',
         'ielts',
         'hsk',

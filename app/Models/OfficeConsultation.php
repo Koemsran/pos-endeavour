@@ -10,7 +10,9 @@ class OfficeConsultation extends Model
     use HasFactory;
     protected $fillable = [
         'progress_id',
-        'client_id',
+        'name',
+        'age',
+        'phone_number',
         'school',
         'education_level',
         'language_test',

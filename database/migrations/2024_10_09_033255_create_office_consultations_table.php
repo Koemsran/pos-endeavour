@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('office_consultations', function (Blueprint $table) {
             $table->id();
             $table->integer('progress_id');
-            $table->integer('client_id');
+            $table->string('name');
+            $table->integer('age');
+            $table->string('phone_number');
             $table->string('education_level');
             $table->string('school');
             $table->string('language_test');

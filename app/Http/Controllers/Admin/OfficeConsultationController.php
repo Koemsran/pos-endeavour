@@ -33,7 +33,9 @@ class OfficeConsultationController extends Controller
         // Validate incoming request
         $validatedData = $request->validate([
             'progress_id' => 'required|numeric',
-            'client_id' => 'required|numeric',
+            'name' => 'required|string|max:255',
+            'age' => 'required|numeric',
+            'phone_number' => 'required|string',
             'education_level' => 'required|string',
             'school' => 'required|string',
             'language_test' => 'required|string',
@@ -113,7 +115,9 @@ class OfficeConsultationController extends Controller
         // Validate incoming request
         $validatedData = $request->validate([
             'progress_id' => 'required|numeric',
-            'client_id' => 'required|numeric',
+            'name' => 'required|string|max:255',
+            'age' => 'required|numeric',
+            'phone_number' => 'required|string',
             'education_level' => 'required|string',
             'school' => 'required|string',
             'language_test' => 'required|string',

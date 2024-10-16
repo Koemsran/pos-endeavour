@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('phone_consultations', function (Blueprint $table) {
             $table->id();
             $table->integer('progress_id');
-            $table->string('status');
             $table->string('name');
             $table->integer('age');
             $table->string('phone_number');

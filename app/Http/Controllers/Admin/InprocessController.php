@@ -104,7 +104,29 @@ class InprocessController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validate incoming request
+        $validatedData = $request->validate([
+            'progress_id' => 'required|numeric',
+            'client_id' => 'required|numeric',
+            'status' => 'required|in:true,false',
+
+        ]);
+        try {
+            // Create new phone consultation using mass assignment
+
+            // Fetch progress and increment step_number if it exists
+            $inProcess = Inprocess::find($id);
+            $inProcess->update($validatedData);
+            
+            // Redirect to a success page with a success message
+            return redirect()->route('client.progress.index')->with('success', 'Booking created successfully.');
+        } catch (\Exception $e) {
+            // Log the error for debugging
+            \Log::error('Error creating booking: ' . $e->getMessage());
+
+            // Redirect back with an error message
+            return redirect()->back()->with('error', 'Failed to create booking. Please try again.');
+        }
     }
 
     /**

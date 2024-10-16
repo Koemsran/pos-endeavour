@@ -74,7 +74,6 @@
           <!-- Buttons -->
           <div class="flex space-x-4 p-5">
             <button id="start" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Start</button>
-            <button id="prev" class="bg-gray-300 text-white py-2 px-4 rounded" disabled>Previous</button>
             <button id="next" class="bg-gray-300 text-white py-2 px-4 rounded" disabled>Next</button>
             <button id="done" class="bg-blue-500 text-white py-2 px-4 rounded hidden">Done</button>
           </div>
@@ -96,6 +95,7 @@
               <form id="infoForm" novalidate>
                 <input type="number" hidden name="progress_id" id="progress_id" value="{{$progress->id}}">
                 <input type="number" hidden name="client_id" id="client_id" value="{{$client->id}}">
+                <input type="number" hidden name="step_number" id="step_number" value="">
 
                 <!-- Step 1 -->
 
@@ -129,7 +129,7 @@
                       <input type="number" id="hsk" name="hsk" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                   </div>
-                  
+
                   <div class="flex gap-5">
                     <div class="mb-4">
                       <label for="grade" class="block text-gray-700 text-sm font-bold mb-2">Grade:</label>
@@ -325,7 +325,6 @@
 
     const steps = document.querySelectorAll(".step");
     const edits = document.querySelectorAll(".edit");
-    const prevButton = document.getElementById("prev");
     const nextButton = document.getElementById("next");
     const startButton = document.getElementById("start");
     const doneButton = document.getElementById("done");
@@ -339,6 +338,7 @@
     let cancelBtn = document.getElementById('cancel');
     let submitBtn = document.getElementById('submit');
     let editIcons = document.querySelectorAll('.edit');
+    let updateStepNumber = document.getElementById("step_number");
     //Edit btn
 
     edits.forEach((edit) => {
@@ -412,112 +412,209 @@
       currentStep++
       let formData = {}
       // Collect form data
-      if (currentStep === 1) {
-        formData = {
-          name: document.getElementById("name").value,
-          phone_number: document.getElementById("phone_number").value,
-          age: document.getElementById("age").value,
-          source: document.getElementById("source").value,
-          ielts: document.getElementById("ielts").value,
-          hsk: document.getElementById("hsk").value,
-          grade: document.getElementById("grade").value,
-          major: document.getElementById("major").value,
-          prefer_school: document.getElementById("prefer_school").value,
-          program_looking: document.getElementById("program_looking").value,
-          prefer_country: document.getElementById("prefer_country").value,
-          progress_id: document.getElementById("progress_id").value,
-          status: 'completed'
-        };
+      if (updateStepNumber.value == '') {
+        if (currentStep === 1) {
+          formData = {
+            name: document.getElementById("name").value,
+            phone_number: document.getElementById("phone_number").value,
+            age: document.getElementById("age").value,
+            source: document.getElementById("source").value,
+            ielts: document.getElementById("ielts").value,
+            hsk: document.getElementById("hsk").value,
+            grade: document.getElementById("grade").value,
+            major: document.getElementById("major").value,
+            prefer_school: document.getElementById("prefer_school").value,
+            program_looking: document.getElementById("program_looking").value,
+            prefer_country: document.getElementById("prefer_country").value,
+            progress_id: document.getElementById("progress_id").value,
+          };
 
-      } else if (currentStep === 2) {
-        formData = {
-          progress_id: document.getElementById("progress_id").value,
-          client_id: document.getElementById("client_id").value,
-          school: document.getElementById("school").value,
-          education_level: document.getElementById("education_level").value,
-          language_test: document.getElementById("language_test").value,
-          prefer_university: document.getElementById("prefer_university").value,
-          major: document.getElementById("major2").value,
-          address: document.getElementById("address").value,
-          program_looking: document.getElementById("program_looking2").value,
-          prefer_country: document.getElementById("prefer_country2").value,
-        };
-      } else if (currentStep === 3) {
-        formData = {
-          progress_id: document.getElementById("progress_id").value,
-          client_id: document.getElementById("client_id").value,
-          amount: document.getElementById("amount").value,
-          booking_date: new Date().toISOString().slice(0, 10),
-        }
-      } else if (currentStep === 4) {
-        formData = {
-          progress_id: document.getElementById("progress_id").value,
-          client_id: document.getElementById("client_id").value,
-          status: document.querySelector('input[name="booking_option"]:checked') ?
-            parseInt(document.querySelector('input[name="booking_option"]:checked').value, 10) // Get the selected radio button value as a number
-            :
-            null
+        } else if (currentStep === 2) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            name: document.getElementById("name").value,
+            phone_number: document.getElementById("phone_number").value,
+            age: document.getElementById("age").value,
+            school: document.getElementById("school").value,
+            education_level: document.getElementById("education_level").value,
+            language_test: document.getElementById("language_test").value,
+            prefer_university: document.getElementById("prefer_university").value,
+            major: document.getElementById("major2").value,
+            address: document.getElementById("address").value,
+            program_looking: document.getElementById("program_looking2").value,
+            prefer_country: document.getElementById("prefer_country2").value,
+          };
+        } else if (currentStep === 3) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            amount: document.getElementById("amount").value,
+            booking_date: new Date().toISOString().slice(0, 10),
+          }
+        } else if (currentStep === 4) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            status: document.querySelector('input[name="booking_option"]:checked') ?
+              parseInt(document.querySelector('input[name="booking_option"]:checked').value, 10) // Get the selected radio button value as a number
+              :
+              null
 
-        };
-      } else if (currentStep === 5) {
-        formData = {
-          progress_id: document.getElementById("progress_id").value,
-          client_id: document.getElementById("client_id").value,
-          refund_reason: document.querySelector('input[name="refund_reason"]:checked')?.value // Get the checked radio button value
-        };
-      } else if (currentStep === 6) {
-        formData = {
-          progress_id: document.getElementById("progress_id").value,
-          client_id: document.getElementById("client_id").value,
-          status: document.getElementById("prepared-docs-checkbox").checked ? "true" : "false"
-        }
-      } else if (currentStep === 7) {
-        formData = {
-          progress_id: document.getElementById("progress_id").value,
-          client_id: document.getElementById("client_id").value,
-          amount: document.getElementById("amount1").value,
-          paid_date: new Date().toISOString().slice(0, 10),
+          };
+        } else if (currentStep === 5) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            refund_reason: document.querySelector('input[name="refund_reason"]:checked')?.value // Get the checked radio button value
+          };
+        } else if (currentStep === 6) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            status: document.getElementById("prepared-docs-checkbox").checked ? "true" : "false"
+          }
+        } else if (currentStep === 7) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            amount: document.getElementById("amount1").value,
+            paid_date: new Date().toISOString().slice(0, 10),
+          }
+        } else {
+          alert("Invalid step");
         }
       } else {
-        alert("Invalid step");
+        if (updateStepNumber.value == 1) {
+          formData = {
+            name: document.getElementById("name").value,
+            phone_number: document.getElementById("phone_number").value,
+            age: document.getElementById("age").value,
+            source: document.getElementById("source").value,
+            ielts: document.getElementById("ielts").value,
+            hsk: document.getElementById("hsk").value,
+            grade: document.getElementById("grade").value,
+            major: document.getElementById("major").value,
+            prefer_school: document.getElementById("prefer_school").value,
+            program_looking: document.getElementById("program_looking").value,
+            prefer_country: document.getElementById("prefer_country").value,
+            progress_id: document.getElementById("progress_id").value,
+          };
+
+        } else if (updateStepNumber.value == 2) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            name: document.getElementById("name").value,
+            phone_number: document.getElementById("phone_number").value,
+            age: document.getElementById("age").value,
+            school: document.getElementById("school").value,
+            education_level: document.getElementById("education_level").value,
+            language_test: document.getElementById("language_test").value,
+            prefer_university: document.getElementById("prefer_university").value,
+            major: document.getElementById("major2").value,
+            address: document.getElementById("address").value,
+            program_looking: document.getElementById("program_looking2").value,
+            prefer_country: document.getElementById("prefer_country2").value,
+          };
+        } else if (updateStepNumber.value == 3) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            amount: document.getElementById("amount").value,
+            booking_date: new Date().toISOString().slice(0, 10),
+          }
+        } else if (updateStepNumber.value == 4) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            status: document.querySelector('input[name="booking_option"]:checked') ?
+              parseInt(document.querySelector('input[name="booking_option"]:checked').value, 10) // Get the selected radio button value as a number
+              :
+              null
+
+          };
+        } else if (updateStepNumber.value == 5) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            refund_reason: document.querySelector('input[name="refund_reason"]:checked')?.value // Get the checked radio button value
+          };
+        } else if (updateStepNumber.value == 6) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            status: document.getElementById("prepared-docs-checkbox").checked ? "true" : "false"
+          }
+        } else if (updateStepNumber.value == 7) {
+          formData = {
+            progress_id: document.getElementById("progress_id").value,
+            client_id: document.getElementById("client_id").value,
+            amount: document.getElementById("amount1").value,
+            paid_date: new Date().toISOString().slice(0, 10),
+          }
+        } else {
+          alert("Invalid step");
+        }
       }
 
       try {
         const queryString = new URLSearchParams(formData).toString();
-        updateProgress();
 
         let redirectUrl = '';
         // Redirect with query parameters
-        if (currentStep === 1) {
-          redirectUrl = `/client/phone_consult?${queryString}`;
+        if (infoForm.hasAttribute('id')) {
+          updateProgress();
+          if (currentStep === 1) {
+            redirectUrl = `/client/phone_consult?${queryString}`;
 
-        } else if (currentStep === 2) {
-          redirectUrl = `/client/office_consult?${queryString}`;
-
-
-        } else if (currentStep === 3) {
-          redirectUrl = `/client/booking?${queryString}`;
+          } else if (currentStep === 2) {
+            redirectUrl = `/client/office_consult?${queryString}`;
 
 
-        } else if (currentStep === 4) {
-          redirectUrl = `/client/contract?${queryString}`;
+          } else if (currentStep === 3) {
+            redirectUrl = `/client/booking?${queryString}`;
 
 
-        } else if (currentStep === 5) {
-          redirectUrl = `/client/refund?${queryString}`;
+          } else if (currentStep === 4) {
+            redirectUrl = `/client/contract?${queryString}`;
 
 
-        } else if (currentStep === 6) {
-          redirectUrl = `/client/in_process?${queryString}`;
+          } else if (currentStep === 5) {
+            redirectUrl = `/client/refund?${queryString}`;
 
 
-        } else if (currentStep === 7) {
-          redirectUrl = `/client/paid?${queryString}`;
+          } else if (currentStep === 6) {
+            redirectUrl = `/client/in_process?${queryString}`;
 
 
+          } else if (currentStep === 7) {
+            redirectUrl = `/client/paid?${queryString}`;
+
+
+          } else {
+            alert('Current step is not valid')
+            let redirectUrl = `/client/progress/${document.getElementById("client_id").value}`
+          }
         } else {
-          alert('Current step is not valid')
-          let redirectUrl = `/client/progress/${document.getElementById("client_id").value}`
+          currentStep--
+          const progressId = document.getElementById("progress_id").value;
+          if (updateStepNumber.value == 1) {
+            redirectUrl = `/client/phone_consult/update/${progressId}?${queryString}`;
+          } else if (updateStepNumber.value == 2) {
+            redirectUrl = `/client/office_consult/update/${progressId}?${queryString}`;
+          } else if (updateStepNumber.value == 3) {
+            redirectUrl = `/client/booking/update/${progressId}?${queryString}`;
+          } else if (updateStepNumber.value == 4) {
+            redirectUrl = `/client/contract/update/${progressId}?${queryString}`;
+          } else if (updateStepNumber.value == 5) {
+            redirectUrl = `/client/refund/update/${progressId}?${queryString}`;
+          } else if (updateStepNumber.value == 6) {
+            redirectUrl = `/client/in_process/update/${progressId}?${queryString}`;
+          } else if (updateStepNumber.value == 7) {
+            redirectUrl = `/client/paid/update/${progressId}?${queryString}`;
+          } else {
+            alert('Current step is not valid')
+            let redirectUrl = `/client/progress/${document.getElementById("client_id").value}`
+          }
         }
 
         window.location.href = redirectUrl;
@@ -526,8 +623,8 @@
           title: 'Completed successfully!',
 
         })
-        modal.classList.add("hidden"); // Close modal after submit
-        infoForm.reset(); // Reset form
+        // modal.classList.add("hidden"); // Close modal after submit
+        // infoForm.reset(); // Reset form
 
       } catch (error) {
         // Handle error (e.g., show error notification)
@@ -539,6 +636,8 @@
       }
 
     });
+
+
 
     // Next button handler
     nextButton.addEventListener("click", () => {
@@ -567,14 +666,7 @@
       }
       window.location.href = redirectUrl;
     });
-    // Previous button handler
-    prevButton.addEventListener("click", () => {
-      if (currentStep > 0) {
-        currentStep--;
-        updateProgress();
-
-      }
-    });
+    
     doneButton.addEventListener("click", () => {
       let redirectUrl = '/admin/clients'
       window.location.href = redirectUrl;
@@ -603,16 +695,11 @@
         if (currentStep >= 1) {
           // Change button states based on other steps
           startButton.classList.add("hidden");
-          prevButton.disabled = false; // Enable Previous button
           nextButton.disabled = false;
-          prevButton.disabled = currentStep === 1; // Disable if on the first step
           nextButton.disabled = currentStep === steps.length; // Disable if on the last step
           nextButton.classList.remove('bg-gray-300')
           nextButton.classList.add('bg-blue-500')
           nextButton.classList.add('text-white')
-          prevButton.classList.remove('bg-gray-300')
-          prevButton.classList.add('bg-blue-500')
-          prevButton.classList.add('text-white')
 
         }
         if (currentStep < steps.length && currentStep >= 1) {
@@ -679,6 +766,9 @@
       cancelBtn.hidden = false
       skipButton.classList.add('hidden')
       submitBtn.classList.add('hidden')
+      infoForm.removeAttribute('id');
+      infoForm.classList.add('editForm');
+      updateStepNumber.value = stepNumber;
       if (stepNumber == 1) {
         document.getElementById("name").value = data.name;
         document.getElementById("phone_number").value = data.phone_number;
@@ -692,6 +782,7 @@
         document.getElementById("program_looking").value = data.program_looking;
         document.getElementById("prefer_country").value = data.prefer_country;
         document.getElementById("progress_id").value = data.progress_id;
+
 
       } else if (stepNumber == 2) {
         document.getElementById("progress_id").value = data.progress_id;

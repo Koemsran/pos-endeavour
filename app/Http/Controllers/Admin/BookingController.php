@@ -105,38 +105,29 @@ class BookingController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Validate the incoming request data
+        // Validate incoming request
         $validatedData = $request->validate([
             'progress_id' => 'required|numeric',
             'client_id' => 'required|numeric',
             'amount' => 'required|numeric',
             'booking_date' => 'nullable|date',
+
         ]);
-
         try {
-            // Find the booking by id or fail if not found
-            $booking = Booking::findOrFail($id);
-
-            // Update the booking with the validated data
+            // Create new phone consultation using mass assignment
+            $booking = Booking::find($id);
             $booking->update($validatedData);
 
-            // Redirect to the progress index with a success message
-            return redirect()->route('client.progress.index')->with('success', 'Booking updated successfully.');
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // Log error if the booking record was not found
-            \Log::error('Booking not found: ' . $e->getMessage());
-
-            // Redirect back with an error message if the record was not found
-            return redirect()->back()->with('error', 'Booking not found.');
+            // Redirect to a success page with a success message
+            return redirect()->route('client.progress.index')->with('success', 'Booking created successfully.');
         } catch (\Exception $e) {
-            // Log any other unexpected errors for debugging
-            \Log::error('Error updating booking: ' . $e->getMessage());
+            // Log the error for debugging
+            \Log::error('Error creating booking: ' . $e->getMessage());
 
-            // Redirect back with a general error message
-            return redirect()->back()->with('error', 'Failed to update booking. Please try again.');
+            // Redirect back with an error message
+            return redirect()->back()->with('error', 'Failed to create booking. Please try again.');
         }
     }
-
 
     /**
      * Remove the specified resource from storage.

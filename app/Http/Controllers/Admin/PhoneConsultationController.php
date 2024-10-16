@@ -37,7 +37,6 @@ class PhoneConsultationController extends Controller
             'age' => 'required|numeric',
             'phone_number' => 'required|string', // Change validation if needed
             'progress_id' => 'required|numeric',
-            'status' => 'required|string',
             'source' => 'nullable|string',
             'ielts' => 'nullable|numeric',
             'hsk' => 'nullable|numeric',
@@ -116,13 +115,11 @@ class PhoneConsultationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd(1);
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'age' => 'required|numeric',
             'phone_number' => 'required|string', // Change validation if needed
             'progress_id' => 'required|numeric',
-            'status' => 'required|string',
             'source' => 'nullable|string',
             'ielts' => 'nullable|numeric',
             'hsk' => 'nullable|numeric',
