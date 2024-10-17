@@ -4,16 +4,10 @@
       <div class="container mx-auto px-6 py-2">
         <div class="bg-white shadow-md rounded my-6 p-5">
           <div>
+            <h1 id="congrate" class="flex items-center py-2 px-6 text-green-500 text-2xl hidden"><strong> Congratulation!🎉</strong></h1>
+
             <h1 class="flex items-center py-2 px-6 "><i class='bx bx-user-plus text-3xl mr-3'></i> <strong> {{$client->name}} </strong></h1>
             <input type="text" hidden id="current_step" value="{{$progress->step_number}}">
-            <form action="{{ route('client.progress.index', ['client_id' => $client->id])}}" method="GET" class="flex items-center mb-4 w-full" id="search-form">
-              <input type="number" name="search" placeholder="Search view by step number..."
-                class="px-4 py-2 border rounded-l-lg focus:outline-none focus:border-blue-500"
-                id="search-input" style="width: auto; max-width: 20%; flex: 1;">
-              <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600">
-                Search
-              </button>
-            </form>
           </div>
           <hr>
           <div class="w-full p-5 mt-5">
@@ -171,16 +165,16 @@
                 <div class="step-form" id="step2" hidden>
                   <div class="flex gap-5">
                     <div class="mb-4">
-                      <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name:</label>
-                      <input type="text" id="name" name="name" value="{{$client->name}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="name2" class="block text-gray-700 text-sm font-bold mb-2">Full Name:</label>
+                      <input type="text" id="name2" name="name" value="{{$client->name}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                      <label for="phone_number" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
-                      <input type="tel" id="phone_number" name="phone_number" value="{{$client->phone_number}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="phone_number2" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+                      <input type="tel" id="phone_number2" name="phone_number" value="{{$client->phone_number}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                      <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
-                      <input type="number" id="age" name="age" value="{{$client->age}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="age2" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
+                      <input type="number" id="age2" name="age" value="{{$client->age}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                   </div>
                   <div class="flex gap-5">
@@ -339,6 +333,7 @@
     let submitBtn = document.getElementById('submit');
     let editIcons = document.querySelectorAll('.edit');
     let updateStepNumber = document.getElementById("step_number");
+    let congrate = document.getElementById("congrate");
     //Edit btn
 
     edits.forEach((edit) => {
@@ -428,13 +423,21 @@
             prefer_country: document.getElementById("prefer_country").value,
             progress_id: document.getElementById("progress_id").value,
           };
+          let isEmpty = false;
+          for (let key in formData) {
+            if (formData[key] === null || formData[key].trim() === "") {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
+          }
 
         } else if (currentStep === 2) {
           formData = {
             progress_id: document.getElementById("progress_id").value,
-            name: document.getElementById("name").value,
-            phone_number: document.getElementById("phone_number").value,
-            age: document.getElementById("age").value,
+            name: document.getElementById("name2").value,
+            phone_number: document.getElementById("phone_number2").value,
+            age: document.getElementById("age2").value,
             school: document.getElementById("school").value,
             education_level: document.getElementById("education_level").value,
             language_test: document.getElementById("language_test").value,
@@ -444,12 +447,28 @@
             program_looking: document.getElementById("program_looking2").value,
             prefer_country: document.getElementById("prefer_country2").value,
           };
+          let isEmpty = false;
+          for (let key in formData) {
+            if (formData[key] === null || formData[key].trim() === "") {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
+          }
         } else if (currentStep === 3) {
           formData = {
             progress_id: document.getElementById("progress_id").value,
             client_id: document.getElementById("client_id").value,
             amount: document.getElementById("amount").value,
             booking_date: new Date().toISOString().slice(0, 10),
+          }
+          let isEmpty = false;
+          for (let key in formData) {
+            if (formData[key] === null || formData[key].trim() === "") {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
           }
         } else if (currentStep === 4) {
           formData = {
@@ -461,17 +480,47 @@
               null
 
           };
+          let isEmpty = false;
+
+          // Loop through formData and validate each field
+          for (let key in formData) {
+            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
+          }
         } else if (currentStep === 5) {
           formData = {
             progress_id: document.getElementById("progress_id").value,
             client_id: document.getElementById("client_id").value,
             refund_reason: document.querySelector('input[name="refund_reason"]:checked')?.value // Get the checked radio button value
           };
+          let isEmpty = false;
+
+          // Loop through formData and validate each field
+          for (let key in formData) {
+            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
+          }
         } else if (currentStep === 6) {
           formData = {
             progress_id: document.getElementById("progress_id").value,
             client_id: document.getElementById("client_id").value,
             status: document.getElementById("prepared-docs-checkbox").checked ? "true" : "false"
+          }
+          let isEmpty = false;
+
+          // Loop through formData and validate each field
+          for (let key in formData) {
+            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
           }
         } else if (currentStep === 7) {
           formData = {
@@ -479,6 +528,14 @@
             client_id: document.getElementById("client_id").value,
             amount: document.getElementById("amount1").value,
             paid_date: new Date().toISOString().slice(0, 10),
+          }
+          let isEmpty = false;
+          for (let key in formData) {
+            if (formData[key] === null || formData[key].trim() === "") {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
           }
         } else {
           alert("Invalid step");
@@ -499,13 +556,21 @@
             prefer_country: document.getElementById("prefer_country").value,
             progress_id: document.getElementById("progress_id").value,
           };
+          let isEmpty = false;
+          for (let key in formData) {
+            if (formData[key] === null || formData[key].trim() === "") {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
+          }
 
         } else if (updateStepNumber.value == 2) {
           formData = {
             progress_id: document.getElementById("progress_id").value,
-            name: document.getElementById("name").value,
-            phone_number: document.getElementById("phone_number").value,
-            age: document.getElementById("age").value,
+            name: document.getElementById("name2").value,
+            phone_number: document.getElementById("phone_number2").value,
+            age: document.getElementById("age2").value,
             school: document.getElementById("school").value,
             education_level: document.getElementById("education_level").value,
             language_test: document.getElementById("language_test").value,
@@ -515,12 +580,28 @@
             program_looking: document.getElementById("program_looking2").value,
             prefer_country: document.getElementById("prefer_country2").value,
           };
+          let isEmpty = false;
+          for (let key in formData) {
+            if (formData[key] === null || formData[key].trim() === "") {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
+          }
         } else if (updateStepNumber.value == 3) {
           formData = {
             progress_id: document.getElementById("progress_id").value,
             client_id: document.getElementById("client_id").value,
             amount: document.getElementById("amount").value,
             booking_date: new Date().toISOString().slice(0, 10),
+          }
+          let isEmpty = false;
+          for (let key in formData) {
+            if (formData[key] === null || formData[key].trim() === "") {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
           }
         } else if (updateStepNumber.value == 4) {
           formData = {
@@ -532,24 +613,63 @@
               null
 
           };
+          let isEmpty = false;
+
+          // Loop through formData and validate each field
+          for (let key in formData) {
+            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
+          }
         } else if (updateStepNumber.value == 5) {
           formData = {
             progress_id: document.getElementById("progress_id").value,
             client_id: document.getElementById("client_id").value,
             refund_reason: document.querySelector('input[name="refund_reason"]:checked')?.value // Get the checked radio button value
           };
+          let isEmpty = false;
+
+          // Loop through formData and validate each field
+          for (let key in formData) {
+            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
+          }
         } else if (updateStepNumber.value == 6) {
           formData = {
             progress_id: document.getElementById("progress_id").value,
             client_id: document.getElementById("client_id").value,
             status: document.getElementById("prepared-docs-checkbox").checked ? "true" : "false"
           }
+          let isEmpty = false;
+
+          // Loop through formData and validate each field
+          for (let key in formData) {
+            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
+          }
+
         } else if (updateStepNumber.value == 7) {
           formData = {
             progress_id: document.getElementById("progress_id").value,
             client_id: document.getElementById("client_id").value,
             amount: document.getElementById("amount1").value,
             paid_date: new Date().toISOString().slice(0, 10),
+          }
+          let isEmpty = false;
+          for (let key in formData) {
+            if (formData[key] === null || formData[key].trim() === "") {
+              alert(`Please fill in the ${key.replace("_", " ")} field`);
+              isEmpty = true;
+              return false
+            }
           }
         } else {
           alert("Invalid step");
@@ -580,7 +700,6 @@
 
           } else if (currentStep === 5) {
             redirectUrl = `/client/refund?${queryString}`;
-
 
           } else if (currentStep === 6) {
             redirectUrl = `/client/in_process?${queryString}`;
@@ -651,9 +770,51 @@
       // Move to the next step without submitting the form
       currentStep++;
       modal.classList.add("hidden"); // Close modal
-      let redirectUrl = `/client/progress/update/${document.getElementById("progress_id").value}`
       updateProgress();
+      let redirectUrl = '';
+      let formData = {};
+      if (currentStep == 2) {
+        formData = {
+          progress_id: document.getElementById("progress_id").value,
+          name: document.getElementById("name2").value,
+          phone_number: document.getElementById("phone_number2").value,
+          age: document.getElementById("age2").value,
+          school: '',
+          education_level: '',
+          language_test: '',
+          prefer_university: '',
+          major: '',
+          address: '',
+          program_looking: '',
+          prefer_country: '',
+        };
+      } else if (currentStep == 3) {
+        formData = {
+          progress_id: document.getElementById("progress_id").value,
+          client_id: document.getElementById("client_id").value,
+          amount: '',
+          booking_date: '',
+        }
+      } else if (currentStep == 5) {
+        formData = {
+          progress_id: document.getElementById("progress_id").value,
+          client_id: document.getElementById("client_id").value,
+          refund_reason: ''
+        }
+      } else {
+        alert('Current step is not valid')
+        let redirectUrl = `/client/progress/${document.getElementById("client_id").value}`
+      }
+      const queryString = new URLSearchParams(formData).toString();
 
+      if (currentStep === 2) {
+
+        redirectUrl = `/client/office_consult?${queryString}`;
+      } else if (currentStep === 3) {
+        redirectUrl = `/client/booking?${queryString}`;
+      } else if (currentStep === 5) {
+        redirectUrl = `/client/refund?${queryString}`;
+      }
       // Enable the Next button only if not at the last step
       nextButton.disabled = currentStep >= steps.length - 1; // Disable Next if at last step
       if (currentStep < steps.length) {
@@ -666,7 +827,7 @@
       }
       window.location.href = redirectUrl;
     });
-    
+
     doneButton.addEventListener("click", () => {
       let redirectUrl = '/admin/clients'
       window.location.href = redirectUrl;
@@ -707,6 +868,7 @@
         } else if (currentStep === steps.length) {
           nextButton.classList.add("hidden");
           doneButton.classList.remove("hidden");
+          congrate.classList.remove("hidden");
           Toast.fire({
             icon: 'success',
             title: 'All steps completed!',
@@ -786,7 +948,9 @@
 
       } else if (stepNumber == 2) {
         document.getElementById("progress_id").value = data.progress_id;
-        document.getElementById("client_id").value = data.client_id;
+        document.getElementById("name2").value = data.name;
+        document.getElementById("phone_number2").value = data.phone_number;
+        document.getElementById("age2").value = data.age;
         document.getElementById("school").value = data.school;
         document.getElementById("education_level").value = data.education_level;
         document.getElementById("language_test").value = data.language_test;
@@ -795,7 +959,6 @@
         document.getElementById("address").value = data.address;
         document.getElementById("program_looking2").value = data.program_looking;
         document.getElementById("prefer_country2").value = data.prefer_country;
-
       } else if (stepNumber == 3) {
         document.getElementById("progress_id").value = data.progress_id
         document.getElementById("client_id").value = data.client_id

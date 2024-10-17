@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('progress_id');
             $table->integer('client_id');
-            $table->string('refund_reason');
+            $table->string('refund_reason')->nullable();
             $table->timestamps();
         });
     }

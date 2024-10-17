@@ -34,7 +34,7 @@ class RefundContrller extends Controller
         $validatedData = $request->validate([
             'progress_id' => 'required|numeric',
             'client_id' => 'required|numeric',
-            'refund_reason' => 'required|string',
+            'refund_reason' => 'nullable|string',
         ]);
         try {
             // Create new phone consultation using mass assignment
@@ -108,7 +108,7 @@ class RefundContrller extends Controller
         $validatedData = $request->validate([
             'progress_id' => 'required|numeric',
             'client_id' => 'required|numeric',
-            'refund_reason' => 'required|string',
+            'refund_reason' => 'nullable|string',
         ]);
 
         try {

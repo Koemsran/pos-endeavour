@@ -34,7 +34,7 @@ class BookingController extends Controller
         $validatedData = $request->validate([
             'progress_id' => 'required|numeric',
             'client_id' => 'required|numeric',
-            'amount' => 'required|numeric',
+            'amount' => 'nullable|numeric',
             'booking_date' => 'nullable|date',
 
         ]);
@@ -109,7 +109,7 @@ class BookingController extends Controller
         $validatedData = $request->validate([
             'progress_id' => 'required|numeric',
             'client_id' => 'required|numeric',
-            'amount' => 'required|numeric',
+            'amount' => 'nullable|numeric',
             'booking_date' => 'nullable|date',
 
         ]);

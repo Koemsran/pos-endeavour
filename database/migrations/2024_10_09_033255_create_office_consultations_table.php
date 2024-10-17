@@ -17,14 +17,14 @@ return new class extends Migration
             $table->string('name');
             $table->integer('age');
             $table->string('phone_number');
-            $table->string('education_level');
-            $table->string('school');
-            $table->string('language_test');
-            $table->string('prefer_university');
-            $table->string('major');
-            $table->string('address');
-            $table->string('program_looking');
-            $table->string('prefer_country');
+            $table->string('education_level')->nullable();
+            $table->string('school')->nullable();
+            $table->string('language_test')->nullable();
+            $table->string('prefer_university')->nullable();
+            $table->string('major')->nullable();
+            $table->string('address')->nullable();
+            $table->string('program_looking')->nullable();
+            $table->string('prefer_country')->nullable();
             $table->timestamps();
         });
     }

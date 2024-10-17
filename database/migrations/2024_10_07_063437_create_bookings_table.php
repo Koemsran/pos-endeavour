@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id')->constrained()->onDelete('cascade'); // assuming a relationship with clients
             $table->integer('progress_id');
-            $table->integer('amount');
-            $table->dateTime('booking_date');
+            $table->integer('amount')->nullable();
+            $table->dateTime('booking_date')->nullable();
             $table->timestamps();
         });
     }
