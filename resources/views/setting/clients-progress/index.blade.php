@@ -496,15 +496,9 @@
             client_id: document.getElementById("client_id").value,
             refund_reason: document.querySelector('input[name="refund_reason"]:checked')?.value // Get the checked radio button value
           };
-          let isEmpty = false;
-
-          // Loop through formData and validate each field
-          for (let key in formData) {
-            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
-              alert(`Please fill in the ${key.replace("_", " ")} field`);
-              isEmpty = true;
-              return false
-            }
+          if (formData.refund_reason == undefined) {
+            alert("Please select a refund reason");
+            return false;
           }
         } else if (currentStep === 6) {
           formData = {
@@ -512,15 +506,9 @@
             client_id: document.getElementById("client_id").value,
             status: document.getElementById("prepared-docs-checkbox").checked ? "true" : "false"
           }
-          let isEmpty = false;
-
-          // Loop through formData and validate each field
-          for (let key in formData) {
-            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
-              alert(`Please fill in the ${key.replace("_", " ")} field`);
-              isEmpty = true;
-              return false
-            }
+          if (formData.status == 'false') {
+            alert("Please checked box");
+            return false;
           }
         } else if (currentStep === 7) {
           formData = {
@@ -629,15 +617,9 @@
             client_id: document.getElementById("client_id").value,
             refund_reason: document.querySelector('input[name="refund_reason"]:checked')?.value // Get the checked radio button value
           };
-          let isEmpty = false;
-
-          // Loop through formData and validate each field
-          for (let key in formData) {
-            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
-              alert(`Please fill in the ${key.replace("_", " ")} field`);
-              isEmpty = true;
-              return false
-            }
+          if (formData.refund_reason == undefined) {
+            alert("Please select a refund reason");
+            return false;
           }
         } else if (updateStepNumber.value == 6) {
           formData = {
@@ -645,15 +627,10 @@
             client_id: document.getElementById("client_id").value,
             status: document.getElementById("prepared-docs-checkbox").checked ? "true" : "false"
           }
-          let isEmpty = false;
-
           // Loop through formData and validate each field
-          for (let key in formData) {
-            if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
-              alert(`Please fill in the ${key.replace("_", " ")} field`);
-              isEmpty = true;
-              return false
-            }
+          if (formData.status == 'false') {
+            alert("Please checked box");
+            return false;
           }
 
         } else if (updateStepNumber.value == 7) {
@@ -755,9 +732,6 @@
       }
 
     });
-
-
-
     // Next button handler
     nextButton.addEventListener("click", () => {
       // No action taken on Next button click until the current step is submitted
