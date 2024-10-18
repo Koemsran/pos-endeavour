@@ -1,14 +1,14 @@
 <div
-  class="relative flex flex-col min-w-0 break-words bg-white w-full shadow-lg rounded"
+  class="relative flex flex-col min-w-0 break-words bg-white w-full shadow-lg rounded-lg"
 >
-  <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
+  <div class="rounded-t mb-0 px-4 py-3 text-black">
     <div class="flex flex-wrap items-center">
       <div class="relative w-full max-w-full flex-grow flex-1">
-        <h6 class="uppercase text-blueGray-400 mb-1 text-xs font-semibold">
+        <h6 class="uppercase mb-1 text-xs font-semibold">
           Overview
         </h6>
-        <h2 class="text-blueGray-700 text-xl font-semibold">
-          Track of Client Booking
+        <h2 class="text-xl font-semibold">
+          Track of Client Growth and Bookings
         </h2>
       </div>
     </div>
@@ -23,7 +23,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-
     // Function to get month names dynamically up to the current month
     function getMonthLabels() {
         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -31,81 +30,98 @@ document.addEventListener('DOMContentLoaded', function () {
         return monthNames.slice(0, currentMonth + 1); // Slice months up to the current month
     }
 
+    let clientGrowthData = @json($clientGrowthData);
+    let bookingData = @json($bookingData);
+
     let config = {
         type: 'line',
         data: {
           labels: getMonthLabels(),  // Dynamically get month labels
           datasets: [
             {
-              label: new Date().getFullYear(),
-              backgroundColor: '#4c51bf',
-              borderColor: '#4c51bf',
-              data: [65, 78, 66, 44, 56, 67, 75, 50, 70], // Example data for current year
-              fill: false,
+              label: 'Client Growth (' + new Date().getFullYear() + ')',
+              backgroundColor: 'rgba(76, 81, 191, 0.1)',  // Light fill color
+              borderColor: '#4c51bf',  // Line color
+              pointBackgroundColor: '#4c51bf',  // Point color
+              pointBorderColor: '#fff',  // Point border color
+              pointHoverBackgroundColor: '#fff',  // Point hover background color
+              pointHoverBorderColor: '#4c51bf',  // Point hover border color
+              data: clientGrowthData,  // Dynamic client growth data
+              fill: true,  // Fill the area below the line
+              tension: 0.4,  // Curve the line
             },
             {
-              label: new Date().getFullYear() - 1,
-              backgroundColor: '#36a2eb',
-              borderColor: '#36a2eb',
-              data: [40, 68, 86, 74, 56, 60, 87, 55, 43], // Example data for previous year
-              fill: false,
+              label: 'Booking (' + new Date().getFullYear() + ')',
+              backgroundColor: 'rgba(54, 162, 235, 0.1)',  // Light fill color
+              borderColor: '#36a2eb',  // Line color
+              pointBackgroundColor: '#36a2eb',  // Point color
+              pointBorderColor: '#fff',  // Point border color
+              pointHoverBackgroundColor: '#fff',  // Point hover background color
+              pointHoverBorderColor: '#36a2eb',  // Point hover border color
+              data: bookingData,  // Dynamic booking data
+              fill: true,  // Fill the area below the line
+              tension: 0.4,  // Curve the line
             }
           ]
         },
         options: {
           responsive: true,
-          maintainAspectRatio: false, // Ensures it respects the container's height
-          title: {
-            display: false,
-            text: 'Track of Client Booking'
-          },
-          legend: {
-            labels: {
-              fontColor: '#333'
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              display: true,
+              labels: {
+                color: 'black',  // Legend text color
+                font: {
+                  size: 12,  // Adjust legend font size
+                  family: 'Arial',  // Font family for the legend
+                }
+              }
             },
-            align: 'end',
-            position: 'bottom',
-          },
-          tooltips: {
-            mode: 'index',
-            intersect: false,
-          },
-          hover: {
-            mode: 'nearest',
-            intersect: true
+            tooltip: {
+              backgroundColor: 'rgba(0, 0, 0, 0.7)',  // Dark tooltip background
+              titleFont: {
+                family: 'Arial',
+                size: 14,
+                weight: 'bold'
+              },
+              bodyFont: {
+                family: 'Arial',
+                size: 12
+              },
+              padding: 10,  // Increase padding inside the tooltip
+            }
           },
           scales: {
-            xAxes: [{
-              display: true,
-              scaleLabel: {
-                display: false,
-                labelString: 'Month'
-              },
-              gridLines: {
-                color: 'rgba(33, 37, 41, 0.3)',
+            x: {
+              grid: {
+                display: false,  // Hide x-axis grid lines for a cleaner look
               },
               ticks: {
-                fontColor: '#333',
+                color: '#333',  // Darker x-axis label color
+                font: {
+                  size: 12,  // Adjust font size
+                  family: 'Arial',  // Font family for x-axis labels
+                }
               }
-            }],
-            yAxes: [{
-              display: true,
-              scaleLabel: {
-                display: false,
-                labelString: 'Value'
-              },
-              gridLines: {
-                color: 'rgba(33, 37, 41, 0.2)',
+            },
+            y: {
+              grid: {
+                borderDash: [5, 5],  // Dashed grid lines
+                color: 'rgba(0, 0, 0, 0.1)',  // Lighter grid color
               },
               ticks: {
-                fontColor: '#333',
+                color: '#333',  // Darker y-axis label color
+                font: {
+                  size: 12,  // Adjust font size
+                  family: 'Arial',  // Font family for y-axis labels
+                }
               }
-            }]
+            }
           }
         }
-      };
+    };
 
-      let ctx = document.getElementById('line-chart').getContext('2d');
-      new Chart(ctx, config);
+    new Chart(document.getElementById('line-chart'), config);
 });
 </script>

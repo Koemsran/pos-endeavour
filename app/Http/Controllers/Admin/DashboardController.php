@@ -24,6 +24,10 @@ class DashboardController extends Controller
         $totalBookings = Booking::sum('amount');
         $totalPaid = Paid::sum('amount');
 
+        // Data for this year (clients and bookings grouped by month)
+        $clientGrowthData = [];
+        $bookingData = [];
+
         // Today's data
         $todayUsers = User::whereDate('created_at', Carbon::today())->count();
         $todayBookings = Booking::whereDate('created_at', Carbon::today())->sum('amount');
@@ -59,11 +63,24 @@ class DashboardController extends Controller
             'Paid' => Paid::distinct('progress_id')->count('progress_id'),
         ];
 
+        // Loop through each month up to the current month
+        foreach (range(1, Carbon::now()->month) as $month) {
+            // Count clients added in each month of the current year
+            $clientGrowthData[] = Client::whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', $month)
+                ->count();
+
+            // Sum of booking amounts in each month of the current year
+            $bookingData[] = Booking::whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', $month)
+                ->sum('amount');
+        }
+
         // Count the number of clients by country
         $countryData = PhoneConsultation::select('prefer_country', \DB::raw('count(*) as total'))
-                             ->groupBy('prefer_country')
-                             ->orderBy('total', 'desc')
-                             ->get();
+            ->groupBy('prefer_country')
+            ->orderBy('total', 'desc')
+            ->get();
 
         // Extract country names and counts for the chart
         $countryNames = $countryData->pluck('prefer_country')->toArray(); // Country names
@@ -94,6 +111,8 @@ class DashboardController extends Controller
             'clientProgress' => $clientProgress, // Pass client progress data
             'countryNames' => $countryNames, // Country names for the chart
             'countryCounts' => $countryCounts, // Country counts for the chart
+            'clientGrowthData' => $clientGrowthData, // Client growth data for chart
+            'bookingData' => $bookingData, // Booking data for chart
         ]);
     }
 }
