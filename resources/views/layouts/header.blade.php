@@ -23,20 +23,20 @@
             <!-- Dropdown menu -->
             <div x-show="dropdownOpen" class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10" style="display: none;">
                 @if (auth()->check())
-                    <a href="{{ route('admin.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white flex items-center">
-                        <i class='bx bx-user-circle text-xl mr-3'></i> Profile
-                    </a>
+                <a href="{{ route('admin.profile') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white flex items-center">
+                    <i class='bx bx-user-circle text-xl mr-3'></i> Profile
+                </a>
 
-                    <form method="POST" action="{{ route('admin.logout') }}" class="block">
-                        @csrf
-                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white flex items-center">
-                            <i class='bx bx-log-out mr-3 text-xl'></i> Logout
-                        </button>
-                    </form>
+                <form method="POST" action="{{ route('admin.logout') }}" class="block">
+                    @csrf
+                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white flex items-center">
+                        <i class='bx bx-log-out mr-3 text-xl'></i> Logout
+                    </button>
+                </form>
                 @else
-                    <a href="{{ route('login') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white flex items-center">
-                        <i class="fas fa-sign-in-alt mr-2"></i> Login
-                    </a>
+                <a href="{{ url('/') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-indigo-600 hover:text-white flex items-center">
+                    <i class="fas fa-sign-in-alt mr-2"></i> Login
+                </a>
                 @endif
             </div>
         </div>
