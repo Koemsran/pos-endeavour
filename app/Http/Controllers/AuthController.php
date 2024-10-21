@@ -29,7 +29,7 @@ class AuthController extends Controller
 
     // Find the user by email
     $user = User::where('email', $request->email)->first();
-
+    
     // Check if the user exists
     if (!$user) {
         return response()->json([

@@ -11,6 +11,12 @@
 
   <body>
     <div>
+      @if (session('test'))
+      <div class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3" role="alert">
+        <p > <strong>Error:</strong>  {{ session('test')}}</p>
+      </div>
+      {{ session()->forget('test') }}
+      @endif
       <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-200">
         <div class="container mx-auto px-6 py-8">
           <div class="flex justify-between items-center mb-4">
@@ -27,7 +33,6 @@
                   <th class="py-4 px-6 text-left border-b border-gray-300 font-bold text-sm text-gray-700">Profile</th>
                   <th class="py-4 px-6 text-left border-b border-gray-300 font-bold text-sm text-gray-700">User Name</th>
                   <th class="py-4 px-6 text-left border-b border-gray-300 font-bold text-sm text-gray-700">Email</th>
-                  <th class="py-4 px-6 text-left border-b border-gray-300 font-bold text-sm text-gray-700">Phone Number</th>
                   <th class="py-4 px-6 text-left border-b border-gray-300 font-bold text-sm text-gray-700">Role</th>
                   <th class="py-4 px-6 text-right border-b border-gray-300 font-bold text-sm text-gray-700">Actions</th>
                 </tr>
@@ -46,7 +51,6 @@
                   </td>
                   <td class="py-4 px-6 border-b border-gray-300">{{ $user->name }}</td>
                   <td class="py-4 px-6 border-b border-gray-300">{{ $user->email }}</td>
-                  <td class="py-4 px-6 border-b border-gray-300">{{ $user->phone_number }}</td>
                   <td class="py-4 px-6 border-b border-gray-300">
                     @foreach($user->roles as $role)
                     <span class="inline-block px-3 py-1 text-white text-xs font-semibold text-gray-700 mr-2 rounded-full {{ $role->name === 'user' ? 'bg-red-300 text-white' : '' }} {{ $role->name === 'admin' ? 'bg-blue-300' : '' }}">
@@ -100,10 +104,11 @@
               <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" name="email" required>
-              </div>
-              <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="phone_number">Phone Number</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="phone_number" type="text" placeholder="Phone Number" name="phone_number" required>
+                @if($errors->has('email'))
+                <div class="text-red-500">
+                  {{ $errors->first('email') }}
+                </div>
+                @endif
               </div>
               <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
@@ -151,7 +156,7 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="edit-email">Email</label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="edit-email" type="email" placeholder="Email" name="email" required>
               </div>
-              <div class="mb-4">
+              <div class="mb-4 hidden">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="edit-phone_number">Phone Number</label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="edit-phone_number" type="text" placeholder="Phone Number" name="phone_number" required>
               </div>
@@ -219,22 +224,21 @@
       }
 
       const createModal = document.getElementById('createUserModal');
-      document.getElementById('toggleCreateModal').onclick = function () {
+      document.getElementById('toggleCreateModal').onclick = function() {
         createModal.classList.remove('hidden');
       };
-      document.getElementById('closeCreateModal').onclick = function () {
+      document.getElementById('closeCreateModal').onclick = function() {
         createModal.classList.add('hidden');
       };
 
       const editModal = document.getElementById('editUserModal');
-      document.getElementById('closeEditModal').onclick = function () {
+      document.getElementById('closeEditModal').onclick = function() {
         editModal.classList.add('hidden');
       };
 
       function openEditModal(user) {
         document.getElementById('edit-name').value = user.name;
         document.getElementById('edit-email').value = user.email;
-        document.getElementById('edit-phone_number').value = user.phone_number;
 
         // Populate roles
         const editRoles = document.getElementById('edit-roles');
@@ -250,5 +254,6 @@
       }
     </script>
   </body>
+
   </html>
 </x-app-layout>

@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
-
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
@@ -10,10 +8,7 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Str;
 
 
 
@@ -62,31 +57,32 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-    */
+     */
 
-
-    public function store(RegisterRequest $request)
+    public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|min:0',
-            'phone_number' => 'required|string|max:20',
-        ]);
+        // Check if the email already exists
+        $existingUser = User::where('email', $request->email)->first();
 
+        if ($existingUser) {
+            // If the email already exists, redirect back with an error message
+            session()->put('test', 'Email already exists.');
+            return redirect()->back()->with('error', 'Email already exists.');
+        }
+
+        // If the email does not exist, create a new user
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->phone_number = $request->phone_number;
-
         $user->save();
 
-        // Assign roles
+        // Assign roles to the user
         $user->syncRoles($request->roles);
-        return redirect()->route('admin.users.index')->with('success', 'New user created successfully');
-    }   
 
+        // Redirect with success message if user creation succeeds
+        return redirect()->route('admin.users.index')->with('success', 'New user created successfully');
+    }
 
     /**
      * Display the specified resource.
@@ -94,7 +90,6 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
 
     /**
      * Show the form for editing the specified resource.
@@ -120,7 +115,6 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required',
-            'phone_number' => 'required|string|max:15', // Add validation for phone number
             'email' => 'required|email|unique:users,email,' . $user->id . ',id',
             'roles' => 'required|array',
         ]);
@@ -138,7 +132,6 @@ class UserController extends Controller
         // return redirect()->route('admin.users.index')->withSuccess('User updated !!!');
         return redirect()->route('admin.users.index')->with('success', 'New user created successfully');
     }
-
 
     //========================Create account======================//
     public function createAccount()

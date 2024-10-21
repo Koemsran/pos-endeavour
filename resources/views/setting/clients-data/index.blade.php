@@ -1,4 +1,10 @@
 <x-app-layout>
+  @if (session('phone-error'))
+  <div class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3" role="alert">
+    <p> <strong>Error:</strong> {{ session('phone-error')}}</p>
+  </div>
+  {{ session()->forget('phone-error') }}
+  @endif
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
       {{ __('Clients') }}
@@ -33,7 +39,6 @@
               <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Name</th>
               <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Phone Number</th>
               <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Age</th>
-              <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Progress</th>
               <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Action</th>
             </tr>
           </thead>
@@ -44,7 +49,6 @@
               <td class="px-6 py-4 whitespace-nowrap">{{ $client->name }}</td>
               <td class="px-6 py-4 whitespace-nowrap">{{ $client->phone_number }}</td>
               <td class="px-6 py-4 whitespace-nowrap">{{ $client->age }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">Paid</td>
               <td class="px-4 py-2 whitespace-nowrap flex gap-2">
                 <a href="{{ route('client.progress.index', ['client_id' => $client->id])}}" class="text-green-500 hover:text-green-700" title="progress">
                   <i class='bx bx-line-chart text-2xl'></i>

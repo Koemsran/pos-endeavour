@@ -21,7 +21,6 @@ class AdminSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('password'),
-            'phone_number' => '0984214124',
             'profile' => 'user.avif'
         ]);
 
@@ -29,7 +28,6 @@ class AdminSeeder extends Seeder
             'name' => 'User',
             'email' => 'user@gmail.com',
             'password' => bcrypt('password'),
-            'phone_number' => '0984214123',
         ]);
 
         $admin_role = Role::create(['name' => 'admin']);

@@ -26,10 +26,7 @@ class ClientController extends Controller
         return view('setting.clients-data.index', compact('clients'));
     }
 
-
-
     //=================Create categories ============================//
-
 
     public function create()
     {
@@ -38,18 +35,19 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
-        // Validate incoming request
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'age' => 'required|numeric',
-            'phone_number' => 'required|string|min:0',
-        ]);
+        // Check if the email already exists
+        $existingPhone = Client::where('phone_number', $request->phone_number)->first();
 
+        if ($existingPhone) {
+            // If the email already exists, redirect back with an error message
+            session()->put('phone-error', 'Phone number must be unique');
+            return redirect()->back()->with('error', 'Phone number must be unique');
+        }
         // Create new product
         $client = new Client();
-        $client->name = $validatedData['name'];
-        $client->age = $validatedData['age'];
-        $client->phone_number = $validatedData['phone_number'];
+        $client->name = $request->name;
+        $client->age = $request->age;
+        $client->phone_number = $request->phone_number;
         $client->save();
 
         $progress =new Progress();
