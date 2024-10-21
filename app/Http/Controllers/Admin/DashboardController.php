@@ -28,6 +28,17 @@ class DashboardController extends Controller
         $clientGrowthData = [];
         $bookingData = [];
 
+        // Populate monthly data for clients and bookings
+        foreach (range(1, 12) as $month) {
+            $clientGrowthData[] = Client::whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', $month)
+                ->count();
+
+            $bookingData[] = Booking::whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', $month)
+                ->sum('amount'); // or count() based on your needs
+        }
+
         // Today's data
         $todayUsers = User::whereDate('created_at', Carbon::today())->count();
         $todayBookings = Booking::whereDate('created_at', Carbon::today())->sum('amount');
@@ -63,17 +74,27 @@ class DashboardController extends Controller
             'Paid' => Paid::distinct('progress_id')->count('progress_id'),
         ];
 
-        // Loop through each month up to the current month
-        foreach (range(1, Carbon::now()->month) as $month) {
-            // Count clients added in each month of the current year
-            $clientGrowthData[] = Client::whereYear('created_at', Carbon::now()->year)
-                ->whereMonth('created_at', $month)
-                ->count();
+        // Paid and contract clients
+        $paidClients = Paid::distinct('client_id')->count('client_id');
+        $contractClients = Contract::distinct('client_id')->count('client_id');
 
-            // Sum of booking amounts in each month of the current year
-            $bookingData[] = Booking::whereYear('created_at', Carbon::now()->year)
+        // Arrays for monthly data
+        $monthlyPaidClients = [];
+        $monthlyContractClients = [];
+
+        // Loop through each month to count paid and contract clients
+        foreach (range(1, 12) as $month) {
+            // Count paid clients for the month
+            $monthlyPaidClients[] = Paid::whereYear('created_at', Carbon::now()->year)
                 ->whereMonth('created_at', $month)
-                ->sum('amount');
+                ->distinct('client_id') // Ensure you count distinct clients
+                ->count('client_id');
+
+            // Count contract clients for the month
+            $monthlyContractClients[] = Contract::whereYear('created_at', Carbon::now()->year)
+                ->whereMonth('created_at', $month)
+                ->distinct('client_id') // Ensure you count distinct clients
+                ->count('client_id');
         }
 
         // Count the number of clients by country
@@ -108,11 +129,15 @@ class DashboardController extends Controller
             'totalBookingsThisYear' => $totalBookingsThisYear,
             'yearlyPaid' => $yearlyPaid,
             'totalClientsThisYear' => $totalClientsThisYear,
-            'clientProgress' => $clientProgress, // Pass client progress data
-            'countryNames' => $countryNames, // Country names for the chart
-            'countryCounts' => $countryCounts, // Country counts for the chart
-            'clientGrowthData' => $clientGrowthData, // Client growth data for chart
-            'bookingData' => $bookingData, // Booking data for chart
+            'clientProgress' => $clientProgress,
+            'countryNames' => $countryNames,
+            'countryCounts' => $countryCounts,
+            'clientGrowthData' => $clientGrowthData,
+            'bookingData' => $bookingData,
+            'paidClients' => $paidClients,
+            'contractClients' => $contractClients,
+            'monthlyPaidClients' => $monthlyPaidClients,
+            'monthlyContractClients' => $monthlyContractClients,
         ]);
     }
 }

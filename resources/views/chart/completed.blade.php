@@ -1,15 +1,15 @@
-
 <div
-  class="relative flex flex-col min-w-0 break-words bg-white w-full mb-5 shadow-lg rounded"
+  class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg"
+  style="padding: 20px; background-color: #f8f9fa;"
 >
-  <div class="rounded-t mb-0 px-4 py-3 bg-transparent">
+  <div class="rounded-t px-4 py-3 bg-transparent border-b border-gray-200">
     <div class="flex flex-wrap items-center">
       <div class="relative w-full max-w-full flex-grow flex-1">
-        <h6 class="uppercase text-blueGray-400 mb-1 text-xs font-semibold">
+        <h6 class="uppercase text-gray-500 mb-1 text-xs font-semibold tracking-wider">
           Performance
         </h6>
-        <h2 class="text-blueGray-700 text-xl font-semibold">
-          Completed Comiossion
+        <h2 class="text-gray-700 text-lg font-semibold leading-snug">
+          Clients' Paid and Contracts
         </h2>
       </div>
     </div>
@@ -27,96 +27,87 @@ document.addEventListener('DOMContentLoaded', function () {
     let config = {
         type: "bar",
         data: {
-          labels: [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-          ],
-          datasets: [
-            {
-              label: new Date().getFullYear(),
-              backgroundColor: "#ed64a6",
-              borderColor: "#ed64a6",
-              data: [30, 78, 56, 34, 100, 45, 13],
-              fill: false,
-              barThickness: 8,
-            },
-            {
-              label: new Date().getFullYear() - 1,
-              fill: false,
-              backgroundColor: "#4c51bf",
-              borderColor: "#4c51bf",
-              data: [27, 68, 86, 74, 10, 4, 87],
-              barThickness: 8,
-            },
-          ],
+            labels: [
+                "January", "February", "March", "April", "May", "June", 
+                "July", "August", "September", "October", "November", "December"
+            ],
+            datasets: [
+                {
+                    label: "Clients Paid",
+                    backgroundColor: "#4A90E2", // Bright blue for Paid Clients
+                    data: {!! json_encode($monthlyPaidClients) !!}, // Monthly paid clients data
+                    barThickness: 45,
+                },
+                {
+                    label: "Clients Contract",
+                    backgroundColor: "#E94E77", // Contrasting pinkish-red for Contract Clients
+                    data: {!! json_encode($monthlyContractClients) !!}, // Monthly contract clients data
+                    barThickness: 45,
+                },
+            ],
         },
         options: {
-          maintainAspectRatio: false,
-          responsive: true,
-          title: {
-            display: false,
-            text: "Orders Chart",
-          },
-          tooltips: {
-            mode: "index",
-            intersect: false,
-          },
-          hover: {
-            mode: "nearest",
-            intersect: true,
-          },
-          legend: {
-            labels: {
-              fontColor: "rgba(0,0,0,.4)",
-            },
-            align: "end",
-            position: "bottom",
-          },
-          scales: {
-            xAxes: [
-              {
-                display: false,
-                scaleLabel: {
-                  display: true,
-                  labelString: "Month",
-                },
-                gridLines: {
-                  borderDash: [2],
-                  borderDashOffset: [2],
-                  color: "rgba(33, 37, 41, 0.3)",
-                  zeroLineColor: "rgba(33, 37, 41, 0.3)",
-                  zeroLineBorderDash: [2],
-                  zeroLineBorderDashOffset: [2],
-                },
-              },
-            ],
-            yAxes: [
-              {
+            maintainAspectRatio: false,
+            responsive: true,
+            title: {
                 display: true,
-                scaleLabel: {
-                  display: false,
-                  labelString: "Value",
-                },
-                gridLines: {
-                  borderDash: [2],
-                  drawBorder: false,
-                  borderDashOffset: [2],
-                  color: "rgba(33, 37, 41, 0.2)",
-                  zeroLineColor: "rgba(33, 37, 41, 0.15)",
-                  zeroLineBorderDash: [2],
-                  zeroLineBorderDashOffset: [2],
-                },
-              },
-            ],
-          },
+                text: "Clients: Paid vs Contracts Per Month",
+                fontSize: 16,
+                fontColor: "#333",
+                padding: 20,
+            },
+            tooltips: {
+                mode: "index",
+                intersect: false,
+                backgroundColor: "#fff",
+                titleFontColor: "#333",
+                bodyFontColor: "#666",
+                borderColor: "#ddd",
+                borderWidth: 1,
+                xPadding: 10,
+                yPadding: 10,
+            },
+            hover: {
+                mode: "nearest",
+                intersect: true,
+            },
+            legend: {
+                display: true,
+            },
+            scales: {
+                xAxes: [
+                    {
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Months",
+                            fontSize: 13,
+                            fontColor: "#666",
+                        },
+                        gridLines: {
+                            display: false,
+                        },
+                    },
+                ],
+                yAxes: [
+                    {
+                        display: true,
+                        ticks: {
+                            beginAtZero: true,
+                            fontSize: 12,
+                            fontColor: "#666",
+                            maxTicksLimit: 5,
+                            padding: 10,
+                        },
+                        gridLines: {
+                            color: "rgba(33, 37, 41, 0.1)",
+                        },
+                    },
+                ],
+            },
         },
-      };
-      let ctx = document.getElementById("bar-chart").getContext("2d");
-      new Chart(ctx, config);
+    };
+    let ctx = document.getElementById('bar-chart').getContext('2d');
+    new Chart(ctx, config);
 });
 </script>
