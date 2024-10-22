@@ -156,10 +156,6 @@
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="edit-email">Email</label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="edit-email" type="email" placeholder="Email" name="email" required>
               </div>
-              <div class="mb-4 hidden">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="edit-phone_number">Phone Number</label>
-                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="edit-phone_number" type="text" placeholder="Phone Number" name="phone_number" required>
-              </div>
               <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="edit-roles">Roles</label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="edit-roles" name="roles[]" multiple required>
@@ -249,7 +245,6 @@
         // Set form action
         const form = document.getElementById('editUserForm');
         form.action = `/admin/users/${user.id}`;
-
         editModal.classList.remove('hidden');
       }
     </script>
