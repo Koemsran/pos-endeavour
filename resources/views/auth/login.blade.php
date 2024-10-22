@@ -16,19 +16,28 @@
 
           <div class="flex flex-col space-y-1">
             <input type="email" name="email" id="email" class="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow" placeholder="Email" :value="old('email')" required autofocus />
-            @error('email')
-            <span class="text-red-600">{{ $message }}</span>
-            @enderror
+            @if (session('error-email'))
+            <span class="text-red-500">
+              {{ session('error-email')}}
+            </span>
+            {{ session()->forget('error-email') }}
+            @endif
           </div>
 
           <div class="flex flex-col space-y-1 relative">
-            <input type="password" name="password" id="password" class="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow" placeholder="Password" required autocomplete="current-password" />
-            <span class="absolute inset-y-0 right-3 flex items-center cursor-pointer" onclick="togglePasswordVisibility()">
-              <i id="eyeIcon" class='bx bx-low-vision text-gray-500'></i>
+            <div class="flex flex-col space-y-1 relative">
+              <input type="password" name="password" id="password" class="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow" placeholder="Password" required autocomplete="current-password" />
+              <span class="absolute inset-y-0 right-3 flex items-center cursor-pointer" onclick="togglePasswordVisibility()">
+                <i id="eyeIcon" class='bx bx-low-vision text-gray-500'></i>
+              </span>
+            </div>
+            @if (session('error-pass'))
+            <span class="text-red-500">
+              {{ session('error-pass')}}
             </span>
-            @error('password')
-            <span class="text-red-600">{{ $message }}</span>
-            @enderror
+            {{ session()->forget('error-pass') }}
+            @endif
+
           </div>
 
           <p class="text-sm font-light text-gray-500 dark:text-gray-400">

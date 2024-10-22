@@ -53,20 +53,22 @@ class LoginRequest extends FormRequest
         if (! $user) {
             RateLimiter::hit($this->throttleKey());
 
-            // Return a custom error message for 'Email not found'
+            // Check if this part is reached
+            session()->put('error-email', 'User not found.');
             throw ValidationException::withMessages([
                 'email' => 'User not found.',
             ]);
         }
 
-        // Then, check if the password matches
         if (! Hash::check($this->input('password'), $user->password)) {
             RateLimiter::hit($this->throttleKey());
 
-            // Return a custom error message for 'Password is not correct'
+            // Check if this part is reached
+            session()->put('error-pass', 'Password is not correct');
             throw ValidationException::withMessages([
                 'password' => 'Password is not correct.',
             ]);
+            
         }
 
         // If both email and password are correct, attempt authentication
