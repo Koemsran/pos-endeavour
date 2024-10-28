@@ -4,8 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
+use App\Models\Booking;
 use App\Models\Client;
+use App\Models\Contract;
+use App\Models\Inprocess;
+use App\Models\OfficeConsultation;
+use App\Models\PhoneConsultation;
 use App\Models\Progress;
+use App\Models\Refund;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -90,6 +96,14 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         $client->delete();
+        Progress::where('client_id', $client->id)->delete();
+        PhoneConsultation::where('id', $client->id)->delete();
+        OfficeConsultation::where('id', $client->id)->delete();
+        Booking::where('id', $client->id)->delete();
+        Contract::where('id', $client->id)->delete();
+        Inprocess::where('id', $client->id)->delete();
+        Refund::where('id', $client->id)->delete();
+        Booking::where('id', $client->id)->delete();
         return redirect()->route('admin.clients.index')->with('success', 'Client deleted successfully.');
     }
 }

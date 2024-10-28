@@ -115,7 +115,7 @@ class InprocessController extends Controller
             // Create new phone consultation using mass assignment
 
             // Fetch progress and increment step_number if it exists
-            $inProcess = Inprocess::find($id);
+            $inProcess = Inprocess::findOrFail($id);
             $inProcess->update($validatedData);
             
             // Redirect to a success page with a success message

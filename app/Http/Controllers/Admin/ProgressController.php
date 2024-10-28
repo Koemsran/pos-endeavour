@@ -60,7 +60,7 @@ class ProgressController extends Controller
     {
         try {
             // Fetch progress and increment step_number if it exists
-            $progress = Progress::find($id);
+            $progress = Progress::findOrFail($id);
             if ($progress) {
                 $progress->step_number += 1; // Increment the step_number by 1
                 $progress->save();           // Save the updated progress

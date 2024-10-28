@@ -129,7 +129,6 @@ class PhoneConsultationController extends Controller
             'program_looking' => 'required|string',
             'prefer_country' => 'required|string',
         ]);
-
         try {
             // Create new phone consultation using mass assignment
             $phoneConsult = PhoneConsultation::find($id);

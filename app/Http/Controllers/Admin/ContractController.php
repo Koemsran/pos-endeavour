@@ -113,7 +113,7 @@ class ContractController extends Controller
 
         try {
             // Create new phone consultation using mass assignment
-            $contract = Contract::find($id);
+            $contract = Contract::findOrFail($id);
 
             $contract->update($validatedData);
 

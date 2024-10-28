@@ -50,7 +50,7 @@ class OfficeConsultationController extends Controller
             OfficeConsultation::create($validatedData);
 
             // Fetch progress and increment step_number if it exists
-            $progress = Progress::find($validatedData['progress_id']);
+            $progress = Progress::findOrFail($validatedData['progress_id']);
             if ($progress) {
                 $progress->step_number += 1; // Increment the step_number by 1
                 $progress->save();           // Save the updated progress
@@ -129,7 +129,7 @@ class OfficeConsultationController extends Controller
         ]);
         try {
             // Create new phone consultation using mass assignment
-            $officeConsultation = OfficeConsultation::find($id);
+            $officeConsultation = OfficeConsultation::findOrFail($id);
             $officeConsultation->update($validatedData);
 
             // Redirect to a success page with a success message

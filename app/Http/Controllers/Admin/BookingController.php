@@ -115,7 +115,7 @@ class BookingController extends Controller
         ]);
         try {
             // Create new phone consultation using mass assignment
-            $booking = Booking::find($id);
+            $booking = Booking::findOrFail($id);
             $booking->update($validatedData);
 
             // Redirect to a success page with a success message
