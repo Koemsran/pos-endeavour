@@ -131,7 +131,7 @@ class PhoneConsultationController extends Controller
         ]);
         try {
             // Create new phone consultation using mass assignment
-            $phoneConsult = PhoneConsultation::findOrFail($id);
+            $phoneConsult = PhoneConsultation::where('progress_id', $id)->first();
             $phoneConsult->update($validatedData);
 
             // Redirect to a success page with a success message

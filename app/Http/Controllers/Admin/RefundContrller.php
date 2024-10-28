@@ -113,7 +113,7 @@ class RefundContrller extends Controller
 
         try {
             // Find the refund by id or fail if not found
-            $refund = Refund::findOrFail($id);
+            $refund = Refund::where('progress_id', $id)->first();
 
             // Update the refund with the validated data
             $refund->update($validatedData);

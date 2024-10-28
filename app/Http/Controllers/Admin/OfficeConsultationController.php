@@ -129,7 +129,7 @@ class OfficeConsultationController extends Controller
         ]);
         try {
             // Create new phone consultation using mass assignment
-            $officeConsultation = OfficeConsultation::findOrFail($id);
+            $officeConsultation = OfficeConsultation::where('progress_id', $id)->first();
             $officeConsultation->update($validatedData);
 
             // Redirect to a success page with a success message
