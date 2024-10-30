@@ -13,10 +13,7 @@
         <div class="flex justify-between items-center mb-4 ml-5">
           <h3 class="text-lg font-bold text-gray-800">List of Clients</h3>
           <div class="flex items-center gap-4">
-            <form action="{{ route('admin.clients.index') }}" method="GET" class="flex items-center" id="search-form">
-              <input type="text" name="search" placeholder="Search client..." value="{{ request('search') }}" class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500" id="search-input">
-              <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
-            </form>
+            <input type="text" id="search-input" placeholder="Search client..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500">
             <a href="#" id="open-modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add New</a>
           </div>
         </div>
@@ -26,34 +23,46 @@
         @if ($clients->isEmpty())
         <p class="text-center mt-3">No Client found.</p>
         @else
-        <table class="min-w-full divide-y divide-gray-200 mt-5">
-          <thead class="bg-gray-50">
+        <table class="min-w-full divide-y divide-gray-200 mt-5" id="clients-table">
+          <thead class="bg-gray-100">
             <tr>
-              <th class="py-4 px-6 font-bold text-start text-sm text-gray-800 border-b border-gray-200">ID</th>
-              <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Name</th>
-              <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Phone Number</th>
-              <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Age</th>
-              <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Progress</th>
-              <th class="py-4 px-1 font-bold text-start text-sm text-gray-800 border-b border-gray-200">Action</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">ID</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Name</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Phone Number</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Age</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Gender</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Consultant</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Register Date</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Progress</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Action</th>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
+          <tbody class="bg-white divide-y divide-gray-200 text-center">
             @foreach ($clients as $index => $client)
-            <tr class="hover:bg-gray-100">
-              <td class="px-6 py-4 whitespace-nowrap">{{ $index + 1 }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ $client->name }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ $client->phone_number }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">{{ $client->age }}</td>
-              <td class="px-6 py-4 whitespace-nowrap">Paid</td>
-              <td class="px-4 py-2 whitespace-nowrap flex gap-2">
-                <a href="{{ route('client.progress.index', ['client_id' => $client->id])}}" class="text-green-500 hover:text-green-700" title="progress">
+            <tr class="client-row hover:bg-blue-50 transition duration-300 ease-in-out">
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $index + 1 }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->name }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->phone_number }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->age }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->gender }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->consultant }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->register_date }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">Paid</td>
+              <td class="px-4 py-2 whitespace-nowrap flex justify-center gap-2">
+                <a href="{{ route('client.progress.index', ['client_id' => $client->id]) }}" class="text-green-500 hover:text-green-700 transition duration-200" title="progress">
                   <i class='bx bx-line-chart text-2xl'></i>
                 </a>
-
-                <a href="#" class="text-blue-500 hover:text-blue-700 edit-client" title="edit" data-id="{{ $client->id }}" data-name="{{ $client->name }}" data-phone="{{ $client->phone_number }}" data-age="{{ $client->age }}">
+                <a href="#" class="text-blue-500 hover:text-blue-700 transition duration-200 edit-client" title="edit"
+                  data-id="{{ $client->id }}"
+                  data-name="{{ $client->name }}"
+                  data-phone="{{ $client->phone_number }}"
+                  data-age="{{ $client->age }}"
+                  data-gender="{{ $client->gender }}"
+                  data-consultant="{{ $client->consultant }}"
+                  data-register_date="{{ $client->register_date }}">
                   <i class='bx bx-edit text-2xl'></i>
                 </a>
-                <button type="button" class="text-red-500 hover:text-red-700 delete-client" data-id="{{ $client->id }}" title="delete">
+                <button type="button" class="text-red-500 hover:text-red-700 transition duration-200 delete-client" data-id="{{ $client->id }}" title="delete">
                   <i class='bx bx-trash text-2xl'></i>
                 </button>
               </td>
@@ -89,11 +98,27 @@
           <input type="number" id="age" name="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter age" required>
         </div>
         <div class="mb-4">
+          <label for="gender" class="block text-gray-700 text-sm font-bold mb-2">Client's Gender:</label>
+          <select id="gender" name="gender" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            <option value="" disabled selected>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="consultant" class="block text-gray-700 text-sm font-bold mb-2">Consultant:</label>
+          <input type="text" id="consultant" name="consultant" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter consultant's name" required>
+        </div>
+        <div class="mb-4">
+          <label for="register_date" class="block text-gray-700 text-sm font-bold mb-2">Registration Date:</label>
+          <input type="date" id="register_date" name="register_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        <div class="mb-4">
           <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Client's Phone Number:</label>
           <input type="text" id="phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter phone number" required>
         </div>
-        <div class="flex justify-end gap-4">
-          <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Create</button>
+        <div class="flex items-center justify-end">
+          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create</button>
         </div>
       </form>
     </div>
@@ -103,7 +128,7 @@
   <div id="edit-client-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-50">
     <div class="bg-white rounded-lg shadow-lg w-1/3 p-6">
       <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Create New Client</h3>
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Edit Client</h3>
         <button id="close-edit-modal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
           <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -111,137 +136,130 @@
           <span class="sr-only">Close modal</span>
         </button>
       </div>
-      <form id="edit-client-form" method="POST" action="">
+      <form id="edit-client-form" method="POST">
         @csrf
         @method('PUT')
-
         <input type="hidden" id="edit-client-id" name="id">
-
         <div class="mb-4">
           <label for="edit-name" class="block text-gray-700 text-sm font-bold mb-2 mt-3">Client's Name:</label>
-          <input type="text" id="edit-name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter name" required>
+          <input type="text" id="edit-name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
-
         <div class="mb-4">
           <label for="edit-age" class="block text-gray-700 text-sm font-bold mb-2">Client's Age:</label>
-          <input type="number" id="edit-age" name="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter age" required>
+          <input type="number" id="edit-age" name="age" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
-
+        <div class="mb-4">
+          <label for="edit-gender" class="block text-gray-700 text-sm font-bold mb-2">Client's Gender:</label>
+          <select id="edit-gender" name="gender" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            <option value="" disabled selected>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
+        <div class="mb-4">
+          <label for="edit-consultant" class="block text-gray-700 text-sm font-bold mb-2">Consultant:</label>
+          <input type="text" id="edit-consultant" name="consultant" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        <div class="mb-4">
+          <label for="edit-register_date" class="block text-gray-700 text-sm font-bold mb-2">Registration Date:</label>
+          <input type="date" id="edit-register_date" name="register_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
         <div class="mb-4">
           <label for="edit-phone" class="block text-gray-700 text-sm font-bold mb-2">Client's Phone Number:</label>
-          <input type="text" id="edit-phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter phone number" required>
+          <input type="text" id="edit-phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
-
-        <div class="flex justify-end gap-4">
-          <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Update</button>
+        <div class="flex items-center justify-end">
+          <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update</button>
         </div>
       </form>
     </div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', function() {
+      // Open modal for adding new client
+      const openModalButton = document.getElementById('open-modal');
       const clientModal = document.getElementById('client-modal');
-      const editClientModal = document.getElementById('edit-client-modal');
-      let deleteClientId = null;
+      const closeModalButton = document.getElementById('close-modal');
 
-      // Open add client modal
-      document.getElementById('open-modal').addEventListener('click', () => {
+      openModalButton.addEventListener('click', () => {
         clientModal.classList.remove('hidden');
       });
 
-      // Close add client modal
-      document.getElementById('close-modal').addEventListener('click', () => {
+      closeModalButton.addEventListener('click', () => {
         clientModal.classList.add('hidden');
-        document.getElementById('client-form').reset(); // Reset form fields
       });
 
-      // Open edit client modal
-      document.querySelectorAll('.edit-client').forEach(button => {
-        button.addEventListener('click', () => {
-          const id = button.getAttribute('data-id');
-          const name = button.getAttribute('data-name');
-          const phone = button.getAttribute('data-phone');
-          const age = button.getAttribute('data-age');
+      // Open modal for editing client
+      const editClientButtons = document.querySelectorAll('.edit-client');
+      const editClientModal = document.getElementById('edit-client-modal');
+      const closeEditModalButton = document.getElementById('close-edit-modal');
+      const editClientForm = document.getElementById('edit-client-form');
+
+      editClientButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const id = this.dataset.id;
+          const name = this.dataset.name;
+          const phone = this.dataset.phone;
+          const age = this.dataset.age;
+          const gender = this.dataset.gender;
+          const consultant = this.dataset.consultant;
+          const register_date = this.dataset.register_date;
 
           document.getElementById('edit-client-id').value = id;
           document.getElementById('edit-name').value = name;
-          document.getElementById('edit-age').value = age;
           document.getElementById('edit-phone').value = phone;
+          document.getElementById('edit-age').value = age;
+          document.getElementById('edit-gender').value = gender;
+          document.getElementById('edit-consultant').value = consultant;
+          document.getElementById('edit-register_date').value = register_date;
 
-          // Update form action dynamically
-          document.getElementById('edit-client-form').action = `/admin/clients/${id}`;
-
+          editClientForm.action = `/admin/clients/${id}`; // Update the form action
           editClientModal.classList.remove('hidden');
         });
       });
 
-      // Close edit client modal
-      document.getElementById('close-edit-modal').addEventListener('click', () => {
+      closeEditModalButton.addEventListener('click', () => {
         editClientModal.classList.add('hidden');
-        document.getElementById('edit-client-form').reset(); // Reset form fields
       });
 
-      // Open delete confirmation
-      document.querySelectorAll('.delete-client').forEach(button => {
-        button.addEventListener('click', () => {
-          deleteClientId = button.getAttribute('data-id');
+      // Live search functionality
+      const searchInput = document.getElementById('search-input');
+      const clientRows = document.querySelectorAll('.client-row');
 
-          Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
-          }).then((result) => {
-            if (result.isConfirmed) {
-              const form = document.createElement('form');
-              form.method = 'POST';
-              form.action = `/admin/clients/${deleteClientId}`;
-
-              // CSRF token
-              const csrfField = document.createElement('input');
-              csrfField.type = 'hidden';
-              csrfField.name = '_token';
-              csrfField.value = '{{ csrf_token() }}';
-              form.appendChild(csrfField);
-
-              // Method field for DELETE
-              const methodField = document.createElement('input');
-              methodField.type = 'hidden';
-              methodField.name = '_method';
-              methodField.value = 'DELETE';
-              form.appendChild(methodField);
-
-              document.body.appendChild(form);
-              form.submit();
-            }
-          });
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        clientRows.forEach(row => {
+          const nameCell = row.children[1].textContent.toLowerCase();
+          if (nameCell.includes(searchTerm)) {
+            row.style.display = ''; // Show row
+          } else {
+            row.style.display = 'none'; // Hide row
+          }
         });
       });
 
-      // Handle successful update feedback
-      @if(session('success'))
-      Swal.fire({
-        icon: 'success',
-        title: '{{ session("success") }}',
-        showConfirmButton: false,
-        timer: 1500
-      });
-      @endif
-
-      // Handle clearing the search input
-      const searchInput = document.getElementById('search-input');
-      searchInput.addEventListener('input', () => {
-        if (searchInput.value.trim() === '') {
-          // Reset the form and redirect to the client index route to show all clients
-          const form = document.getElementById('search-form');
-          form.action = "{{ route('admin.clients.index') }}"; // Set to the route that lists all clients
-          form.submit(); // Submit the form to refresh the client list
-        }
+      // Delete client
+      const deleteClientButtons = document.querySelectorAll('.delete-client');
+      deleteClientButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const clientId = this.dataset.id;
+          if (confirm("Are you sure you want to delete this client?")) {
+            fetch(`/admin/clients/${clientId}`, {
+                method: 'DELETE',
+                headers: {
+                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                },
+              })
+              .then(response => {
+                if (response.ok) {
+                  location.reload(); // Refresh the page
+                } else {
+                  alert('Failed to delete the client.');
+                }
+              });
+          }
+        });
       });
     });
   </script>

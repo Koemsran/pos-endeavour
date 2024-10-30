@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class Client extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'phone_number', 'age'];
+    protected $fillable = ['name', 'phone_number', 'age', 'consultant', 'gender', 'register_date'];
     public function progress()
     {
         return $this->hasMany(Progress::class, 'client_id'); // Ensure this is correct
@@ -17,7 +17,7 @@ class Client extends Model
     public static function store($request, $id = null)
     {
 
-        $data = $request->only('name', 'phone_number', 'age');
+        $data = $request->only('name', 'phone_number', 'age', 'consultant', 'gender', 'register_date');
         $data = self::updateOrCreate(['id' => $id], $data);
         return $data;
     }

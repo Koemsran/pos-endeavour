@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone_number');
             $table->integer('age');
+            $table->string('gender');
+            $table->string('consultant');
+            $table->date('register_date');
             $table->timestamps();
         });
     }
