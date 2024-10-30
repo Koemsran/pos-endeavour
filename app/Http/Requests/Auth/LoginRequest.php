@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -45,6 +47,31 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        // First, check if the email exists
+        $user = User::where('email', $this->input('email'))->first();
+
+        if (! $user) {
+            RateLimiter::hit($this->throttleKey());
+
+            // Check if this part is reached
+            session()->put('error-email', 'User not found.');
+            throw ValidationException::withMessages([
+                'email' => 'User not found.',
+            ]);
+        }
+
+        if (! Hash::check($this->input('password'), $user->password)) {
+            RateLimiter::hit($this->throttleKey());
+
+            // Check if this part is reached
+            session()->put('error-pass', 'Password is not correct');
+            throw ValidationException::withMessages([
+                'password' => 'Password is not correct.',
+            ]);
+            
+        }
+
+        // If both email and password are correct, attempt authentication
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
@@ -88,6 +115,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey()
     {
-        return Str::lower($this->input('email')).'|'.$this->ip();
+        return Str::lower($this->input('email')) . '|' . $this->ip();
     }
 }

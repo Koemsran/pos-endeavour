@@ -116,7 +116,7 @@ class PaidController extends Controller
 
         try {
             // Find the Paid record by ID and update it
-            $paid = Paid::findOrFail($id);
+            $paid = Paid::where('progress_id', $id)->first();
 
             // Update the Paid record with validated data
             $paid->update($validatedData);

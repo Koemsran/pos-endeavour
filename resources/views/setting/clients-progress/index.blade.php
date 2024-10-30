@@ -116,11 +116,11 @@
                     </div>
                     <div class="mb-4">
                       <label for="ielts" class="block text-gray-700 text-sm font-bold mb-2">IELTS Lavel:</label>
-                      <input type="number" id="ielts" name="ielts" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <input type="text" id="ielts" name="ielts" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="mb-4">
                       <label for="hsk" class="block text-gray-700 text-sm font-bold mb-2">HSK Lavel:</label>
-                      <input type="number" id="hsk" name="hsk" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                      <input type="text" id="hsk" name="hsk" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                   </div>
 
@@ -134,15 +134,19 @@
                       <input type="text" id="major" name="major" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">
-                      <label for="prefer_school" class="block text-gray-700 text-sm font-bold mb-2">Prefer School:</label>
-                      <input type="text" id="prefer_school" name="prefer_school" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <label for="university1" class="block text-gray-700 text-sm font-bold mb-2">University 1:</label>
+                      <input type="text" id="university1" name="university1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    </div>
+                    <div class="mb-4">
+                      <label for="university2" class="block text-gray-700 text-sm font-bold mb-2">University 2:</label>
+                      <input type="text" id="university2" name="university2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                   </div>
 
                   <div class="mb-4">
                     <label for="program_looking" class="block text-gray-700 text-sm font-bold mb-2">Program Looking for:</label>
                     <select name="program_looking" id="program_looking" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                      <option value="">Select client's study program</option>
+                      <option value="">Select degree</option>
                       <option value="Bachelor's">Bachelor's</option>
                       <option value="Master's">Master's</option>
                       <option value="PhD">PhD</option>
@@ -150,12 +154,12 @@
                   </div>
 
                   <div class="mb-4">
-                    <label for="prefer_country" class="block text-gray-700 text-sm font-bold mb-2">Prefer Country:</label>
+                    <label for="prefer_country" class="block text-gray-700 text-sm font-bold mb-2">Product:</label>
                     <select name="prefer_country" id="prefer_country" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                      <option value="">Select country</option>
-                      <option value="USA">USA</option>
-                      <option value="China">China</option>
-                      <option value="Australia">Australia</option>
+                      <option value="">Select product</option>
+                      @foreach ($categories as $country)
+                      <option value="{{ $country->name }}">{{ $country->name }}</option>
+                      @endforeach
                     </select>
                   </div>
                 </div>
@@ -217,12 +221,12 @@
                   </div>
 
                   <div class="mb-4">
-                    <label for="prefer_country2" class="block text-gray-700 text-sm font-bold mb-2">Prefer Country:</label>
+                    <label for="prefer_country2" class="block text-gray-700 text-sm font-bold mb-2">Product:</label>
                     <select name="prefer_country2" id="prefer_country2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                      <option value="">Select country</option>
-                      <option value="USA">USA</option>
-                      <option value="China">China</option>
-                      <option value="Australia">Australia</option>
+                      <option value="">Select product</option>
+                      @foreach ($categories as $country)
+                      <option value="{{ $country->name }}">{{ $country->name }}</option>
+                      @endforeach
                     </select>
                   </div>
                 </div>
@@ -418,7 +422,8 @@
             hsk: document.getElementById("hsk").value,
             grade: document.getElementById("grade").value,
             major: document.getElementById("major").value,
-            prefer_school: document.getElementById("prefer_school").value,
+            university1: document.getElementById("university1").value,
+            university2: document.getElementById("university2").value,
             program_looking: document.getElementById("program_looking").value,
             prefer_country: document.getElementById("prefer_country").value,
             progress_id: document.getElementById("progress_id").value,
@@ -539,7 +544,8 @@
             hsk: document.getElementById("hsk").value,
             grade: document.getElementById("grade").value,
             major: document.getElementById("major").value,
-            prefer_school: document.getElementById("prefer_school").value,
+            university1: document.getElementById("university1").value,
+            university2: document.getElementById("university2").value,
             program_looking: document.getElementById("program_looking").value,
             prefer_country: document.getElementById("prefer_country").value,
             progress_id: document.getElementById("progress_id").value,
@@ -914,7 +920,8 @@
         document.getElementById("hsk").value = data.hsk;
         document.getElementById("grade").value = data.grade;
         document.getElementById("major").value = data.major;
-        document.getElementById("prefer_school").value = data.prefer_school;
+        document.getElementById("university1").value = data.university1;
+        document.getElementById("university2").value = data.university2;
         document.getElementById("program_looking").value = data.program_looking;
         document.getElementById("prefer_country").value = data.prefer_country;
         document.getElementById("progress_id").value = data.progress_id;

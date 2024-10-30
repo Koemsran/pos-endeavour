@@ -1,4 +1,10 @@
 <x-app-layout>
+  @if (session('phone-error'))
+  <div class="bg-red-100 border-t border-b border-red-500 text-red-700 px-4 py-3" role="alert">
+    <p> <strong>Error:</strong> {{ session('phone-error')}}</p>
+  </div>
+  {{ session()->forget('phone-error') }}
+  @endif
   <x-slot name="header">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
       {{ __('Clients') }}
@@ -62,7 +68,8 @@
                   data-register_date="{{ $client->register_date }}">
                   <i class='bx bx-edit text-2xl'></i>
                 </a>
-                <button type="button" class="text-red-500 hover:text-red-700 transition duration-200 delete-client" data-id="{{ $client->id }}" title="delete">
+                <!-- Delete Icon -->
+                <button type="button" class="text-red-500 hover:text-red-700 delete-client" data-id="{{ $client->id }}" title="delete">
                   <i class='bx bx-trash text-2xl'></i>
                 </button>
               </td>
@@ -175,6 +182,7 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Open modal for adding new client
@@ -239,26 +247,44 @@
         });
       });
 
-      // Delete client
-      const deleteClientButtons = document.querySelectorAll('.delete-client');
-      deleteClientButtons.forEach(button => {
-        button.addEventListener('click', function() {
-          const clientId = this.dataset.id;
-          if (confirm("Are you sure you want to delete this client?")) {
-            fetch(`/admin/clients/${clientId}`, {
-                method: 'DELETE',
-                headers: {
-                  'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                },
-              })
-              .then(response => {
-                if (response.ok) {
-                  location.reload(); // Refresh the page
-                } else {
-                  alert('Failed to delete the client.');
-                }
-              });
-          }
+      // Open delete confirmation
+      document.querySelectorAll('.delete-client').forEach(button => {
+        button.addEventListener('click', () => {
+          deleteClientId = button.getAttribute('data-id');
+
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              const form = document.createElement('form');
+              form.method = 'POST';
+              form.action = `/admin/clients/${deleteClientId}`;
+
+              // CSRF token
+              const csrfField = document.createElement('input');
+              csrfField.type = 'hidden';
+              csrfField.name = '_token';
+              csrfField.value = '{{ csrf_token() }}';
+              form.appendChild(csrfField);
+
+              // Method field for DELETE
+              const methodField = document.createElement('input');
+              methodField.type = 'hidden';
+              methodField.name = '_method';
+              methodField.value = 'DELETE';
+              form.appendChild(methodField);
+
+              document.body.appendChild(form);
+              form.submit();
+            }
+          });
         });
       });
     });

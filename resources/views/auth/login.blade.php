@@ -3,6 +3,7 @@
     <div class="flex flex-col justify-center sm:w-96 mx-5 mb-3 space-y-3">
       <!-- Session Status -->
       <x-auth-session-status class="mb-4" :status="session('status')" />
+
       <!-- Validation Errors -->
       <x-auth-validation-errors class="mb-4" :errors="$errors" />
       <form method="POST" action="{{ route('admin.login') }}">
@@ -15,13 +16,28 @@
 
           <div class="flex flex-col space-y-1">
             <input type="email" name="email" id="email" class="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow" placeholder="Email" :value="old('email')" required autofocus />
+            @if (session('error-email'))
+            <span class="text-red-500">
+              {{ session('error-email')}}
+            </span>
+            {{ session()->forget('error-email') }}
+            @endif
           </div>
 
           <div class="flex flex-col space-y-1 relative">
-            <input type="password" name="password" id="password" class="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow" placeholder="Password" required autocomplete="current-password" />
-            <span class="absolute inset-y-0 right-3 flex items-center cursor-pointer" onclick="togglePasswordVisibility()">
-              <i id="eyeIcon" class='bx bx-low-vision text-gray-500'></i>
+            <div class="flex flex-col space-y-1 relative">
+              <input type="password" name="password" id="password" class="border-2 rounded px-3 py-2 w-full focus:outline-none focus:border-blue-400 focus:shadow" placeholder="Password" required autocomplete="current-password" />
+              <span class="absolute inset-y-0 right-3 flex items-center cursor-pointer" onclick="togglePasswordVisibility()">
+                <i id="eyeIcon" class='bx bx-low-vision text-gray-500'></i>
+              </span>
+            </div>
+            @if (session('error-pass'))
+            <span class="text-red-500">
+              {{ session('error-pass')}}
             </span>
+            {{ session()->forget('error-pass') }}
+            @endif
+
           </div>
 
           <p class="text-sm font-light text-gray-500 dark:text-gray-400">
@@ -35,12 +51,7 @@
           </p>
         </div>
       </form>
-      <div class="flex justify-center text-gray-500 text-sm">
-        <p>Copyright <script>
-            document.write(new Date().getFullYear());
-          </script>
-        </p>
-      </div>
+
     </div>
   </div>
 

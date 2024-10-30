@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProgressResource;
+use App\Models\Category;
 use App\Models\Client;
 use App\Models\Progress;
 use Illuminate\Http\Request;
@@ -42,7 +43,8 @@ class ProgressController extends Controller
     {
         $progress = Progress::where('client_id', $id)->first(); 
         $client = Client::find($id);
-        return view('setting.clients-progress.index', compact(['progress', 'client']));
+        $categories = Category::all();
+        return view('setting.clients-progress.index', compact(['progress', 'client', 'categories']));
     }
 
     /**
@@ -60,7 +62,7 @@ class ProgressController extends Controller
     {
         try {
             // Fetch progress and increment step_number if it exists
-            $progress = Progress::find($id);
+            $progress = Progress::findOrFail($id);
             if ($progress) {
                 $progress->step_number += 1; // Increment the step_number by 1
                 $progress->save();           // Save the updated progress

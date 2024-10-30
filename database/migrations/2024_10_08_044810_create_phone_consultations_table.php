@@ -18,11 +18,12 @@ return new class extends Migration
             $table->integer('age');
             $table->string('phone_number');
             $table->string('source');
-            $table->decimal('ielts')->nullable();
-            $table->decimal('hsk')->nullable();
+            $table->string('ielts')->nullable();
+            $table->string('hsk')->nullable();
             $table->string('grade');
             $table->string('major');
-            $table->string('prefer_school');
+            $table->string('university1');
+            $table->string('university2');
             $table->string('program_looking');
             $table->string('prefer_country');
             $table->timestamps();
