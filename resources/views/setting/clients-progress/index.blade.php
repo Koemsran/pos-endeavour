@@ -197,7 +197,7 @@
                   </div>
                   <div class="flex gap-5">
                     <div class="mb-4">
-                      <label for="prefer_university" class="block text-gray-700 text-sm font-bold mb-2">Prefer University:</label>
+                      <label for="prefer_university" class="block text-gray-700 text-sm font-bold mb-2">Institute:</label>
                       <input type="text" id="prefer_university" name="prefer_university" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
                     </div>
                     <div class="mb-4">

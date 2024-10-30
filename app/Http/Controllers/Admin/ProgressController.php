@@ -41,7 +41,7 @@ class ProgressController extends Controller
      */
     public function show(string $id)
     {
-        $progress = Progress::where('client_id', $id)->first(); 
+        $progress = Progress::where('client_id', $id)->first();
         $client = Client::find($id);
         $categories = Category::all();
         return view('setting.clients-progress.index', compact(['progress', 'client', 'categories']));

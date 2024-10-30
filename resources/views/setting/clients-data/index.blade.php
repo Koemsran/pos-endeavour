@@ -39,7 +39,7 @@
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Gender</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Consultant</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Register Date</th>
-              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Progress</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Status</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Action</th>
             </tr>
           </thead>
@@ -113,6 +113,10 @@
           </select>
         </div>
         <div class="mb-4">
+          <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Client's Phone Number:</label>
+          <input type="text" id="phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter phone number" required>
+        </div>
+        <div class="mb-4">
           <label for="consultant" class="block text-gray-700 text-sm font-bold mb-2">Consultant:</label>
           <input type="text" id="consultant" name="consultant" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter consultant's name" required>
         </div>
@@ -120,10 +124,7 @@
           <label for="register_date" class="block text-gray-700 text-sm font-bold mb-2">Registration Date:</label>
           <input type="date" id="register_date" name="register_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
-        <div class="mb-4">
-          <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Client's Phone Number:</label>
-          <input type="text" id="phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter phone number" required>
-        </div>
+        
         <div class="flex items-center justify-end">
           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create</button>
         </div>

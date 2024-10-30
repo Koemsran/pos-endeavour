@@ -28,14 +28,6 @@
         </a>
         @endcanany
 
-        @canany(['Product access','Product add','Product edit','Product delete'])
-        <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.products.index') ? 'active' : '' }}"
-            href="{{route('admin.products.index')}}">
-            <i class='bx bx-store-alt text-2xl'></i>
-            <span class="mx-3">Products</span>
-        </a>
-        @endcanany
-
         @canany(['Schedule access','Schedule add','Schedule edit','Schedule delete'])
         <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.schedules.index') ? 'active' : '' }}"
             href="{{route('admin.schedules.index')}}">
