@@ -6,11 +6,11 @@
                     <div class="flex justify-between items-center mb-4 p-5">
                         <div>
                             <form action="{{ route('admin.categories.index') }}" method="GET" class="flex items-center" id="search-form">
-                                <input type="text" name="search" placeholder="Search categories..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500" id="search-input">
+                                <input type="text" name="search" placeholder="Search product..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500" id="search-input">
                             </form>
                         </div>
                         <div>
-                            <a href="#" id="openAddModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">New Category</a>
+                            <a href="#" id="openAddModal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">New Product</a>
                         </div>
                     </div>
                     <hr>
@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">ID</th>
-                                <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">Category Name</th>
+                                <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light">Product Name</th>
                                 <th class="py-4 px-6 bg-grey-lightest font-bold text-sm text-grey-dark border-b border-grey-light text-right">Actions</th>
                             </tr>
                         </thead>
@@ -68,7 +68,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-black">
-                        Add New Category
+                        Add New Product
                     </h3>
                     <button id="closeAddModal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -83,13 +83,13 @@
                         @csrf
 
                         <div class="mb-4">
-                            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Category Name:</label>
+                            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Product Name:</label>
                             <input type="text" name="name" id="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                Create Category
+                                Create Product
                             </button>
                         </div>
                     </form>
@@ -105,7 +105,7 @@
                 <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-black">
-                        Edit Category
+                        Edit Product
                     </h3>
                     <button id="closeEditModal" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -121,13 +121,13 @@
                         @method('PUT')
 
                         <div class="mb-4">
-                            <label for="edit_category_name" class="block text-gray-700 text-sm font-bold mb-2">Category Name:</label>
+                            <label for="edit_category_name" class="block text-gray-700 text-sm font-bold mb-2">Product Name:</label>
                             <input type="text" name="name" id="edit_category_name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         </div>
 
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                Update Category
+                                Update Product
                             </button>
                         </div>
                     </form>

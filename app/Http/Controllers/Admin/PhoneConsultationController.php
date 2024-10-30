@@ -38,19 +38,18 @@ class PhoneConsultationController extends Controller
             'phone_number' => 'required|string', // Change validation if needed
             'progress_id' => 'required|numeric',
             'source' => 'nullable|string',
-            'ielts' => 'nullable|numeric',
-            'hsk' => 'nullable|numeric',
+            'ielts' => 'nullable|string',
+            'hsk' => 'nullable|string',
             'grade' => 'required|string',
             'major' => 'required|string',
-            'prefer_school' => 'required|string',
+            'university1' => 'required|string',
+            'university2' => 'required|string',
             'program_looking' => 'required|string',
             'prefer_country' => 'required|string',
         ]);
-
         try {
             // Create new phone consultation using mass assignment
             PhoneConsultation::create($validatedData);
-
             // Fetch progress and increment step_number if it exists
             $progress = Progress::find($validatedData['progress_id']);
             if ($progress) {
@@ -121,11 +120,12 @@ class PhoneConsultationController extends Controller
             'phone_number' => 'required|string', // Change validation if needed
             'progress_id' => 'required|numeric',
             'source' => 'nullable|string',
-            'ielts' => 'nullable|numeric',
-            'hsk' => 'nullable|numeric',
+            'ielts' => 'nullable|string',
+            'hsk' => 'nullable|string',
             'grade' => 'required|string',
             'major' => 'required|string',
-            'prefer_school' => 'required|string',
+            'university1' => 'required|string',
+            'university2' => 'required|string',
             'program_looking' => 'required|string',
             'prefer_country' => 'required|string',
         ]);

@@ -64,6 +64,11 @@ class AdminSeeder extends Seeder
         $permission = Permission::create(['name' => 'Product edit']);
         $permission = Permission::create(['name' => 'Product delete']);
 
+        $permission = Permission::create(['name' => 'Schedule access']);
+        $permission = Permission::create(['name' => 'Schedule add']);
+        $permission = Permission::create(['name' => 'Schedule edit']);
+        $permission = Permission::create(['name' => 'Schedule delete']);
+
 
         $admin->assignRole($admin_role);
         $writer->assignRole($writer_role);

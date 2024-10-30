@@ -23,8 +23,8 @@
         @canany(['Category access','Category add','Category edit','Category delete'])
         <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.categories.index') ? 'active' : '' }}"
             href="{{route('admin.categories.index')}}">
-            <i class='bx bx-category text-2xl'></i>
-            <span class="mx-3">Categories</span>
+            <i class='bx bx-store-alt text-2xl'></i>
+            <span class="mx-3">Products</span>
         </a>
         @endcanany
 
@@ -36,7 +36,7 @@
         </a>
         @endcanany
 
-        @canany(['Product access','Product add','Product edit','Product delete'])
+        @canany(['Schedule access','Schedule add','Schedule edit','Schedule delete'])
         <a class="flex items-center mt-4 py-2 px-6 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100 {{ Route::currentRouteNamed('admin.schedules.index') ? 'active' : '' }}"
             href="{{route('admin.schedules.index')}}">
             <i class='bx bx-calendar text-2xl'></i>

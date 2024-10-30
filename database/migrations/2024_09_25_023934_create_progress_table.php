@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->integer('client_id');
             $table->integer('step_number');
-            $table->timestamp('started_at')->nullable(); // When the step was started
-            $table->timestamp('completed_at')->nullable(); // When the step was completed
             $table->timestamps();
         });
     }

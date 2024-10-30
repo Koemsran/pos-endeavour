@@ -130,6 +130,9 @@ class OfficeConsultationController extends Controller
         try {
             // Create new phone consultation using mass assignment
             $officeConsultation = OfficeConsultation::where('progress_id', $id)->first();
+            if(!$officeConsultation){
+                return redirect()->back()->with('error', 'Failed to create office consultation. Please try again.');
+            }
             $officeConsultation->update($validatedData);
 
             // Redirect to a success page with a success message

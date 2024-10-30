@@ -18,7 +18,8 @@ class PhoneConsultation extends Model
         'hsk',
         'grade',
         'major',
-        'prefer_school',
+        'university1',
+        'university2',
         'program_looking',
         'prefer_country',
     ];
