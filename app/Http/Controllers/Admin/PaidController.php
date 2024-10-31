@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\Paid;
 use App\Models\Progress;
 use Illuminate\Http\Request;
@@ -48,6 +49,11 @@ class PaidController extends Controller
                 $progress->step_number += 1; // Increment the step_number by 1
                 $progress->save();           // Save the updated progress
             }
+            $client = Client::find($validatedData['progress_id']);
+            if ($client) {
+                $client->paid = 'paid'; // Increment the step_number by 1
+                $client->save();           // Save the updated progress
+            }
 
             // Redirect to a success page with a success message
             return redirect()->route('client.progress.index')->with('success', 'Booking created successfully.');
@@ -59,7 +65,6 @@ class PaidController extends Controller
             return redirect()->back()->with('error', 'Failed to create booking. Please try again.');
         }
     }
-
 
     /**
      * Display the specified resource.

@@ -17,7 +17,11 @@
 
         {{-- Client List --}}
         <div class="flex justify-between items-center mb-4 ml-5">
-          <h3 class="text-lg font-bold text-gray-800">List of Clients</h3>
+          <div class="grou-paid flex gap-3">
+            <h3 class="text-lg font-bold text-gray-800">List of Clients</h3>
+            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Paid</button>
+            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Unpaid</button>
+          </div>
           <div class="flex items-center gap-4">
             <input type="text" id="search-input" placeholder="Search client..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500">
             <a href="#" id="open-modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add New</a>
@@ -53,7 +57,13 @@
               <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->gender }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->consultant }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->register_date }}</td>
-              <td class="px-6 py-4 whitespace-nowrap text-gray-800">Paid</td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                @if ($client->paid == 'paid')
+                <span class="px-2 py-1 rounded-full text-white bg-green-500 text-sm">Paid</span>
+                @else
+                <span class="px-2 py-1 rounded-full text-white bg-red-500 text-sm">Unpaid</span>
+                @endif
+              </td>
               <td class="px-4 py-2 whitespace-nowrap flex justify-center gap-2">
                 <a href="{{ route('client.progress.index', ['client_id' => $client->id]) }}" class="text-green-500 hover:text-green-700 transition duration-200" title="progress">
                   <i class='bx bx-line-chart text-2xl'></i>
@@ -116,15 +126,21 @@
           <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Client's Phone Number:</label>
           <input type="text" id="phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter phone number" required>
         </div>
-        <div class="mb-4">
+        <div class="mb-4 hidden">
           <label for="consultant" class="block text-gray-700 text-sm font-bold mb-2">Consultant:</label>
-          <input type="text" id="consultant" name="consultant" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter consultant's name" required>
+          <input type="text" id="consultant" name="consultant" value="{{ auth()->user()->name }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter consultant's name" required>
         </div>
         <div class="mb-4">
           <label for="register_date" class="block text-gray-700 text-sm font-bold mb-2">Registration Date:</label>
           <input type="date" id="register_date" name="register_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
-        
+        <div class="mb-4" hidden>
+          <input type="text" id="status" name="status" value="pending" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        <div class="mb-4" hidden>
+          <input type="text" id="paid" name="paid" value="unpaid" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+
         <div class="flex items-center justify-end">
           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create</button>
         </div>
@@ -165,6 +181,10 @@
           </select>
         </div>
         <div class="mb-4">
+          <label for="edit-phone" class="block text-gray-700 text-sm font-bold mb-2">Client's Phone Number:</label>
+          <input type="text" id="edit-phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        <div class="mb-4">
           <label for="edit-consultant" class="block text-gray-700 text-sm font-bold mb-2">Consultant:</label>
           <input type="text" id="edit-consultant" name="consultant" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
@@ -172,9 +192,11 @@
           <label for="edit-register_date" class="block text-gray-700 text-sm font-bold mb-2">Registration Date:</label>
           <input type="date" id="edit-register_date" name="register_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
-        <div class="mb-4">
-          <label for="edit-phone" class="block text-gray-700 text-sm font-bold mb-2">Client's Phone Number:</label>
-          <input type="text" id="edit-phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        <div class="mb-4" hidden>
+          <input type="date" id="edit-status" name="status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        <div class="mb-4" hidden>
+          <input type="date" id="edit-paid" name="paid" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
         <div class="flex items-center justify-end">
           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update</button>
@@ -214,6 +236,8 @@
           const gender = this.dataset.gender;
           const consultant = this.dataset.consultant;
           const register_date = this.dataset.register_date;
+          const status = this.dataset.status;
+          const paid = this.dataset.paid;
 
           document.getElementById('edit-client-id').value = id;
           document.getElementById('edit-name').value = name;
@@ -222,6 +246,8 @@
           document.getElementById('edit-gender').value = gender;
           document.getElementById('edit-consultant').value = consultant;
           document.getElementById('edit-register_date').value = register_date;
+          document.getElementById('edit-status').value = status;
+          document.getElementById('edit-paid').value = paid;
 
           editClientForm.action = `/admin/clients/${id}`; // Update the form action
           editClientModal.classList.remove('hidden');

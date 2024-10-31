@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('gender');
             $table->string('consultant');
             $table->date('register_date');
+            $table->string('status');
+            $table->string('paid')->nullable();
             $table->timestamps();
         });
     }

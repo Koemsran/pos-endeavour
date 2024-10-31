@@ -35,6 +35,8 @@ class ClientController extends Controller
             'gender' => 'required|string',
             'consultant' => 'required|string|max:255',
             'register_date' => 'required|date',
+            'status' => 'required|string',
+            'paid' => 'nullable|string',
         ]);
 
         $client = new Client();
@@ -64,6 +66,8 @@ class ClientController extends Controller
             'gender' => 'required|string',
             'consultant' => 'required|string|max:255',
             'register_date' => 'required|date',
+            'status' => 'required|string',
+            'paid' => 'nullable|boolean',
         ]);
 
         $client->update($validatedData);
