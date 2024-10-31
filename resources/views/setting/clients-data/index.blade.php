@@ -51,7 +51,7 @@
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Gender</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Consultant</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Register Date</th>
-              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Status</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Paid Status</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Action</th>
             </tr>
           </thead>
@@ -83,7 +83,9 @@
                   data-age="{{ $client->age }}"
                   data-gender="{{ $client->gender }}"
                   data-consultant="{{ $client->consultant }}"
-                  data-register_date="{{ $client->register_date }}">
+                  data-register_date="{{ $client->register_date }}"
+                  data-status="{{ $client->status }}"
+                  data-paid="{{ $client->paid }}">
                   <i class='bx bx-edit text-2xl'></i>
                 </a>
                 <!-- Delete Icon -->
@@ -125,9 +127,9 @@
         <div class="mb-4">
           <label for="gender" class="block text-gray-700 text-sm font-bold mb-2">Client's Gender:</label>
           <select id="gender" name="gender" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-            <option value="" disabled selected>Select gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
           </select>
         </div>
         <div class="mb-4">
@@ -183,16 +185,16 @@
         <div class="mb-4">
           <label for="edit-gender" class="block text-gray-700 text-sm font-bold mb-2">Client's Gender:</label>
           <select id="edit-gender" name="gender" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
-            <option value="" disabled selected>Select gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
           </select>
         </div>
         <div class="mb-4">
           <label for="edit-phone" class="block text-gray-700 text-sm font-bold mb-2">Client's Phone Number:</label>
           <input type="text" id="edit-phone" name="phone_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
-        <div class="mb-4">
+        <div class="mb-4" hidden>
           <label for="edit-consultant" class="block text-gray-700 text-sm font-bold mb-2">Consultant:</label>
           <input type="text" id="edit-consultant" name="consultant" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
@@ -201,10 +203,10 @@
           <input type="date" id="edit-register_date" name="register_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
         <div class="mb-4" hidden>
-          <input type="date" id="edit-status" name="status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+          <input type="text" id="edit-status" name="status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
         <div class="mb-4" hidden>
-          <input type="date" id="edit-paid" name="paid" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+          <input type="text" id="edit-paid" name="paid" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
         <div class="flex items-center justify-end">
           <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update</button>
@@ -246,7 +248,6 @@
           const register_date = this.dataset.register_date;
           const status = this.dataset.status;
           const paid = this.dataset.paid;
-
           document.getElementById('edit-client-id').value = id;
           document.getElementById('edit-name').value = name;
           document.getElementById('edit-phone').value = phone;
