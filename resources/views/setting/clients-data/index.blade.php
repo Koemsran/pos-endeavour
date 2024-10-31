@@ -27,11 +27,11 @@
         </div>
         <div class="flex justify-between items-center mb-4 ml-5">
           <div class="flex items-center space-x-2 w-2/5">
-            <label for="clients_filter" class="block text-sm font-medium text-gray-700">Filter by Clients:</label>
+            <label for="clients_filter" class="block text-sm font-medium text-gray-700">Filter by paid status:</label>
             <select id="client_filter" name="client_filter" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
               <option value="">All Clients</option>
-              <option value="paid">Paid</option>
-              <option value="unpaid">Unpaid</option>
+              <option value="paid">Clients Paid</option>
+              <option value="unpaid">Clients Unpaid</option>
             </select>
           </div>
         </div>
