@@ -15,7 +15,7 @@ class ClientController extends Controller
         $search = $request->input('search');
         $clients = Client::when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', "%{$search}%");
-        })->latest()->paginate(10);
+        })->latest()->get();
 
         return view('setting.clients-data.index', compact('clients'));
     }
@@ -67,7 +67,7 @@ class ClientController extends Controller
             'consultant' => 'required|string|max:255',
             'register_date' => 'required|date',
             'status' => 'required|string',
-            'paid' => 'nullable|boolean',
+            'paid' => 'nullable|string',
         ]);
 
         $client->update($validatedData);

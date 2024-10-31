@@ -60,7 +60,6 @@
    </div>
 </div>
 
-
 <script>
    function imageData() {
        var files = document.getElementById("thumbnailprev").files;
