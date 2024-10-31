@@ -19,12 +19,20 @@
         <div class="flex justify-between items-center mb-4 ml-5">
           <div class="grou-paid flex gap-3">
             <h3 class="text-lg font-bold text-gray-800">List of Clients</h3>
-            <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Paid</button>
-            <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Unpaid</button>
           </div>
           <div class="flex items-center gap-4">
             <input type="text" id="search-input" placeholder="Search client..." class="px-4 py-2 border rounded focus:outline-none focus:border-blue-500">
             <a href="#" id="open-modal" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add New</a>
+          </div>
+        </div>
+        <div class="flex justify-between items-center mb-4 ml-5">
+          <div class="flex items-center space-x-2 w-2/5">
+            <label for="clients_filter" class="block text-sm font-medium text-gray-700">Filter by Clients:</label>
+            <select id="client_filter" name="client_filter" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+              <option value="">All Clients</option>
+              <option value="paid">Paid</option>
+              <option value="unpaid">Unpaid</option>
+            </select>
           </div>
         </div>
 
@@ -258,18 +266,35 @@
         editClientModal.classList.add('hidden');
       });
 
-      // Live search functionality
+      // Client filtering and search functionality
+      const clientFilter = document.getElementById('client_filter');
       const searchInput = document.getElementById('search-input');
-      const clientRows = document.querySelectorAll('.client-row');
 
-      searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        clientRows.forEach(row => {
-          const nameCell = row.children[1].textContent.toLowerCase();
-          if (nameCell.includes(searchTerm)) {
-            row.style.display = ''; // Show row
+      clientFilter.addEventListener('change', function() {
+        const filterValue = this.value;
+        const rows = document.querySelectorAll('#clients-table tbody tr');
+
+        rows.forEach(row => {
+          const status = row.querySelector('td:nth-child(8) span').textContent.toLowerCase();
+          // Show rows based on filter value
+          if (filterValue === '' || (filterValue === 'paid' && status === 'paid') || (filterValue === 'unpaid' && status === 'unpaid')) {
+            row.style.display = '';
           } else {
-            row.style.display = 'none'; // Hide row
+            row.style.display = 'none';
+          }
+        });
+      });
+
+      searchInput.addEventListener('keyup', function() {
+        const searchValue = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#clients-table tbody tr');
+
+        rows.forEach(row => {
+          const name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+          if (name.includes(searchValue)) {
+            row.style.display = '';
+          } else {
+            row.style.display = 'none';
           }
         });
       });
