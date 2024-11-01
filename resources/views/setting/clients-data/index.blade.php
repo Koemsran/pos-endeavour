@@ -32,6 +32,7 @@
               <option value="">All Clients</option>
               <option value="paid">Clients Paid</option>
               <option value="unpaid">Clients Unpaid</option>
+              <option value="partial">Clients Partial</option>
             </select>
           </div>
         </div>
@@ -281,11 +282,11 @@
       clientFilter.addEventListener('change', function() {
         const filterValue = this.value;
         const rows = document.querySelectorAll('#clients-table tbody tr');
-
         rows.forEach(row => {
-          const status = row.querySelector('td:nth-child(8) span').textContent.toLowerCase();
+          const status = row.querySelector('td:nth-child(9) span').textContent.toLowerCase();
+
           // Show rows based on filter value
-          if (filterValue === '' || (filterValue === 'paid' && status === 'paid') || (filterValue === 'unpaid' && status === 'unpaid')) {
+          if (filterValue === '' || (filterValue === 'paid' && status === 'paid') || (filterValue === 'unpaid' && status === 'unpaid') || (filterValue === 'partial' && status === 'partial')) {
             row.style.display = '';
           } else {
             row.style.display = 'none';
