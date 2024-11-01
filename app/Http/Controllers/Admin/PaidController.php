@@ -52,6 +52,7 @@ class PaidController extends Controller
             $client = Client::find($validatedData['progress_id']);
             if ($client) {
                 $client->paid = 'paid'; // Increment the step_number by 1
+                $client->paid_amount = $validatedData['amount']; // Increment the step_number by 1
                 $client->save();           // Save the updated progress
             }
 

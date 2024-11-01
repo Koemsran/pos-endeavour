@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class Client extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'phone_number', 'age', 'consultant', 'gender', 'register_date', 'status', 'paid'];
+    protected $fillable = ['name', 'phone_number', 'age', 'consultant', 'gender', 'register_date', 'status', 'paid', 'paid_amount'];
     public function progress()
     {
         return $this->hasMany(Progress::class, 'client_id'); // Ensure this is correct

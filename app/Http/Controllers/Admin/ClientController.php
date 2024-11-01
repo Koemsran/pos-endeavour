@@ -37,6 +37,7 @@ class ClientController extends Controller
             'register_date' => 'required|date',
             'status' => 'required|string',
             'paid' => 'nullable|string',
+            'paid_amount' => 'nullable|numeric|decimal:0,2',
         ]);
 
         $client = new Client();
@@ -68,6 +69,7 @@ class ClientController extends Controller
             'register_date' => 'required|date',
             'status' => 'required|string',
             'paid' => 'nullable|string',
+            'paid_amount' => 'nullable|decimal',
         ]);
 
         $client->update($validatedData);

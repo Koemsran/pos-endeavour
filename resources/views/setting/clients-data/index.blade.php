@@ -51,6 +51,7 @@
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Gender</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Consultant</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Register Date</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Paid Amount</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Paid Status</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Action</th>
             </tr>
@@ -65,6 +66,7 @@
               <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->gender }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->consultant }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->register_date }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">${{ $client->paid_amount }}</td>
               <td class="px-6 py-4 whitespace-nowrap">
                 @if ($client->paid == 'paid')
                 <span class="px-2 py-1 rounded-full text-white bg-green-500 text-sm">Paid</span>
@@ -146,6 +148,9 @@
         </div>
         <div class="mb-4" hidden>
           <input type="text" id="status" name="status" value="pending" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        <div class="mb-4" hidden>
+          <input type="number" id="paid_amount" name="paid_amount" value="00" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
         <div class="mb-4" hidden>
           <input type="text" id="paid" name="paid" value="unpaid" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
