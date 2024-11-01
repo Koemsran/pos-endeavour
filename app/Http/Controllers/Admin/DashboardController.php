@@ -21,7 +21,7 @@ class DashboardController extends Controller
         // Total counts (existing data)
         $totalUsers = User::count();
         $totalClients = Client::count();
-        $totalBookings = Booking::sum('amount');
+        $totalBookings = Booking::distinct('client_id')->count('client_id'); // Count unique clients with bookings
         $totalPaid = Paid::sum('amount');
 
         // Data for this year (clients and bookings grouped by month)
@@ -34,32 +34,34 @@ class DashboardController extends Controller
                 ->whereMonth('created_at', $month)
                 ->count();
 
+            // Count distinct clients who made a booking for each month
             $bookingData[] = Booking::whereYear('created_at', Carbon::now()->year)
                 ->whereMonth('created_at', $month)
-                ->sum('amount'); // or count() based on your needs
+                ->distinct('client_id')
+                ->count('client_id'); // Count distinct clients instead of summing amounts
         }
 
         // Today's data
         $todayUsers = User::whereDate('created_at', Carbon::today())->count();
-        $todayBookings = Booking::whereDate('created_at', Carbon::today())->sum('amount');
+        $todayBookings = Booking::whereDate('created_at', Carbon::today())->distinct('client_id')->count('client_id');
         $todayPaid = Paid::whereDate('created_at', Carbon::today())->sum('amount');
         $todayClients = Client::whereDate('created_at', Carbon::today())->count();
 
         // This week's data
         $totalUsersThisWeek = User::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
-        $totalBookingsThisWeek = Booking::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('amount');
+        $totalBookingsThisWeek = Booking::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->distinct('client_id')->count('client_id');
         $weeklyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('amount');
         $totalClientsThisWeek = Client::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
 
         // This month's data
         $totalUsersThisMonth = User::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
-        $totalBookingsThisMonth = Booking::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->sum('amount');
+        $totalBookingsThisMonth = Booking::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->distinct('client_id')->count('client_id');
         $monthlyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->sum('amount');
         $totalClientsThisMonth = Client::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
 
         // This year's data
         $totalUsersThisYear = User::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->count();
-        $totalBookingsThisYear = Booking::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->sum('amount');
+        $totalBookingsThisYear = Booking::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->distinct('client_id')->count('client_id');
         $yearlyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->sum('amount');
         $totalClientsThisYear = Client::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->count();
 
@@ -84,16 +86,14 @@ class DashboardController extends Controller
 
         // Loop through each month to count paid and contract clients
         foreach (range(1, 12) as $month) {
-            // Count paid clients for the month
             $monthlyPaidClients[] = Paid::whereYear('created_at', Carbon::now()->year)
                 ->whereMonth('created_at', $month)
-                ->distinct('client_id') // Ensure you count distinct clients
+                ->distinct('client_id')
                 ->count('client_id');
 
-            // Count contract clients for the month
             $monthlyContractClients[] = Contract::whereYear('created_at', Carbon::now()->year)
                 ->whereMonth('created_at', $month)
-                ->distinct('client_id') // Ensure you count distinct clients
+                ->distinct('client_id')
                 ->count('client_id');
         }
 
@@ -104,10 +104,9 @@ class DashboardController extends Controller
             ->get();
 
         // Extract country names and counts for the chart
-        $countryNames = $countryData->pluck('prefer_country')->toArray(); // Country names
-        $countryCounts = $countryData->pluck('total')->toArray(); // Country counts
+        $countryNames = $countryData->pluck('prefer_country')->toArray();
+        $countryCounts = $countryData->pluck('total')->toArray();
 
-        // Pass data to the view
         return view('dashboard', [
             'totalUsers' => $totalUsers,
             'totalClients' => $totalClients,
