@@ -70,6 +70,8 @@
               <td class="px-6 py-4 whitespace-nowrap">
                 @if ($client->paid == 'paid')
                 <span class="px-2 py-1 rounded-full text-white bg-green-500 text-sm">Paid</span>
+                @elseif ($client->paid == 'partial')
+                <span class="px-2 py-1 rounded-full text-white bg-yellow-500 text-sm">Partial</span>
                 @else
                 <span class="px-2 py-1 rounded-full text-white bg-red-500 text-sm">Unpaid</span>
                 @endif
