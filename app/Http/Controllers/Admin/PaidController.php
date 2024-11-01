@@ -126,7 +126,17 @@ class PaidController extends Controller
 
             // Update the Paid record with validated data
             $paid->update($validatedData);
-
+            $client = Client::find($validatedData['progress_id']);
+            if (bccomp($client->paid_amount, '0.00', 2) === 1) {
+                $client->paid = 'unpaid'; // Increment the step_number by 1
+                $client->paid_amount = $validatedData['amount']; // Increment the step_number by 1
+                $client->save();           // Save the updated progress
+            }
+            else{
+                $client->paid = 'paid'; // Increment the step_number by 1
+                $client->paid_amount = $validatedData['amount']; // Increment the step_number by 1
+                $client->save();  
+            }
             // Redirect to a success page with a success message
             return redirect()->route('client.progress.index')->with('success', 'Payment updated successfully.');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
