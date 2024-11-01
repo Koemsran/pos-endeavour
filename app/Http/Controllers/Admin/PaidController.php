@@ -51,15 +51,19 @@ class PaidController extends Controller
             }
             $client = Client::find($validatedData['progress_id']);
             $client->paid_amount = $validatedData['amount'];
-            if (bccomp($client->paid_amount, '3000.00', 2) === 0) {
+            $client->save();
+            if (bccomp($client->paid_amount, '3000.00', 2) >= 0) {
                 // If paid_amount is exactly 3000
                 $client->paid = 'paid';
+                $client->save();
             } elseif (bccomp($client->paid_amount, '3000.00', 2) === -1 && bccomp($client->paid_amount, '0.00', 2) === 1) {
                 // If paid_amount is less than 3000 but greater than 0
                 $client->paid = 'partial';
+                $client->save();
             } else {
                 // If paid_amount is 0 or less
                 $client->paid = 'unpaid';
+                $client->save();
             }
 
             // Redirect to a success page with a success message
