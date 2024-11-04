@@ -50,9 +50,20 @@ class PaidController extends Controller
                 $progress->save();           // Save the updated progress
             }
             $client = Client::find($validatedData['progress_id']);
-            if ($client) {
-                $client->paid = 'paid'; // Increment the step_number by 1
-                $client->save();           // Save the updated progress
+            $client->paid_amount = $validatedData['amount'];
+            $client->save();
+            if (bccomp($client->paid_amount, '3000.00', 2) >= 0) {
+                // If paid_amount is exactly 3000
+                $client->paid = 'paid';
+                $client->save();
+            } elseif (bccomp($client->paid_amount, '3000.00', 2) === -1 && bccomp($client->paid_amount, '0.00', 2) === 1) {
+                // If paid_amount is less than 3000 but greater than 0
+                $client->paid = 'partial';
+                $client->save();
+            } else {
+                // If paid_amount is 0 or less
+                $client->paid = 'unpaid';
+                $client->save();
             }
 
             // Redirect to a success page with a success message
@@ -125,7 +136,22 @@ class PaidController extends Controller
 
             // Update the Paid record with validated data
             $paid->update($validatedData);
-
+            $client = Client::find($validatedData['progress_id']);
+            $client->paid_amount = $paid->amount;
+            $client->save();
+            if (bccomp($client->paid_amount, '3000.00', 2) === 0) {
+                // If paid_amount is exactly 3000
+                $client->paid = 'paid';
+                $client->save();
+            } elseif (bccomp($client->paid_amount, '3000.00', 2) === -1 && bccomp($client->paid_amount, '0.00', 2) === 1) {
+                // If paid_amount is less than 3000 but greater than 0
+                $client->paid = 'partial';
+                $client->save();
+            } else {
+                // If paid_amount is 0 or less
+                $client->paid = 'unpaid';
+                $client->save();
+            }
             // Redirect to a success page with a success message
             return redirect()->route('client.progress.index')->with('success', 'Payment updated successfully.');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

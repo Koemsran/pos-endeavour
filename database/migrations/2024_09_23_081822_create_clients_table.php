@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('register_date');
             $table->string('status');
             $table->string('paid')->nullable();
+            $table->decimal('paid_amount', 8, 2)->nullable();
             $table->timestamps();
         });
     }

@@ -32,6 +32,7 @@
               <option value="">All Clients</option>
               <option value="paid">Clients Paid</option>
               <option value="unpaid">Clients Unpaid</option>
+              <option value="partial">Clients Partial</option>
             </select>
           </div>
         </div>
@@ -51,6 +52,7 @@
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Gender</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Consultant</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Register Date</th>
+              <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Paid Amount</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Paid Status</th>
               <th class="py-3 px-4 font-bold text-sm text-grey-dark border-b border-gray-300">Action</th>
             </tr>
@@ -65,9 +67,12 @@
               <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->gender }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->consultant }}</td>
               <td class="px-6 py-4 whitespace-nowrap text-gray-800">{{ $client->register_date }}</td>
+              <td class="px-6 py-4 whitespace-nowrap text-gray-800">${{ $client->paid_amount }}</td>
               <td class="px-6 py-4 whitespace-nowrap">
                 @if ($client->paid == 'paid')
                 <span class="px-2 py-1 rounded-full text-white bg-green-500 text-sm">Paid</span>
+                @elseif ($client->paid == 'partial')
+                <span class="px-2 py-1 rounded-full text-white bg-yellow-500 text-sm">Partial</span>
                 @else
                 <span class="px-2 py-1 rounded-full text-white bg-red-500 text-sm">Unpaid</span>
                 @endif
@@ -146,6 +151,9 @@
         </div>
         <div class="mb-4" hidden>
           <input type="text" id="status" name="status" value="pending" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        </div>
+        <div class="mb-4" hidden>
+          <input type="number" id="paid_amount" name="paid_amount" value="00" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
         </div>
         <div class="mb-4" hidden>
           <input type="text" id="paid" name="paid" value="unpaid" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
@@ -274,11 +282,11 @@
       clientFilter.addEventListener('change', function() {
         const filterValue = this.value;
         const rows = document.querySelectorAll('#clients-table tbody tr');
-
         rows.forEach(row => {
-          const status = row.querySelector('td:nth-child(8) span').textContent.toLowerCase();
+          const status = row.querySelector('td:nth-child(9) span').textContent.toLowerCase();
+
           // Show rows based on filter value
-          if (filterValue === '' || (filterValue === 'paid' && status === 'paid') || (filterValue === 'unpaid' && status === 'unpaid')) {
+          if (filterValue === '' || (filterValue === 'paid' && status === 'paid') || (filterValue === 'unpaid' && status === 'unpaid') || (filterValue === 'partial' && status === 'partial')) {
             row.style.display = '';
           } else {
             row.style.display = 'none';
