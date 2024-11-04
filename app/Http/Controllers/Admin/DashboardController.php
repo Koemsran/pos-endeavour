@@ -65,6 +65,13 @@ class DashboardController extends Controller
         $yearlyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->sum('amount');
         $totalClientsThisYear = Client::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->count();
 
+
+        // Summed data for "All" view
+        $allUsers = $todayUsers + $totalUsersThisWeek + $totalUsersThisMonth + $totalUsersThisYear;
+        $allClients = $todayClients + $totalClientsThisWeek + $totalClientsThisMonth + $totalClientsThisYear;
+        $allBookings = $todayBookings + $totalBookingsThisWeek + $totalBookingsThisMonth + $totalBookingsThisYear;
+        $allPaid = $todayPaid + $weeklyPaid + $monthlyPaid + $yearlyPaid;
+
         // Client progress data with zero counts included
         $clientProgress = [
             'Phone Consultation' => PhoneConsultation::distinct('progress_id')->count('progress_id'),
@@ -137,6 +144,10 @@ class DashboardController extends Controller
             'contractClients' => $contractClients,
             'monthlyPaidClients' => $monthlyPaidClients,
             'monthlyContractClients' => $monthlyContractClients,
+            'allUsers' => $allUsers,
+            'allClients' => $allClients,
+            'allBookings' => $allBookings,
+            'allPaid' => $allPaid,
         ]);
     }
 }
