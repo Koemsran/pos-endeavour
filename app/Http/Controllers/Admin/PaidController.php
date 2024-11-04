@@ -55,6 +55,9 @@ class PaidController extends Controller
             if ($booking->amount != null) {
                 $client->paid_amount = $validatedData['amount'] + $booking->amount;
                 $client->save();
+            } else {
+                $client->paid_amount = $validatedData['amount'];
+                $client->save();
             }
             if (bccomp($client->paid_amount, '3500.00', 2) >= 0) {
                 // If paid_amount is exactly 3000
@@ -145,6 +148,10 @@ class PaidController extends Controller
             $client = Client::find($validatedData['progress_id']);
             if ($booking->amount != null) {
                 $client->paid_amount = $validatedData['amount'] + $booking->amount;
+                $client->save();
+            }
+            else{
+                $client->paid_amount = $validatedData['amount'];
                 $client->save();
             }
             if (bccomp($client->paid_amount, '3500.00', 2) >= 0) {
