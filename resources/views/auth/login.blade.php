@@ -39,16 +39,9 @@
             @endif
 
           </div>
-
-          <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-            <a href="#" class="font-medium text-blue-600 hover:underline dark:text-primary-500">Forget Password</a>
-          </p>
           <div class="flex flex-col-reverse sm:flex-row sm:justify-between items-center">
             <button type="submit" class="w-full bg-blue-500 text-white font-bold px-5 py-2 rounded focus:outline-none shadow hover:bg-blue-700 transition-colors m-auto">Log In</button>
           </div>
-          <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-            Doesn't have account yet! <a href="#" class="font-medium text-blue-600 hover:underline dark:text-primary-500">Create account</a>
-          </p>
         </div>
       </form>
 
