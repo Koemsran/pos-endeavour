@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
 use App\Models\Client;
 use App\Models\Paid;
 use App\Models\Progress;
@@ -49,14 +50,17 @@ class PaidController extends Controller
                 $progress->step_number += 1; // Increment the step_number by 1
                 $progress->save();           // Save the updated progress
             }
+            $booking = Booking::find($validatedData['progress_id']);
             $client = Client::find($validatedData['progress_id']);
-            $client->paid_amount = $validatedData['amount'];
-            $client->save();
-            if (bccomp($client->paid_amount, '3000.00', 2) >= 0) {
+            if ($booking->amount != null) {
+                $client->paid_amount = $validatedData['amount'] + $booking->amount;
+                $client->save();
+            }
+            if (bccomp($client->paid_amount, '3500.00', 2) >= 0) {
                 // If paid_amount is exactly 3000
                 $client->paid = 'paid';
                 $client->save();
-            } elseif (bccomp($client->paid_amount, '3000.00', 2) === -1 && bccomp($client->paid_amount, '0.00', 2) === 1) {
+            } elseif (bccomp($client->paid_amount, '3500.00', 2) === -1 && bccomp($client->paid_amount, '0.00', 2) === 1) {
                 // If paid_amount is less than 3000 but greater than 0
                 $client->paid = 'partial';
                 $client->save();
@@ -137,13 +141,17 @@ class PaidController extends Controller
             // Update the Paid record with validated data
             $paid->update($validatedData);
             $client = Client::find($validatedData['progress_id']);
-            $client->paid_amount = $paid->amount;
-            $client->save();
-            if (bccomp($client->paid_amount, '3000.00', 2) === 0) {
+            $booking = Booking::find($validatedData['progress_id']);
+            $client = Client::find($validatedData['progress_id']);
+            if ($booking->amount != null) {
+                $client->paid_amount = $validatedData['amount'] + $booking->amount;
+                $client->save();
+            }
+            if (bccomp($client->paid_amount, '3500.00', 2) >= 0) {
                 // If paid_amount is exactly 3000
                 $client->paid = 'paid';
                 $client->save();
-            } elseif (bccomp($client->paid_amount, '3000.00', 2) === -1 && bccomp($client->paid_amount, '0.00', 2) === 1) {
+            } elseif (bccomp($client->paid_amount, '3500.00', 2) === -1 && bccomp($client->paid_amount, '0.00', 2) === 1) {
                 // If paid_amount is less than 3000 but greater than 0
                 $client->paid = 'partial';
                 $client->save();
