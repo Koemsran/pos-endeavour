@@ -50,7 +50,7 @@ class PaidController extends Controller
                 $progress->step_number += 1; // Increment the step_number by 1
                 $progress->save();           // Save the updated progress
             }
-            $booking = Booking::find($validatedData['progress_id']);
+            $booking = Booking::where('progress_id', $validatedData['progress_id'])->first();
             $client = Client::find($validatedData['progress_id']);
             if ($booking->amount != null) {
                 $client->paid_amount = $validatedData['amount'] + $booking->amount;
@@ -143,8 +143,7 @@ class PaidController extends Controller
 
             // Update the Paid record with validated data
             $paid->update($validatedData);
-            $client = Client::find($validatedData['progress_id']);
-            $booking = Booking::find($validatedData['progress_id']);
+            $booking = Booking::where('progress_id', $validatedData['progress_id'])->first();
             $client = Client::find($validatedData['progress_id']);
             if ($booking->amount != null) {
                 $client->paid_amount = $validatedData['amount'] + $booking->amount;

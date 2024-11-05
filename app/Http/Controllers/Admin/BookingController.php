@@ -118,11 +118,6 @@ class BookingController extends Controller
             // Create new phone consultation using mass assignment
             $booking = Booking::where('progress_id', $id)->first();
             $booking->update($validatedData);
-            // $client = Client::where('progress_id', $id)->first();
-            // if($client){
-            //     $client->paid_amount = $client->paid_amount - $validatedData['amount'];
-            //     $client->save();
-            // }
 
             // Redirect to a success page with a success message
             return redirect()->route('client.progress.index')->with('success', 'Booking created successfully.');

@@ -86,7 +86,7 @@
 
               <!-- Form of Step -->
 
-              <form id="infoForm" novalidate>
+              <form id="infoForm">
                 <input type="number" hidden name="progress_id" id="progress_id" value="{{$progress->id}}">
                 <input type="number" hidden name="client_id" id="client_id" value="{{$client->id}}">
                 <input type="number" hidden name="step_number" id="step_number" value="">
@@ -97,22 +97,22 @@
                   <div class="flex gap-5">
                     <div class="mb-4">
                       <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Full Name:</label>
-                      <input type="text" id="name" name="name" value="{{$client->name}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="name" name="name" value="{{$client->name}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                     <div class="mb-4">
                       <label for="phone_number" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
-                      <input type="tel" id="phone_number" name="phone_number" value="{{$client->phone_number}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="tel" id="phone_number" name="phone_number" value="{{$client->phone_number}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                     <div class="mb-4">
                       <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
-                      <input type="number" id="age" name="age" value="{{$client->age}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="number" id="age" name="age" value="{{$client->age}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                   </div>
 
                   <div class="flex gap-5">
                     <div class="mb-4">
                       <label for="source" class="block text-gray-700 text-sm font-bold mb-2">Source:</label>
-                      <input type="text" id="source" name="source" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="source" name="source" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                     <div class="mb-4">
                       <label for="ielts" class="block text-gray-700 text-sm font-bold mb-2">IELTS Lavel:</label>
@@ -127,19 +127,19 @@
                   <div class="flex gap-5">
                     <div class="mb-4">
                       <label for="grade" class="block text-gray-700 text-sm font-bold mb-2">Grade:</label>
-                      <input type="text" id="grade" name="grade" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="grade" name="grade" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                     <div class="mb-4">
                       <label for="major" class="block text-gray-700 text-sm font-bold mb-2">Major:</label>
-                      <input type="text" id="major" name="major" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="major" name="major" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                     <div class="mb-4">
                       <label for="university1" class="block text-gray-700 text-sm font-bold mb-2">University 1:</label>
-                      <input type="text" id="university1" name="university1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="university1" name="university1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                     <div class="mb-4">
                       <label for="university2" class="block text-gray-700 text-sm font-bold mb-2">University 2:</label>
-                      <input type="text" id="university2" name="university2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="university2" name="university2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                   </div>
 
@@ -170,15 +170,15 @@
                   <div class="flex gap-5">
                     <div class="mb-4">
                       <label for="name2" class="block text-gray-700 text-sm font-bold mb-2">Full Name:</label>
-                      <input type="text" id="name2" name="name" value="{{$client->name}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="name2" name="name" value="{{$client->name}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                     <div class="mb-4">
                       <label for="phone_number2" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
-                      <input type="tel" id="phone_number2" name="phone_number" value="{{$client->phone_number}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="tel" id="phone_number2" name="phone_number" value="{{$client->phone_number}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                     <div class="mb-4">
                       <label for="age2" class="block text-gray-700 text-sm font-bold mb-2">Age:</label>
-                      <input type="number" id="age2" name="age" value="{{$client->age}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="number" id="age2" name="age" value="{{$client->age}}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" >
                     </div>
                   </div>
                   <div class="flex gap-5">
@@ -198,15 +198,15 @@
                   <div class="flex gap-5">
                     <div class="mb-4">
                       <label for="prefer_university" class="block text-gray-700 text-sm font-bold mb-2">Institute:</label>
-                      <input type="text" id="prefer_university" name="prefer_university" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="prefer_university" name="prefer_university" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="mb-4">
                       <label for="major2" class="block text-gray-700 text-sm font-bold mb-2">Major:</label>
-                      <input type="text" id="major2" name="major2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="major2" name="major2" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div class="mb-4">
                       <label for="address" class="block text-gray-700 text-sm font-bold mb-2">Currently Address:</label>
-                      <input type="text" id="address" name="address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                      <input type="text" id="address" name="address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                   </div>
 
@@ -235,7 +235,7 @@
                 <div class="step-form" id="step3" hidden>
                   <div class="mb-4">
                     <label for="amount" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
-                    <input type="number" id="amount" name="amount" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="number" id="amount" name="amount" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                   </div>
                 </div>
 
@@ -257,7 +257,7 @@
                 <div class="step-form" id="step5" hidden>
                   <div class="mb-4">
                     <div class="flex items-center mb-4">
-                      <input id="refund-scholarship" type="radio" name="refund_reason" value="Refund because scholarships not accepted" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" required>
+                      <input id="refund-scholarship" type="radio" name="refund_reason" value="Refund because scholarships not accepted" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500">
                       <label for="refund-scholarship" class="ms-2 text-sm font-medium text-gray-900">Refund because scholarships not accepted</label>
                     </div>
                     <div class="flex items-center mb-4">
@@ -285,7 +285,7 @@
                 <div class="step-form" id="step7" hidden>
                   <div class="mb-4">
                     <label for="amount1" class="block text-gray-700 text-sm font-bold mb-2">Amount:</label>
-                    <input type="number" id="amount1" name="amount1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                    <input type="number" id="amount1" name="amount1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                   </div>
                 </div>
 
@@ -310,13 +310,16 @@
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
-      iconColor: 'white',
-      customClass: {
-        popup: 'colored-toast',
-      },
       showConfirmButton: false,
       timer: 1000,
       timerProgressBar: true,
+      customClass: {
+        icon: 'colored-toast',
+        popup: 'colored-toast',
+        title: 'colored-toast',
+        width: '800px', // Set width for the alert
+      },
+      iconColor: '#a5dc86', // Green background for success
     });
 
 
@@ -433,6 +436,7 @@
             if (formData[key] === null || formData[key].trim() === "") {
               alert(`Please fill in the ${key.replace("_", " ")} field`);
               isEmpty = true;
+              window.location.reload();
               return false
             }
           }
@@ -457,6 +461,7 @@
             if (formData[key] === null || formData[key].trim() === "") {
               alert(`Please fill in the ${key.replace("_", " ")} field`);
               isEmpty = true;
+              window.location.reload();
               return false
             }
           }
@@ -472,6 +477,7 @@
             if (formData[key] === null || formData[key].trim() === "") {
               alert(`Please fill in the ${key.replace("_", " ")} field`);
               isEmpty = true;
+              window.location.reload();
               return false
             }
           }
@@ -492,6 +498,7 @@
             if (formData[key] === null || (typeof formData[key] === 'string' && formData[key].trim() === "")) {
               alert(`Please fill in the ${key.replace("_", " ")} field`);
               isEmpty = true;
+              window.location.reload();
               return false
             }
           }
@@ -503,6 +510,7 @@
           };
           if (formData.refund_reason == undefined) {
             alert("Please select a refund reason");
+            window.location.reload();
             return false;
           }
         } else if (currentStep === 6) {
@@ -513,6 +521,7 @@
           }
           if (formData.status == 'false') {
             alert("Please checked box");
+            window.location.reload();
             return false;
           }
         } else if (currentStep === 7) {
@@ -527,6 +536,7 @@
             if (formData[key] === null || formData[key].trim() === "") {
               alert(`Please fill in the ${key.replace("_", " ")} field`);
               isEmpty = true;
+              window.location.reload();
               return false
             }
           }
