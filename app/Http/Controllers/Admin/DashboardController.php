@@ -21,7 +21,7 @@ class DashboardController extends Controller
         // Total counts (existing data)
         $totalUsers = User::count();
         $totalClients = Client::count();
-        $totalBookings = Booking::distinct('client_id')->count('client_id'); // Count unique clients with bookings
+        $totalBookings = Booking::sum('amount'); // Count unique clients with bookings
         $totalPaid = Paid::sum('amount');
 
         // Data for this year (clients and bookings grouped by month)
@@ -43,34 +43,34 @@ class DashboardController extends Controller
 
         // Today's data
         $todayUsers = User::whereDate('created_at', Carbon::today())->count();
-        $todayBookings = Booking::whereDate('created_at', Carbon::today())->distinct('client_id')->count('client_id');
+        $todayBookings = Booking::whereDate('created_at', Carbon::today())->sum('amount');
         $todayPaid = Paid::whereDate('created_at', Carbon::today())->sum('amount');
         $todayClients = Client::whereDate('created_at', Carbon::today())->count();
 
         // This week's data
         $totalUsersThisWeek = User::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
-        $totalBookingsThisWeek = Booking::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->distinct('client_id')->count('client_id');
+        $totalBookingsThisWeek = Booking::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('amount');
         $weeklyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->sum('amount');
         $totalClientsThisWeek = Client::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->count();
 
         // This month's data
         $totalUsersThisMonth = User::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
-        $totalBookingsThisMonth = Booking::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->distinct('client_id')->count('client_id');
+        $totalBookingsThisMonth = Booking::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->sum('amount');
         $monthlyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->sum('amount');
         $totalClientsThisMonth = Client::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->count();
 
         // This year's data
         $totalUsersThisYear = User::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->count();
-        $totalBookingsThisYear = Booking::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->distinct('client_id')->count('client_id');
+        $totalBookingsThisYear = Booking::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->sum('amount');
         $yearlyPaid = Paid::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->sum('amount');
         $totalClientsThisYear = Client::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->count();
 
 
         // Summed data for "All" view
-        $allUsers = $todayUsers + $totalUsersThisWeek + $totalUsersThisMonth + $totalUsersThisYear;
-        $allClients = $todayClients + $totalClientsThisWeek + $totalClientsThisMonth + $totalClientsThisYear;
-        $allBookings = $todayBookings + $totalBookingsThisWeek + $totalBookingsThisMonth + $totalBookingsThisYear;
-        $allPaid = $todayPaid + $weeklyPaid + $monthlyPaid + $yearlyPaid;
+        $allUsers = $totalUsers;
+        $allClients = $totalClients;
+        $allBookings = $totalBookings;
+        $allPaid = $totalPaid;
 
         // Client progress data with zero counts included
         $clientProgress = [
